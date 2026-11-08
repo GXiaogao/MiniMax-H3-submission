@@ -16,3 +16,7 @@ downloads/
 server-downloads/
 build/
 .xmake/
+
+# Publish only the two verified demonstration outputs.
+!/results/demo/native-fl2va-50steps.mp4
+!/results/demo/reference-fl2va-50steps.mp4

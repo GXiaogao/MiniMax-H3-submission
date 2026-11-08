@@ -1,0 +1,20 @@
+{
+  "media": [
+    {
+      "file": "native-fl2va-50steps.mp4",
+      "bytes": 2679732,
+      "sha256": "30cfd9ec32dd3e5cdc153b3237de91568bc2171e681681baa027f42b070537ab"
+    },
+    {
+      "file": "reference-fl2va-50steps.mp4",
+      "bytes": 1574583,
+      "sha256": "ba5bc8cee538356719e909d914febb52446cd1806cf5f87d0c3055d54f5c3d59"
+    }
+  ],
+  "native_run_id": "20261107T082020Z-3236632",
+  "reference_run_id": "20261107T124511Z-3527846",
+  "native_extension_sha256_prefix": "ee448772",
+  "source": "original verified outputs, not regenerated or transcoded",
+  "average_ssim_percent": 44.643,
+  "new_rebuild_video_generated": false
+}
