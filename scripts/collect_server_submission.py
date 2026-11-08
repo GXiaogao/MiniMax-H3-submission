@@ -10,11 +10,12 @@ import shutil
 import subprocess
 import sys
 import time
+import threading
 import zipfile
 
 EXTENSIONS={'.c','.cc','.cpp','.cxx','.h','.hpp','.cu','.cuh','.hip','.py','.pyi',
             '.lua','.cmake','.toml','.cfg','.ini','.json','.sh','.txt','.md','.yaml','.yml','.in'}
-SKIP={'.git','__pycache__','.xmake','.venv','build','dist','models','weights','node_modules'}
+SKIP={'.git','__pycache__','.xmake','.venv','build','dist','weights','node_modules'}
 
 def digest(p):
     h=hashlib.sha256()
@@ -33,6 +34,8 @@ def command(args, cwd=None, timeout=45):
         return {'command':args,'exit_code':None,'error':str(e)}
 
 def collect(work, out, probe=True):
+    print('COLLECTOR_VERSION=1.1-local-stage-progress-model-source',flush=True)
+    print('WORK_HOME_CHECK_START',flush=True)
     work=Path(work).resolve();out=Path(out).resolve()
     sources={'InfiniCore':work/'Projects/InfiniCore','InfiniLM':work/'Projects/InfiniLM'}
     marker=work/'state/infinilm-load-sync.success'
@@ -54,10 +57,17 @@ def collect(work, out, probe=True):
         p=out/name;p.parent.mkdir(parents=True,exist_ok=True)
         p.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding='utf-8')
     for name,src in sources.items():
+        print('SOURCE_START',name,str(src),flush=True)
         if not src.is_dir(): report['missing_sources'].append(name);continue
-        files=[]
+        files=[];source_started=time.monotonic();last_progress=0
         for folder,dirs,names in os.walk(src,followlinks=False):
             dirs[:]=sorted(d for d in dirs if d not in SKIP and not (Path(folder)/d).is_symlink())
+            if Path(folder)==src: dirs[:]=[d for d in dirs if d not in {'models','data','datasets'}]
+            if time.monotonic()-source_started>180:
+                report['skipped'].append(name+': source time budget reached');break
+            if time.monotonic()-last_progress>10:
+                print('SOURCE_PROGRESS',name,'files='+str(len(files)),'directory='+str(Path(folder).relative_to(src)),flush=True)
+                last_progress=time.monotonic()
             for filename in sorted(names):
                 p=Path(folder)/filename;rel=p.relative_to(src)
                 if p.is_symlink() or not (p.suffix.lower() in EXTENSIONS or filename in {'LICENSE','COPYING','NOTICE','Makefile'}):continue
@@ -89,6 +99,7 @@ def collect(work, out, probe=True):
         p=work/filename
         if p.is_file() and not p.is_symlink():
             dest=out/'runtime'/filename;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,dest)
+    print('ENVIRONMENT_START',flush=True)
     packages=sorted([{'name':d.metadata.get('Name'),'version':d.version} for d in importlib.metadata.distributions()],key=lambda d:str(d['name']))
     save(Path('environment/packages.json'),packages)
     if probe:
@@ -97,7 +108,8 @@ def collect(work, out, probe=True):
                          'dtk':['hipcc','--version'],
                          'torch':[sys.executable,'-c','import json,torch; print(json.dumps(dict(torch=torch.__version__,hip=torch.version.hip,devices=torch.cuda.device_count())))']}.items():
             print('PROBE_START',name,flush=True);save(Path('environment')/(name+'.json'),command(args,timeout=60))
-    # Record offline archives and wheel hashes, never model weights.
+    # Existing state files preserve wheel checksums. Avoid rereading gigabytes on AFS.
+    print('OFFLINE_INPUT_INVENTORY_START',flush=True)
     inputs=[]; started=time.monotonic(); read_bytes=0
     for dirname in ['packages','wheels']:
         base=work/dirname
@@ -110,15 +122,17 @@ def collect(work, out, probe=True):
                 try:
                     size=p.stat().st_size
                     item={'file':str(p.relative_to(work)),'bytes':size}
-                    if read_bytes+size <= 4*1024**3 and time.monotonic()-started<300:
+                    if not name.endswith('.whl') and read_bytes+size <= 32*1024**2 and time.monotonic()-started<30:
                         item['sha256']=digest(p);read_bytes+=size
-                    else:item['hash_status']='SKIPPED_BUDGET'
+                    else:item['hash_status']='NOT_REHASHED_USE_EXISTING_STATE_CHECKSUMS'
                     inputs.append(item)
                 except OSError as e:report['source_errors'].append({'file':str(p),'error':str(e)})
-            if time.monotonic()-started>330:break
+            if time.monotonic()-started>40:
+                report['skipped'].append(dirname+': inventory time budget reached');break
     save(Path('environment/offline-inputs.json'),inputs)
     report['result']='COLLECTED_WITH_GAPS' if report['missing_sources'] or report['skipped'] or report['source_errors'] else 'COLLECTED'
     save(Path('report.json'),report)
+    print('LOCAL_PACKAGE_START',flush=True)
     files=sorted(p for p in out.rglob('*') if p.is_file())
     (out/'SHA256SUMS').write_text(''.join(f'{digest(p)}  {p.relative_to(out).as_posix()}\n' for p in files),encoding='utf-8')
     archive=out.with_suffix('.zip')
@@ -142,6 +156,18 @@ def collect(work, out, probe=True):
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser();ap.add_argument('--work-home',type=Path);args=ap.parse_args()
+    def heartbeat():
+        while True:
+            time.sleep(30);print('HEARTBEAT collection process alive',flush=True)
+    threading.Thread(target=heartbeat,daemon=True).start()
     work=args.work_home or Path(os.environ['IFAB_AFS_HOME'])/'minimax-h3'
     run='infinifabric-source-environment-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+str(os.getpid())
-    collect(work,work/'logs'/run)
+    # Store thousands of source files on the job's writable local workspace.
+    stage=Path.cwd()/('.collection-stage-'+str(os.getpid()))/run
+    collect(work,stage)
+    print('PUBLISH_TO_AFS_START',flush=True)
+    destination=work/'logs'/run;destination.mkdir(parents=True,exist_ok=False)
+    for p in [stage/'report.json',stage/'SHA256SUMS',stage.with_suffix('.zip'),stage.with_suffix('.zip.sha256'),*sorted(stage.parent.glob(stage.name+'.zip.part-*'))]:
+        shutil.copyfile(p,destination/p.name.lstrip('.'))
+    print('AFS_DOWNLOAD_DIRECTORY='+str(destination),flush=True)
+    print('COLLECTION_PUBLISHED',flush=True)
