@@ -1,0 +1,173 @@
+{
+  "shape": [
+    1,
+    708,
+    5120
+  ],
+  "relative_l2": 0.716984511553738,
+  "mae": 0.219118961807614,
+  "max_abs": 21967.0,
+  "largest_errors": [
+    {
+      "index": [
+        0,
+        43,
+        731
+      ],
+      "native": 22144.0,
+      "reference": 177.0,
+      "difference": 21967.0,
+      "squared_error_fraction": 0.9192054926889123
+    },
+    {
+      "index": [
+        0,
+        105,
+        731
+      ],
+      "native": 18048.0,
+      "reference": 22016.0,
+      "difference": -3968.0,
+      "squared_error_fraction": 0.029992622249710117
+    },
+    {
+      "index": [
+        0,
+        203,
+        731
+      ],
+      "native": 10752.0,
+      "reference": 14272.0,
+      "difference": -3520.0,
+      "squared_error_fraction": 0.023602414751657936
+    },
+    {
+      "index": [
+        0,
+        43,
+        2994
+      ],
+      "native": 3344.0,
+      "reference": 0.6640625,
+      "difference": 3343.3359375,
+      "squared_error_fraction": 0.021292720037129485
+    },
+    {
+      "index": [
+        0,
+        105,
+        2994
+      ],
+      "native": 2672.0,
+      "reference": 3360.0,
+      "difference": -688.0,
+      "squared_error_fraction": 0.0009016707618970149
+    },
+    {
+      "index": [
+        0,
+        203,
+        2994
+      ],
+      "native": 1448.0,
+      "reference": 2016.0,
+      "difference": -568.0,
+      "squared_error_fraction": 0.0006145649419582007
+    },
+    {
+      "index": [
+        0,
+        43,
+        811
+      ],
+      "native": -282.0,
+      "reference": -0.5859375,
+      "difference": -281.4140625,
+      "squared_error_fraction": 0.000150856039632047
+    },
+    {
+      "index": [
+        0,
+        43,
+        629
+      ],
+      "native": -221.0,
+      "reference": -9.625,
+      "difference": -211.375,
+      "squared_error_fraction": 8.510956130412152e-05
+    }
+  ],
+  "top_tokens": [
+    {
+      "token": 43,
+      "squared_error_fraction": 0.943392013787356
+    },
+    {
+      "token": 105,
+      "squared_error_fraction": 0.031122547112668045
+    },
+    {
+      "token": 203,
+      "squared_error_fraction": 0.02429236888049783
+    },
+    {
+      "token": 572,
+      "squared_error_fraction": 7.91819553056985e-05
+    },
+    {
+      "token": 389,
+      "squared_error_fraction": 6.537774632616003e-05
+    },
+    {
+      "token": 153,
+      "squared_error_fraction": 5.951908770270762e-05
+    },
+    {
+      "token": 397,
+      "squared_error_fraction": 5.866120474945565e-05
+    },
+    {
+      "token": 122,
+      "squared_error_fraction": 5.285235010444907e-05
+    }
+  ],
+  "top_channels": [
+    {
+      "channel": 731,
+      "squared_error_fraction": 0.9728377928950129
+    },
+    {
+      "channel": 2994,
+      "squared_error_fraction": 0.022809424525827172
+    },
+    {
+      "channel": 811,
+      "squared_error_fraction": 0.00016105249995053932
+    },
+    {
+      "channel": 629,
+      "squared_error_fraction": 8.806136850660771e-05
+    },
+    {
+      "channel": 4897,
+      "squared_error_fraction": 8.421764457085608e-05
+    },
+    {
+      "channel": 1016,
+      "squared_error_fraction": 7.382979902538698e-05
+    },
+    {
+      "channel": 3592,
+      "squared_error_fraction": 5.373493718902414e-05
+    },
+    {
+      "channel": 2863,
+      "squared_error_fraction": 5.0483494836939685e-05
+    }
+  ],
+  "native_max_abs": 22144.0,
+  "reference_max_abs": 22016.0,
+  "scope": "local analysis of saved Qwen layer50 output, not root-cause proof",
+  "top_1_element_error_fraction": 0.9192054926889123,
+  "top_8_elements_error_fraction": 0.9958454510322012
+}

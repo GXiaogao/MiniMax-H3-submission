@@ -1,0 +1,55 @@
+{
+  "result": "REBUILT_FORWARD_COMPLETE_METRICS_REPRODUCED",
+  "run_id": "20261108T104034Z-490664",
+  "new_extension": "189e52b7f852b873c4526cec3927634fe7528d082ab76c72c93c81d1b0f1e3fb",
+  "old_extension": "ee448772f8e03947f6f33fdaa670fd4079bdd88df31f4e2655ce405aa0b34047",
+  "input_sha256": "e2b542a7102402d075f99af716e6c6480d0f4ef707b7cc6016cb8e5a38a8a2a7",
+  "comparison_metrics_exactly_match_old_report": true,
+  "comparison": {
+    "video": {
+      "shape": [
+        1,
+        8208,
+        96
+      ],
+      "elements": 787968,
+      "scope": "all-elements-full50-block-single-forward",
+      "mae": 0.01969829205465467,
+      "max_abs": 0.6033995151519775,
+      "rmse": 0.026955860391703664,
+      "relative_l2": 0.016970501880117377,
+      "cosine": 0.9998563051406197,
+      "reference_std": 1.5794717556136697,
+      "native_std": 1.5780184142179134,
+      "exact_equal": false,
+      "main_blocks": 50
+    },
+    "audio": {
+      "shape": [
+        1,
+        414,
+        32
+      ],
+      "elements": 13248,
+      "scope": "all-elements-full50-block-single-forward",
+      "mae": 0.018004713102698956,
+      "max_abs": 0.11398005485534668,
+      "rmse": 0.02348309805380131,
+      "relative_l2": 0.02197775824794138,
+      "cosine": 0.9997668680979491,
+      "reference_std": 1.0678504947551837,
+      "native_std": 1.0719261250617529,
+      "exact_equal": false,
+      "main_blocks": 50
+    }
+  },
+  "cross_job_loading": "PASSED_FOR_THIS_RUN",
+  "scope": "full50 H3 one forward, fixed historical input, not Qwen or generation",
+  "quality": "UNASSESSED",
+  "performance_valid": false,
+  "raw_evidence_sha256": {
+    "full-forward-parity.json": "1791d91d74c03daa6ff26151dee8d6f7de4f1b1a8a1463ebe2ebb08d6aa6995b",
+    "summary.txt": "548a65898a2da95ed15da1ca2d06aad10baacfbf73590359c894a9c28c630a2b",
+    "run.log": "1743fc845a181c190254a1da548733fd083efe135a7f7a354ca2cca2dacd39ad"
+  }
+}
