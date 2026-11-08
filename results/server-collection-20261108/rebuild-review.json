@@ -1,0 +1,13 @@
+{
+  "result": "REBUILD_RECORDS_VERIFIED",
+  "build_run_id": "20261108T100156Z-2712945",
+  "candidate_id": "20261108T100156Z-2712909",
+  "extension_sha256": "189e52b7f852b873c4526cec3927634fe7528d082ab76c72c93c81d1b0f1e3fb",
+  "source_hashes_match": 7,
+  "compile_and_import_smoke": "PASSED",
+  "permission_copy_warnings_observed": true,
+  "cross_job_readability": "PENDING",
+  "first_forward": "PENDING",
+  "quality": "UNASSESSED",
+  "scope": "InfiniLM candidate rebuild reusing installed InfiniCore"
+}
