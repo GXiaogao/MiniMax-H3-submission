@@ -1,0 +1,22 @@
+{
+  "result": "SOURCE_HASHES_MATCH_SERVER_TRACE",
+  "verified_hashes": {
+    "rank_archive_sha256": "d88ee44890a79e1b5a20b2fe36286f09e9c6cd34e3324fa67de34f1db3a709f1",
+    "source_sha256": "c881444814a634ea3b90446f08622c7e2343861df13accaafa395ee9b942aa1a",
+    "quant_source_sha256": "4692bb718c511baa5c560e03364663641e8adbb7eb12d594d397b8e23f4f8fa1",
+    "h3_boundary_trace.hpp": "c92c996d93c7d7990b594e4444d890d1498d09b28443aa00ce9273c9f15b358c",
+    "h3_attention_trace.hpp": "7c76908bf8cf89b977627b59842a87d6edb1646dec8ac30254dd9d463577f4bf",
+    "h3_projection_trace.hpp": "d52bc4f81f8013bc0be19d5c2033dbeb725183fcb5f5031c64d066b8daa79e01",
+    "h3_weight_load_sync.hpp": "29690536d60c24c7fde65000194f70a40686af95e683429f10cb121876d86b68",
+    "rank_source_sha256": "5c2f0d4679c372b2e1fac1212f8fe69529ac33d623aca8f0cd0879cc6b52f36b",
+    "patched_sha256": "ef595364d9bd8b7193b216722fcd26e89e4fe0fb19a5f089f503ed3ed4767bc8",
+    "quant_patched_sha256": "7e16146fb8021899230e87083767bcc831b72ec1f6e3b83f724627cd6a9184a4",
+    "rank_patched_sha256": "ba4fdb1f885ff00cd70343e5f49624a29bad30f016e6c3f1c8f224bce12b1ebc"
+  },
+  "archive_sha256": "4c62340aa0aef5fec9e5a7f57ea7753eb6666e070b3a7e66aed5d722baad39e6",
+  "scope": "selected changed sources plus helpers, not a complete source checkout",
+  "binary_rebuild_verified": false,
+  "model_correctness_verified": false,
+  "patch_apply_verified": true,
+  "patch_apply_scope": "7 modified C++ files and 4 new helper headers, byte-for-byte round trip against v3 selected files"
+}

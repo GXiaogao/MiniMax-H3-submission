@@ -35,3 +35,7 @@
 ## 服务器证据采集
 
 操作见 docs/SERVER-COLLECTION.md；上传scripts中的collect_server_submission.sh和同名.py两个文件即可。结果回传前，不把Windows本地基线当作服务器版本。提交进度见docs/SUBMISSION-PROGRESS.md。
+
+## 装载候选源码还原
+
+已按实际服务器trace核对11项摘要，并完成补丁应用往返检查。还原范围、操作及限制见docs/LOAD-SYNC-SOURCE-RESTORATION.md。此项不等于服务器二进制已重建或Qwen一致性已修复。

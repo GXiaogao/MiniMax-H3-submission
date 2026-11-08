@@ -1,0 +1,722 @@
+--- a/csrc/models/qwen3_vl/qwen3_vl_for_conditional_generation.cpp
++++ b/csrc/models/qwen3_vl/qwen3_vl_for_conditional_generation.cpp
+@@ -1,9 +1,12 @@
+ #include "qwen3_vl_for_conditional_generation.hpp"
+ 
+ #include "../../global_state/global_state.hpp"
++
++#include <infinicore/context/context.hpp>"
+ #include "../models_registry.hpp"
+ 
+ #include <cstdint>
++#include <cstring>
+ #include <stdexcept>
+ #include <string>
+ #include <utility>
+@@ -13,17 +16,33 @@
+ namespace {
+ 
+ std::vector<int64_t> tensor_to_i64_vector(const infinicore::Tensor &tensor) {
+-    auto cpu = tensor->to(infinicore::Device::cpu());
+-    std::vector<int64_t> values(cpu->numel());
+-    if (cpu->dtype() == infinicore::DataType::I64) {
+-        const auto *data = reinterpret_cast<const int64_t *>(cpu->data());
+-        values.assign(data, data + cpu->numel());
++    if (!tensor->is_contiguous()) {
++        throw std::runtime_error(
++            "Qwen3VLModel: metadata tensors must be contiguous");
++    }
++    const size_t numel = tensor->numel();
++    std::vector<int64_t> values(numel);
++    if (tensor->dtype() == infinicore::DataType::I64) {
++        if (tensor->device().getType() == infinicore::Device::Type::CPU) {
++            std::memcpy(values.data(), tensor->data(), tensor->nbytes());
++        } else {
++            infinicore::context::setDevice(tensor->device());
++            infinicore::context::memcpyD2H(
++                values.data(), tensor->data(), tensor->nbytes());
++        }
+         return values;
+     }
+-    if (cpu->dtype() == infinicore::DataType::I32) {
+-        const auto *data = reinterpret_cast<const int32_t *>(cpu->data());
+-        for (size_t i = 0; i < cpu->numel(); ++i) {
+-            values[i] = static_cast<int64_t>(data[i]);
++    if (tensor->dtype() == infinicore::DataType::I32) {
++        std::vector<int32_t> raw(numel);
++        if (tensor->device().getType() == infinicore::Device::Type::CPU) {
++            std::memcpy(raw.data(), tensor->data(), tensor->nbytes());
++        } else {
++            infinicore::context::setDevice(tensor->device());
++            infinicore::context::memcpyD2H(
++                raw.data(), tensor->data(), tensor->nbytes());
++        }
++        for (size_t i = 0; i < numel; ++i) {
++            values[i] = static_cast<int64_t>(raw[i]);
+         }
+         return values;
+     }
+--- a/csrc/models/qwen3_5/qwen3_5_vision.cpp
++++ b/csrc/models/qwen3_5/qwen3_5_vision.cpp
+@@ -2,6 +2,7 @@
+ 
+ #include "../../utils.hpp"
+ 
++#include <infinicore/context/context.hpp>
+ #include <infinicore/ops.hpp>
+ #include <infinicore/ops/mha.hpp>
+ #include <infinicore/ops/upsample_bilinear.hpp>
+@@ -9,6 +10,7 @@
+ #include <algorithm>
+ #include <cmath>
+ #include <cstdint>
++#include <cstring>
+ #include <iterator>
+ #include <limits>
+ #include <optional>
+@@ -52,17 +54,33 @@
+ }
+ 
+ std::vector<int64_t> tensor_to_i64_vector(const infinicore::Tensor &tensor) {
+-    auto cpu_tensor = tensor->to(infinicore::Device::cpu());
+-    std::vector<int64_t> values(cpu_tensor->numel());
+-    if (cpu_tensor->dtype() == infinicore::DataType::I64) {
+-        const auto *ptr = reinterpret_cast<const int64_t *>(cpu_tensor->data());
+-        values.assign(ptr, ptr + cpu_tensor->numel());
++    if (!tensor->is_contiguous()) {
++        throw std::runtime_error(
++            "Qwen35VisionModel: grid_thw must be contiguous");
++    }
++    const size_t numel = tensor->numel();
++    std::vector<int64_t> values(numel);
++    if (tensor->dtype() == infinicore::DataType::I64) {
++        if (tensor->device().getType() == infinicore::Device::Type::CPU) {
++            std::memcpy(values.data(), tensor->data(), tensor->nbytes());
++        } else {
++            infinicore::context::setDevice(tensor->device());
++            infinicore::context::memcpyD2H(
++                values.data(), tensor->data(), tensor->nbytes());
++        }
+         return values;
+     }
+-    if (cpu_tensor->dtype() == infinicore::DataType::I32) {
+-        const auto *ptr = reinterpret_cast<const int32_t *>(cpu_tensor->data());
+-        for (size_t i = 0; i < cpu_tensor->numel(); ++i) {
+-            values[i] = static_cast<int64_t>(ptr[i]);
++    if (tensor->dtype() == infinicore::DataType::I32) {
++        std::vector<int32_t> raw(numel);
++        if (tensor->device().getType() == infinicore::Device::Type::CPU) {
++            std::memcpy(raw.data(), tensor->data(), tensor->nbytes());
++        } else {
++            infinicore::context::setDevice(tensor->device());
++            infinicore::context::memcpyD2H(
++                raw.data(), tensor->data(), tensor->nbytes());
++        }
++        for (size_t i = 0; i < numel; ++i) {
++            values[i] = static_cast<int64_t>(raw[i]);
+         }
+         return values;
+     }
+@@ -366,9 +384,8 @@
+         total_tokens += static_cast<size_t>(grid[i]) * static_cast<size_t>(grid[i + 1]) * static_cast<size_t>(grid[i + 2]);
+     }
+ 
+-    auto position_ids_cpu = infinicore::Tensor::empty(
+-        {2, total_tokens}, infinicore::DataType::I64, infinicore::Device::cpu());
+-    auto *position_ids = reinterpret_cast<int64_t *>(position_ids_cpu->data());
++    std::vector<int64_t> position_ids_storage(2 * total_tokens);
++    auto *position_ids = position_ids_storage.data();
+ 
+     size_t out_token = 0;
+     for (size_t i = 0; i < grid.size(); i += 3) {
+@@ -398,7 +415,20 @@
+             }
+         }
+     }
+-    return position_ids_cpu->to(image_grid_thw->device());
++    auto position_ids_output = infinicore::Tensor::empty(
++        {2, total_tokens}, infinicore::DataType::I64,
++        image_grid_thw->device());
++    if (image_grid_thw->device().getType() ==
++        infinicore::Device::Type::CPU) {
++        std::memcpy(position_ids_output->data(), position_ids_storage.data(),
++                    position_ids_output->nbytes());
++    } else {
++        infinicore::context::setDevice(image_grid_thw->device());
++        infinicore::context::memcpyH2D(
++            position_ids_output->data(), position_ids_storage.data(),
++            position_ids_output->nbytes(), false);
++    }
++    return position_ids_output;
+ }
+ 
+ infinicore::Tensor
+--- a/csrc/engine/infer_engine.cpp
++++ b/csrc/engine/infer_engine.cpp
+@@ -3,6 +3,7 @@
+ #include "spdlog/spdlog.h"
+ #include <algorithm>
+ #include <cstdint>
++#include <cstring>
+ #include <future>
+ #include <mutex>
+ #include <stdexcept>
+@@ -18,22 +19,26 @@
+         return 0;
+     }
+ 
+-    auto cpu_offsets = offsets.value();
+-    if (cpu_offsets->device().getType() != infinicore::Device::Type::CPU) {
+-        cpu_offsets = cpu_offsets->to(infinicore::Device::cpu());
+-        infinicore::context::syncStream();
+-    }
+-
+-    if (cpu_offsets->dtype() != infinicore::DataType::I32
+-        || cpu_offsets->shape().size() != 1
+-        || cpu_offsets->shape()[0] < 2) {
++    const auto &offset_tensor = offsets.value();
++    if (offset_tensor->dtype() != infinicore::DataType::I32
++        || offset_tensor->shape().size() != 1
++        || offset_tensor->shape()[0] < 2
++        || !offset_tensor->is_contiguous()) {
+         throw std::invalid_argument(
+-            std::string(name) + " must be a one-dimensional int32 tensor with at least two entries");
+-    }
+-
+-    const auto *values = reinterpret_cast<const int32_t *>(cpu_offsets->data());
++            std::string(name) + " must be a contiguous one-dimensional int32 tensor with at least two entries");
++    }
++
++    std::vector<int32_t> values(offset_tensor->numel());
++    if (offset_tensor->device().getType() == infinicore::Device::Type::CPU) {
++        std::memcpy(values.data(), offset_tensor->data(), offset_tensor->nbytes());
++    } else {
++        infinicore::context::setDevice(offset_tensor->device());
++        infinicore::context::memcpyD2H(
++            values.data(), offset_tensor->data(), offset_tensor->nbytes());
++    }
++
+     size_t max_length = 0;
+-    for (size_t i = 1; i < cpu_offsets->shape()[0]; ++i) {
++    for (size_t i = 1; i < values.size(); ++i) {
+         if (values[i] < values[i - 1]) {
+             throw std::invalid_argument(std::string(name) + " must be nondecreasing");
+         }
+--- a/csrc/engine/rank_worker.cpp
++++ b/csrc/engine/rank_worker.cpp
+@@ -1,4 +1,5 @@
+ #include "rank_worker.hpp"
++#include "h3_weight_load_sync.hpp"
+ #include "../models/model_factory.hpp"
+ #include "infinicore/ops.hpp"
+ #include "infinicore/ops/distributed/send_recv.hpp"
+@@ -348,7 +349,8 @@
+             // Execute job outside the lock
+             if (local_cmd == Command::LOAD) {
+                 try {
+-                    model_->load_parameter(local_param_name, local_param);
++                    auto staged_param = weight_load_sync::stage(local_param, rank_info_.device);
++                    model_->load_parameter(local_param_name, staged_param);
+                 } catch (const std::exception &e) {
+                     {
+                         std::lock_guard<std::mutex> lk(mutex_);
+@@ -369,7 +371,11 @@
+ 
+             } else if (local_cmd == Command::LOAD_BATCH) {
+                 try {
+-                    model_->load_parameters_no_sync(local_params, local_params_strict);
++                    auto staged_params = local_params;
++                    for (auto &[name, tensor] : staged_params) {
++                        tensor = weight_load_sync::stage(tensor, rank_info_.device);
++                    }
++                    model_->load_parameters_no_sync(staged_params, local_params_strict);
+                     infinicore::context::syncStream();
+                 } catch (const std::exception &e) {
+                     {
+@@ -439,8 +445,7 @@
+                         // not have a vocabulary dimension to sample from.
+                         if (model_config_->get_or<bool>("skip_sampling", false)) {
+                             auto output_ids = infinicore::Tensor::empty(
+-                                {0}, infinicore::DataType::I64,
+-                                infinicore::Device::cpu());
++                                {0}, infinicore::DataType::I64, rank_info_.device);
+                             output_ = Output{output_ids, logits, hidden_states};
+                             job_done_ = true;
+                             cv_.notify_all();
+--- a/csrc/layers/attention/backends/static_attn.cpp
++++ b/csrc/layers/attention/backends/static_attn.cpp
+@@ -5,7 +5,35 @@
+ #include "infinicore/ops/per_tensor_dequant_i8.hpp"
+ #include "infinicore/ops/per_tensor_quant_i8.hpp"
+ 
++#include <infinicore/context/context.hpp>
++
++#include <cstdint>
++#include <cstring>
++#include <stdexcept>
++
+ namespace infinilm::layers::attention::backends {
++namespace {
++
++int32_t read_i32_scalar(const infinicore::Tensor &tensor,
++                        const char *name) {
++    if (tensor->dtype() != infinicore::DataType::I32
++        || tensor->numel() < 1
++        || !tensor->is_contiguous()) {
++        throw std::invalid_argument(
++            std::string(name) + " must be a contiguous nonempty int32 tensor");
++    }
++    int32_t value = 0;
++    if (tensor->device().getType() == infinicore::Device::Type::CPU) {
++        std::memcpy(&value, tensor->data(), sizeof(value));
++    } else {
++        infinicore::context::setDevice(tensor->device());
++        infinicore::context::memcpyD2H(
++            &value, tensor->data(), sizeof(value));
++    }
++    return value;
++}
++
++} // namespace
+ 
+ StaticAttentionImpl::StaticAttentionImpl(size_t num_heads,
+                                          size_t head_size,
+@@ -64,7 +92,9 @@
+                           ->contiguous()
+                           ->view({batch_size, seq_len, num_heads_ * value_head_dim}); // [bs, seq_len, n_q_head * value_head_dim]
+     } else {
+-        size_t total_seq_len = reinterpret_cast<int32_t *>(total_sequence_lengths.value()->to(infinicore::Device::cpu())->data())[0];
++        size_t total_seq_len = static_cast<size_t>(
++            read_i32_scalar(total_sequence_lengths.value(),
++                            "total_sequence_lengths"));
+ 
+         if (infinilm::quantization::KVQuantAlgo::NONE != this->kv_quant_scheme_) {
+             infinilm::KVQuantUtils::dequantize(
+@@ -119,7 +149,8 @@
+ 
+     ASSERT_EQ(batch_size, max_batch_size);
+ 
+-    size_t cache_pos = reinterpret_cast<int32_t *>(past_sequence_lengths->to(infinicore::Device::cpu())->data())[0];
++    size_t cache_pos = static_cast<size_t>(
++        read_i32_scalar(past_sequence_lengths, "past_sequence_lengths"));
+     auto result_len = cache_pos + update_len;
+     ASSERT(result_len <= max_seq_len);
+ 
+--- a/csrc/models/minimax_h3/minimax_h3_transformer.cpp
++++ b/csrc/models/minimax_h3/minimax_h3_transformer.cpp
+@@ -25,6 +25,17 @@
+ #include <tuple>
+ #include <utility>
+ #include <vector>
++#include "h3_boundary_trace.hpp"
++namespace infinilm::models::minimax_h3::boundary_trace {
++inline thread_local size_t condition_block = 0;
++inline void save_condition(const char *stage, const infinicore::Tensor &value) {
++    if (!enabled()) return;
++    const std::string name = "condition_" + std::to_string(condition_block) + "_" + stage;
++    save(name.c_str(), value);
++}
++} // namespace infinilm::models::minimax_h3::boundary_trace
++#include "h3_attention_trace.hpp"
++#include "h3_projection_trace.hpp"
+ 
+ namespace infinilm::models::minimax_h3 {
+ namespace {
+@@ -137,8 +148,12 @@
+     const size_t batch_size = hidden_states->size(0);
+     const size_t sequence_length = hidden_states->size(1);
+ 
++    attention_trace::save("input", hidden_states);
+     auto hidden_states_mutable = hidden_states;
+     auto [query, key, value] = qkv_proj_->forward_split(hidden_states_mutable);
++    attention_trace::save("q_raw", query);
++    attention_trace::save("k_raw", key);
++    attention_trace::save("v_raw", value);
+     query = query->view({batch_size * sequence_length, num_heads_, head_dim_});
+     key = key->view({batch_size * sequence_length, num_heads_, head_dim_});
+     value = value->view({batch_size, sequence_length, num_heads_, head_dim_});
+@@ -147,6 +162,8 @@
+     key = norm_k_->forward(key);
+     query = query->view({batch_size, sequence_length, num_heads_, head_dim_});
+     key = key->view({batch_size, sequence_length, num_heads_, head_dim_});
++    attention_trace::save("q_norm", query);
++    attention_trace::save("k_norm", key);
+ 
+     if (rotary_cos_sin_cache.has_value()) {
+         if (!position_ids.has_value()) {
+@@ -192,7 +209,13 @@
+     }
+     auto output = infinicore::op::mha(query, key, value, std::nullopt, scale_, false);
+     output = output->view({batch_size, sequence_length, inner_dim_});
+-    return linear_forward(out_proj_, output);
++    attention_trace::save("mha", output);
++    auto projected = [&]() {
++        projection_trace::Scope scope(attention_trace::active);
++        return linear_forward(out_proj_, output);
++    }();
++    attention_trace::save("projected", projected);
++    return projected;
+ }
+ 
+ void MiniMaxH3Attention::process_weights_after_loading() {
+@@ -256,10 +279,22 @@
+ 
+ infinicore::Tensor MiniMaxH3TokenRefinerBlock::forward(
+     const infinicore::Tensor &hidden_states) const {
+-    auto attention_output = attn_->forward(norm1_->forward(hidden_states));
++    auto normalized1 = norm1_->forward(hidden_states);
++    boundary_trace::save_condition("norm1", normalized1);
++    auto attention_output = [&]() {
++        attention_trace::Scope scope(boundary_trace::condition_block == 0);
++        return attn_->forward(normalized1);
++    }();
++    boundary_trace::save_condition("attention_output", attention_output);
+     auto output = infinicore::op::add(hidden_states, attention_output);
+-    auto mlp_output = ff_->forward(norm2_->forward(output));
+-    return infinicore::op::add(output, mlp_output);
++    boundary_trace::save_condition("after_attention", output);
++    auto normalized2 = norm2_->forward(output);
++    boundary_trace::save_condition("norm2", normalized2);
++    auto mlp_output = ff_->forward(normalized2);
++    boundary_trace::save_condition("mlp_output", mlp_output);
++    auto result = infinicore::op::add(output, mlp_output);
++    boundary_trace::save_condition("after_mlp", result);
++    return result;
+ }
+ 
+ MiniMaxH3TokenRefiner::MiniMaxH3TokenRefiner(
+@@ -280,10 +315,16 @@
+ infinicore::Tensor
+ MiniMaxH3TokenRefiner::forward(const infinicore::Tensor &hidden_states) const {
+     auto output = hidden_states;
++    if (boundary_trace::enabled() && refiner_blocks_.size() != 2)
++        throw std::runtime_error("condition trace requires exactly two token refiner blocks");
++    size_t trace_block = 0;
+     for (const auto &block : refiner_blocks_) {
++        boundary_trace::condition_block = trace_block++;
+         output = block->forward(output);
+     }
+-    return final_norm_->forward(output);
++    auto result = final_norm_->forward(output);
++    boundary_trace::save("condition_final", result);
++    return result;
+ }
+ 
+ MiniMaxH3AdaLNProjection::MiniMaxH3AdaLNProjection(
+@@ -340,7 +381,9 @@
+     const std::shared_ptr<infinicore::nn::RoPE> &rope,
+     const infinicore::Tensor &position_ids,
+     const std::optional<infinicore::Tensor> &rotary_cos_sin_cache) const {
+-    auto modulation = adaln_proj_->forward(temb)->view(
++    auto modulation_raw = adaln_proj_->forward(temb);
++    boundary_trace::save("adaln_projection", modulation_raw);
++    auto modulation = modulation_raw->view(
+         {temb->size(0) * H3_MODALITY_COUNT, 6 * hidden_size_});
+     auto token_modulation = gather_rows(modulation, adaln_indices)->unsqueeze(0);
+     auto shift_msa = token_modulation->narrow({{2, 0, hidden_size_}});
+@@ -352,13 +395,19 @@
+ 
+     auto normalized = norm1_->forward(hidden_states);
+     normalized = apply_adaln(normalized, scale_msa, shift_msa);
++    boundary_trace::save("attention_input", normalized);
+     auto attention_output = attn_->forward(normalized, rope, position_ids, rotary_cos_sin_cache);
++    boundary_trace::save("attention_output", attention_output);
+     auto output = gated_update(hidden_states, gate_msa, attention_output);
++    boundary_trace::save("after_attention", output);
+ 
+     normalized = norm2_->forward(output);
+     normalized = apply_adaln(normalized, scale_mlp, shift_mlp);
++    boundary_trace::save("mlp_input", normalized);
+     auto mlp_output = ff_->forward(normalized);
++    boundary_trace::save("mlp_output", mlp_output);
+     output = gated_update(output, gate_mlp, mlp_output);
++    boundary_trace::save("after_mlp", output);
+     return output;
+ }
+ 
+@@ -498,6 +547,8 @@
+ }
+ 
+ InfinilmModel::Output MiniMaxH3Transformer::forward(const Input &input) const {
++    if (boundary_trace::enabled() && transformer_blocks_.size()!=1)
++        throw std::runtime_error("boundary trace supports only the isolated one-block diagnostic");
+     require_tensor(input.video_hidden_states, "video_hidden_states");
+     require_tensor(input.audio_hidden_states, "audio_hidden_states");
+     require_tensor(input.encoder_hidden_states, "encoder_hidden_states");
+@@ -539,7 +590,9 @@
+     auto text_input = cast_to(encoder_hidden_states, dtype_);
+     auto video_embeds = cast_to(linear_forward(proj_in_, video_input), dtype_);
+     auto audio_embeds = cast_to(linear_forward(audio_proj_in_, audio_input), dtype_);
++    boundary_trace::save("condition_input", text_input);
+     auto context_embeds = linear_forward(context_embedder_, text_input);
++    boundary_trace::save("condition_projection", context_embeds);
+     auto text_embeds = token_refiner_->forward(context_embeds);
+ 
+     auto hidden_states = infinicore::Tensor::zeros(
+@@ -551,7 +604,9 @@
+     hidden_states = infinicore::op::index_copy(
+         hidden_states, 1, input.audio_indices.value(), audio_embeds);
+ 
++    boundary_trace::save("packed_hidden", hidden_states);
+     auto temb = time_embedder_->forward(input.timestep.value());
++    boundary_trace::save("temb", temb);
+     auto timestep_indices = input.timestep_indices.value();
+     auto token_tags = input.token_tags.value();
+     auto timestep_indices_x2 = infinicore::op::add(timestep_indices, timestep_indices);
+--- a/csrc/layers/quantization/none_quantization.cpp
++++ b/csrc/layers/quantization/none_quantization.cpp
+@@ -3,6 +3,8 @@
+ #include "infinicore/ops/linear.hpp"
+ #include "infinicore/ops/linear_allreduce.hpp"
+ #include <optional>
++#include "../../models/minimax_h3/h3_projection_trace.hpp"
++namespace h3_projection = infinilm::models::minimax_h3::projection_trace;
+ 
+ namespace infinilm::quantization {
+ 
+@@ -29,6 +31,8 @@
+     bool has_bias,
+     float alpha) const {
+ 
++    if (h3_projection::active && (has_bias || alpha != 1.0f))
++        throw std::runtime_error("projection trace requires no bias and alpha=1");
+     auto input_contiguous = input->is_contiguous() ? input : input->contiguous();
+     auto weight = params.at("weight");
+ 
+@@ -40,9 +44,13 @@
+     // Ascend path: weight was pre-packed to [IC, OC] in process_weights_after_loading.
+     // Use linear_packed to skip the runtime permute({1,0}).
+     if (weight_prepacked_) {
+-        return infinicore::op::linear_packed(input_contiguous, weight, bias_opt, alpha);
++        auto original = infinicore::op::linear_packed(input_contiguous, weight, bias_opt, alpha);
++        h3_projection::inspect_serial(weight, original);
++        return original;
+     }
+-    return infinicore::op::linear(input_contiguous->contiguous(), weight->contiguous(), bias_opt, alpha);
++    auto original = infinicore::op::linear(input_contiguous->contiguous(), weight->contiguous(), bias_opt, alpha);
++        h3_projection::inspect_serial(weight, original);
++        return original;
+ }
+ 
+ infinicore::Tensor NoneQuantization::forward_allreduce(
+@@ -51,6 +59,8 @@
+     bool has_bias,
+     infinicclComm_t communicator,
+     float alpha) const {
++    if (h3_projection::active && (has_bias || alpha != 1.0f))
++        throw std::runtime_error("projection trace requires no bias and alpha=1");
+     if (alpha != 1.0f) {
+         return BaseQuantization::forward_allreduce(
+             params, input, has_bias, communicator, alpha);
+@@ -65,12 +75,11 @@
+         bias_opt = params.at("bias");
+     }
+ 
+-    if (weight_prepacked_) {
+-        return infinicore::op::linear_allreduce_packed(
+-            input_contiguous, weight, bias_opt, communicator);
+-    }
+-    return infinicore::op::linear_allreduce(
+-        input_contiguous, weight->contiguous(), bias_opt, communicator);
++    auto original = weight_prepacked_
++        ? infinicore::op::linear_allreduce_packed(input_contiguous, weight, bias_opt, communicator)
++        : infinicore::op::linear_allreduce(input_contiguous, weight->contiguous(), bias_opt, communicator);
++    h3_projection::inspect_control(input_contiguous, weight, bias_opt, communicator, weight_prepacked_, original);
++    return original;
+ }
+ 
+ std::vector<SplitParam> NoneQuantization::split_params(
+--- /dev/null
++++ b/csrc/models/minimax_h3/h3_boundary_trace.hpp
+@@ -0,0 +1,55 @@
++#pragma once
++// Optional diagnostic snapshots. Disabled unless H3_BOUNDARY_TRACE_DIR is set.
++#include <infinicore/context/context.hpp>
++#include <cstdint>
++#include <cstring>
++#include <cstdlib>
++#include <fstream>
++#include <string>
++#include <vector>
++#include <algorithm>
++#include <stdexcept>
++
++namespace infinilm::models::minimax_h3::boundary_trace {
++inline bool enabled() {
++    const auto *dir=std::getenv("H3_BOUNDARY_TRACE_DIR");
++    return dir && *dir;
++}
++inline void save(const char *name,const infinicore::Tensor &value) {
++    if(!enabled())return;
++    const auto &rank=infinilm::global_state::get_tensor_model_parallel_rank_info();
++    if(rank.tp_rank!=0)return;
++    if(infinicore::context::isGraphRecording())
++        throw std::runtime_error("H3 boundary trace requires graph compilation disabled");
++    if(value->dtype()!=infinicore::DataType::F32 && value->dtype()!=infinicore::DataType::BF16)
++        throw std::runtime_error("H3 boundary trace requires FP32/BF16");
++    auto tensor=value->is_contiguous()?value:value->contiguous();
++    const size_t total=tensor->numel(), count=std::min<size_t>(65536,total);
++    if(!count)throw std::runtime_error("empty trace tensor");
++    const std::string stem=std::string(std::getenv("H3_BOUNDARY_TRACE_DIR"))+"/"+name;
++    if(std::ifstream(stem+".json").good() || std::ifstream(stem+".f32").good())
++        throw std::runtime_error("trace boundary already exists; use a fresh worker directory");
++    infinicore::context::syncStream();
++    std::vector<unsigned char> raw(tensor->nbytes());
++    infinicore::context::memcpyD2H(raw.data(),tensor->data(),raw.size());
++    std::vector<float> samples(count);
++    const bool f32=tensor->dtype()==infinicore::DataType::F32;
++    for(size_t i=0;i<count;++i) {
++        const size_t index=count==1?0:i*(total-1)/(count-1);
++        if(f32)std::memcpy(&samples[i],raw.data()+index*4,4);
++        else {
++            uint16_t bits;std::memcpy(&bits,raw.data()+index*2,2);
++            uint32_t wide=uint32_t(bits)<<16;std::memcpy(&samples[i],&wide,4);
++        }
++    }
++    std::ofstream output(stem+".f32",std::ios::binary);
++    output.exceptions(std::ios::failbit|std::ios::badbit);
++    output.write(reinterpret_cast<const char*>(samples.data()),samples.size()*sizeof(float));output.close();
++    std::ofstream meta(stem+".json");meta.exceptions(std::ios::failbit|std::ios::badbit);
++    meta<<"{\"shape\":[";
++    for(size_t i=0;i<tensor->ndim();++i){if(i)meta<<",";meta<<tensor->size(i);}
++    meta<<"],\"dtype\":\""<<(f32?"float32":"bfloat16")<<"\",\"elements\":"<<total
++        <<",\"sample_count\":"<<count<<",\"storage_dtype\":\"float32\",\"rank\":0,"
++        <<"\"sampling\":\"linear-integer-indices-at-most-65536\",\"all_elements_finite_checked\":false}\n";
++}
++} // namespace infinilm::models::minimax_h3::boundary_trace
+--- /dev/null
++++ b/csrc/models/minimax_h3/h3_attention_trace.hpp
+@@ -0,0 +1,64 @@
++#pragma once
++// First-refiner Attention snapshots, each TP rank writes a distinct filename.
++#include <infinicore/context/context.hpp>
++#include <cstdint>
++#include <cstring>
++#include <cstdlib>
++#include <fstream>
++#include <string>
++#include <vector>
++#include <algorithm>
++#include <stdexcept>
++
++namespace infinilm::models::minimax_h3::attention_trace {
++inline thread_local bool active = false;
++inline bool enabled() {
++    const auto *dir=std::getenv("H3_BOUNDARY_TRACE_DIR");
++    return dir && *dir;
++}
++struct Scope {
++    const bool previous;
++    explicit Scope(bool first_refiner) : previous(active) { active = first_refiner && enabled(); }
++    ~Scope() { active = previous; }
++    Scope(const Scope&) = delete;
++    Scope& operator=(const Scope&) = delete;
++};
++inline void save(const char *name,const infinicore::Tensor &value) {
++    if(!active || !enabled())return;
++    const auto &rank=infinilm::global_state::get_tensor_model_parallel_rank_info();
++    if ((rank.tp_size != 1 && rank.tp_size != 8) || rank.tp_rank < 0 || rank.tp_rank >= rank.tp_size)
++        throw std::runtime_error("Attention trace requires TP1/TP8 and a valid rank");
++    if(infinicore::context::isGraphRecording())
++        throw std::runtime_error("H3 Attention trace requires graph compilation disabled");
++    if(value->dtype()!=infinicore::DataType::F32 && value->dtype()!=infinicore::DataType::BF16)
++        throw std::runtime_error("H3 Attention trace requires FP32/BF16");
++    auto tensor=value->is_contiguous()?value:value->contiguous();
++    const size_t total=tensor->numel(), count=std::min<size_t>(65536,total);
++    if(!count)throw std::runtime_error("empty trace tensor");
++    const std::string stem=std::string(std::getenv("H3_BOUNDARY_TRACE_DIR"))+"/refiner0_"+name+".rank"+std::to_string(rank.tp_rank);
++    if(std::ifstream(stem+".json").good() || std::ifstream(stem+".f32").good())
++        throw std::runtime_error("trace boundary already exists; use a fresh worker directory");
++    infinicore::context::syncStream();
++    std::vector<unsigned char> raw(tensor->nbytes());
++    infinicore::context::memcpyD2H(raw.data(),tensor->data(),raw.size());
++    std::vector<float> samples(count);
++    const bool f32=tensor->dtype()==infinicore::DataType::F32;
++    for(size_t i=0;i<count;++i) {
++        const size_t index=count==1?0:i*(total-1)/(count-1);
++        if(f32)std::memcpy(&samples[i],raw.data()+index*4,4);
++        else {
++            uint16_t bits;std::memcpy(&bits,raw.data()+index*2,2);
++            uint32_t wide=uint32_t(bits)<<16;std::memcpy(&samples[i],&wide,4);
++        }
++    }
++    std::ofstream output(stem+".f32",std::ios::binary);
++    output.exceptions(std::ios::failbit|std::ios::badbit);
++    output.write(reinterpret_cast<const char*>(samples.data()),samples.size()*sizeof(float));output.close();
++    std::ofstream meta(stem+".json");meta.exceptions(std::ios::failbit|std::ios::badbit);
++    meta<<"{\"shape\":[";
++    for(size_t i=0;i<tensor->ndim();++i){if(i)meta<<",";meta<<tensor->size(i);}
++    meta<<"],\"dtype\":\""<<(f32?"float32":"bfloat16")<<"\",\"elements\":"<<total
++        <<",\"sample_count\":"<<count<<",\"storage_dtype\":\"float32\",\"rank\":"<<rank.tp_rank<<",\"tp_size\":"<<rank.tp_size<<","
++        <<"\"sampling\":\"linear-integer-indices-at-most-65536\",\"all_elements_finite_checked\":false}\n";
++}
++} // namespace infinilm::models::minimax_h3::attention_trace
+--- /dev/null
++++ b/csrc/models/minimax_h3/h3_projection_trace.hpp
+@@ -0,0 +1,39 @@
++#pragma once
++#include "h3_attention_trace.hpp"
++#include <infinicore/ops/linear.hpp>
++#include <infinicore/ops/distributed/allreduce.hpp>
++
++namespace infinilm::models::minimax_h3::projection_trace {
++inline thread_local bool active = false;
++struct Scope {
++    const bool previous;
++    explicit Scope(bool requested) : previous(active) { active = requested && attention_trace::enabled(); }
++    ~Scope() { active = previous; }
++    Scope(const Scope&) = delete;
++    Scope& operator=(const Scope&) = delete;
++};
++inline void inspect_serial(const infinicore::Tensor &weight, const infinicore::Tensor &original) {
++    if (!active) return;
++    attention_trace::save("out_weight", weight);
++    attention_trace::save("out_original", original);
++    attention_trace::save("out_local", original);
++    attention_trace::save("out_control_sum", original); // TP1 identity control.
++    attention_trace::save("out_original_after_control", original);
++}
++inline void inspect_control(const infinicore::Tensor &input, const infinicore::Tensor &weight,
++                            const std::optional<infinicore::Tensor> &bias,
++                            infinicclComm_t communicator, bool packed,
++                            const infinicore::Tensor &original) {
++    if (!active) return;
++    if (bias) throw std::runtime_error("projection trace requires bias-free output projection");
++    // Observe the original before additional GPU work. Never return these controls.
++    attention_trace::save("out_weight", weight);
++    attention_trace::save("out_original", original);
++    auto local = packed ? infinicore::op::linear_packed(input, weight, bias)
++                        : infinicore::op::linear(input, weight->contiguous(), bias);
++    attention_trace::save("out_local", local);
++    auto control_sum = infinicore::op::distributed::allreduce(local, INFINICCL_SUM, communicator);
++    attention_trace::save("out_control_sum", control_sum);
++    attention_trace::save("out_original_after_control", original);
++}
++} // namespace infinilm::models::minimax_h3::projection_trace
+--- /dev/null
++++ b/csrc/engine/h3_weight_load_sync.hpp
+@@ -0,0 +1,24 @@
++#pragma once
++#include <infinicore/context/context.hpp>
++#include <infinicore/tensor.hpp>
++
++namespace infinilm::engine::weight_load_sync {
++// Correctness-first loading candidate. Existing Core slicing stays on the rank's device.
++// Full-parameter staging costs temporary memory and bandwidth; not an inference optimization.
++inline infinicore::Tensor stage(const infinicore::Tensor &source,
++                                const infinicore::Device &destination) {
++    if (source->device().getType() != infinicore::Device::Type::HYGON ||
++        destination.getType() != infinicore::Device::Type::HYGON ||
++        source->device() == destination) {
++        return source;
++    }
++    infinicore::context::setDevice(source->device());
++    auto ready = source->contiguous();
++    infinicore::context::syncStream();
++    auto staged = ready->to(destination);
++    infinicore::context::setDevice(destination);
++    // ready remains owned here until the target has finished reading it.
++    infinicore::context::syncStream();
++    return staged;
++}
++} // namespace infinilm::engine::weight_load_sync
