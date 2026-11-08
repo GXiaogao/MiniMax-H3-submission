@@ -1,0 +1,351 @@
+--- /dev/null
++++ b/InfiniCore/include/infinicore/ops/gated_residual.hpp
+@@ -0,0 +1,25 @@
++#pragma once
++#include "common/op.hpp"
++#include <cstdint>
++#include <string>
++
++namespace infinicore::op {
++// residual + cast_dtype(gate * branch), preserving the separate mul/add rounding.
++// Shapes [N,H] or [1,N,H], matching dtype/device; HYGON FP32/FP16/BF16.
++class GatedResidual : public graph::DispatchableGraphOperator {
++public:
++    using plan_schema = void *(*)(Tensor, const Tensor &, const Tensor &, const Tensor &);
++    static common::OpDispatcher<plan_schema> &plan_dispatcher();
++    static common::OpDispatcher<run_schema> &run_dispatcher();
++    static common::OpDispatcher<cleanup_schema> &cleanup_dispatcher();
++    GatedResidual(Tensor out, const Tensor &residual, const Tensor &gate, const Tensor &branch);
++    static void execute(Tensor out, const Tensor &residual, const Tensor &gate, const Tensor &branch);
++    // Host graph replay is allowed; device graph capture is deliberately disabled
++    // until the host module lifecycle and launch-counter semantics are validated.
++    bool is_device_graph_capture_safe() const override { return false; }
++};
++Tensor gated_residual(const Tensor &residual, const Tensor &gate, const Tensor &branch);
++void gated_residual_(Tensor out, const Tensor &residual, const Tensor &gate, const Tensor &branch);
++std::uint64_t gated_residual_hygon_launch_count();
++std::string gated_residual_hygon_backend_info();
++} // namespace infinicore::op
+--- a/InfiniCore/include/infinicore/ops.hpp
++++ b/InfiniCore/include/infinicore/ops.hpp
+@@ -2,6 +2,7 @@
+ 
+ #include "ops/adaptive_max_pool1d.hpp"
+ #include "ops/add.hpp"
++#include "ops/gated_residual.hpp"
+ #include "ops/add_rms_norm.hpp"
+ #include "ops/addcmul.hpp"
+ #include "ops/asin.hpp"
+--- /dev/null
++++ b/InfiniCore/src/infinicore/ops/gated_residual/gated_residual.cc
+@@ -0,0 +1,74 @@
++#include "infinicore/ops/gated_residual.hpp"
++#include <climits>
++#include <stdexcept>
++#include <array>
++#include <limits>
++
++namespace infinicore::op {
++INFINICORE_GRAPH_OP_DISPATCHERS_IMPL(GatedResidual);
++
++namespace {
++std::pair<uintptr_t, uintptr_t> bounds(const Tensor& t) {
++    const auto n = t->ndim();
++    const uint64_t span = uint64_t(t->size(n-2)-1)*t->stride(n-2)
++                        + uint64_t(t->size(n-1)-1)*t->stride(n-1);
++    if (span > uint64_t(INT64_MAX)/4-1) throw std::invalid_argument("gated_residual: span overflow");
++    auto begin = reinterpret_cast<uintptr_t>(t->data());
++    const uint64_t bytes = (span+1)*t->element_size();
++    if (!begin || bytes > std::numeric_limits<uintptr_t>::max()-begin)
++        throw std::invalid_argument("gated_residual: invalid address span");
++    return {begin, begin+bytes};
++}
++bool overlaps(const Tensor& a, const Tensor& b) {
++    auto x=bounds(a), y=bounds(b);
++    return x.first<y.second && y.first<x.second;
++}
++void validate(const Tensor& out, const Tensor& residual, const Tensor& gate, const Tensor& branch) {
++    if (!out || !residual || !gate || !branch) throw std::invalid_argument("gated_residual: null tensor");
++    auto dtype = residual->dtype();
++    if (dtype!=DataType::F32 && dtype!=DataType::F16 && dtype!=DataType::BF16)
++        throw std::invalid_argument("gated_residual: only FP32/FP16/BF16 supported");
++    if (residual->device().getType()!=Device::Type::HYGON)
++        throw std::invalid_argument("gated_residual: only HYGON supported");
++    if (context::getDevice()!=residual->device())
++        throw std::invalid_argument("gated_residual: current device mismatch");
++    for (const Tensor* ptr : {&out,&residual,&gate,&branch}) {
++        const auto& t=*ptr;
++        auto nd=t->ndim();
++        if ((nd!=2 && nd!=3) || (nd==3 && t->size(0)!=1) || t->shape()!=residual->shape()
++            || t->dtype()!=dtype || t->device()!=residual->device())
++            throw std::invalid_argument("gated_residual: expected same shape/dtype/device [N,H] or [1,N,H]");
++        for (size_t i=0; i<nd; ++i)
++            if (t->size(i)==0 || t->size(i)>INT32_MAX || t->stride(i)<0 || t->stride(i)>INT32_MAX)
++                throw std::invalid_argument("gated_residual: invalid size or stride");
++        bounds(t);
++    }
++    auto nd=out->ndim();
++    if (out->stride(nd-1)<1 || (out->size(nd-2)>1 && uint64_t(out->stride(nd-2)) < out->size(nd-1)*out->stride(nd-1)))
++        throw std::invalid_argument("gated_residual: overlapping output layout");
++    const bool exact_residual = out->data()==residual->data() && out->strides()==residual->strides();
++    if ((overlaps(out,residual) && !exact_residual) || overlaps(out,gate) || overlaps(out,branch))
++        throw std::invalid_argument("gated_residual: unsupported output/input alias");
++}
++}
++
++GatedResidual::GatedResidual(Tensor out, const Tensor& residual, const Tensor& gate, const Tensor& branch) {
++    validate(out,residual,gate,branch);
++    const auto type=out->device().getType();
++    if (!plan_dispatcher().lookup(type) || !run_dispatcher().lookup(type) || !cleanup_dispatcher().lookup(type))
++        throw std::runtime_error("gated_residual: HYGON backend registration missing");
++    INFINICORE_GRAPH_OP_DISPATCH(type,out,residual,gate,branch);
++}
++void GatedResidual::execute(Tensor out, const Tensor& residual, const Tensor& gate, const Tensor& branch) {
++    INFINICORE_GRAPH_OP_RECORD_OR_RUN(GatedResidual,out,residual,gate,branch);
++}
++Tensor gated_residual(const Tensor& residual, const Tensor& gate, const Tensor& branch) {
++    if (!residual) throw std::invalid_argument("gated_residual: null residual");
++    auto out=Tensor::empty(residual->shape(),residual->dtype(),residual->device());
++    gated_residual_(out,residual,gate,branch);
++    return out;
++}
++void gated_residual_(Tensor out, const Tensor& residual, const Tensor& gate, const Tensor& branch) {
++    GatedResidual::execute(out,residual,gate,branch);
++}
++} // namespace infinicore::op
+--- /dev/null
++++ b/InfiniCore/src/infinicore/ops/gated_residual/gated_residual_hygon.cc
+@@ -0,0 +1,122 @@
++#include "infinicore/ops/gated_residual.hpp"
++#include <atomic>
++#include <cstdlib>
++#include <stdexcept>
++
++#ifdef ENABLE_HYGON_API
++#include <dlfcn.h>
++#include <filesystem>
++#include <fstream>
++#include <map>
++#include <mutex>
++#include <memory>
++#include <array>
++
++namespace infinicore::op::gated_residual_impl {
++struct TensorArg { void* pointer; int64_t rows,width,stride0,stride1; };
++static_assert(sizeof(TensorArg)==40 && sizeof(void*)==8,"64-bit host ABI required");
++std::atomic<uint64_t> launches{0};
++template<class T> T resolve(void* lib, const char* name) {
++    auto p=dlsym(lib,name);
++    if (!p) throw std::runtime_error(std::string("gated_residual: missing symbol ")+name);
++    return reinterpret_cast<T>(p);
++}
++std::string bundle_path() {
++    auto value=std::getenv("INFINICORE_H3_GATED_BUNDLE");
++    if (!value || !*value || !std::filesystem::path(value).is_absolute())
++        throw std::runtime_error("Set INFINICORE_H3_GATED_BUNDLE to the verified absolute bundle path");
++    return std::filesystem::canonical(value).string();
++}
++struct Api {
++    std::string root,hip;
++    void* library;
++    void* (*open)(const char*,const char*,const char*);
++    int (*launch)(void*,const TensorArg*,void*);
++    const char* (*error)();
++    std::mutex lock;
++    std::map<std::pair<size_t,DataType>,void*> modules;
++    explicit Api(const std::string& path):root(path),library(nullptr) {
++        std::ifstream input(root+"/hip_library.txt");
++        std::getline(input,hip);
++        if (!input || !std::filesystem::path(hip).is_absolute() || !std::filesystem::is_regular_file(hip))
++            throw std::runtime_error("gated_residual: invalid bundle HIP library");
++        library=dlopen((root+"/libh3_gated_host.so").c_str(),RTLD_NOW|RTLD_LOCAL);
++        if (!library) throw std::runtime_error(dlerror());
++        try {
++            open=resolve<decltype(open)>(library,"h3_open");
++            launch=resolve<decltype(launch)>(library,"h3_launch");
++            error=resolve<decltype(error)>(library,"h3_error");
++        } catch (...) { dlclose(library); throw; }
++    }
++    void* module(const Tensor& t) {
++        std::lock_guard<std::mutex> guard(lock);
++        auto key=std::make_pair(t->device().getIndex(),t->dtype());
++        auto found=modules.find(key);
++        if(found!=modules.end()) return found->second;
++        const char* dtype=t->dtype()==DataType::F32?"float32":t->dtype()==DataType::F16?"float16":"bfloat16";
++        auto path=root+"/export_"+dtype+"/kernel.hsaco";
++        auto name=std::string("h3_gated_residual_")+dtype;
++        void* result=open(hip.c_str(),path.c_str(),name.c_str());
++        if (!result) throw std::runtime_error(std::string("gated_residual load: ")+error());
++        modules.emplace(key,result);
++        return result;
++    }
++};
++Api& api() {
++    // Bounded process-lifetime cache: at most three modules/device. Never unload
++    // code while asynchronous work or a recorded graph can still reference it.
++    static Api* instance=new Api(bundle_path());
++    if (instance->root!=bundle_path()) throw std::runtime_error("gated_residual: bundle changed within process");
++    return *instance;
++}
++struct Plan {
++    graph::GraphTensor out,residual,gate,branch;
++    void* kernel;
++    Api* api;
++};
++void* plan(Tensor out,const Tensor& residual,const Tensor& gate,const Tensor& branch) {
++    auto& a=api();
++    auto kernel=a.module(out);
++    return new Plan{graph::GraphTensor(out),graph::GraphTensor(residual),graph::GraphTensor(gate),graph::GraphTensor(branch),kernel,&a};
++}
++void run(void* value) {
++    auto& p=*static_cast<Plan*>(value);
++    if (context::getDevice()!=p.out->device()) throw std::runtime_error("gated_residual: replay device mismatch");
++    std::array<TensorArg,4> args;
++    std::array<Tensor*,4> tensors{&p.residual,&p.gate,&p.branch,&p.out};
++    for(size_t i=0;i<4;++i) {
++        auto& t=*tensors[i];auto nd=t->ndim();
++        args[i]={t->data(),int64_t(t->size(nd-2)),int64_t(t->size(nd-1)),t->stride(nd-2),t->stride(nd-1)};
++    }
++    // Serialize only the host adapter's small bookkeeping section. No device sync.
++    std::lock_guard<std::mutex> guard(p.api->lock);
++    if(p.api->launch(p.kernel,args.data(),context::getStream())!=0)
++        throw std::runtime_error(std::string("gated_residual launch: ")+p.api->error());
++    launches.fetch_add(1,std::memory_order_relaxed);
++}
++void cleanup(void** p) { delete static_cast<Plan*>(*p);*p=nullptr; }
++static bool registered=[] {
++    GatedResidual::plan_dispatcher().registerDevice(Device::Type::HYGON,&plan);
++    GatedResidual::run_dispatcher().registerDevice(Device::Type::HYGON,&run);
++    GatedResidual::cleanup_dispatcher().registerDevice(Device::Type::HYGON,&cleanup);
++    return true;
++}();
++} // namespace infinicore::op::gated_residual_impl
++#endif
++
++namespace infinicore::op {
++std::uint64_t gated_residual_hygon_launch_count() {
++#ifdef ENABLE_HYGON_API
++    return gated_residual_impl::launches.load(std::memory_order_relaxed);
++#else
++    return 0;
++#endif
++}
++std::string gated_residual_hygon_backend_info() {
++#ifdef ENABLE_HYGON_API
++    return "NineToothed 0.26.0 / generic gfx906 HIP HSACO / host graph only; bundle="+gated_residual_impl::bundle_path();
++#else
++    return "HYGON backend was not built";
++#endif
++}
++}
+--- /dev/null
++++ b/InfiniCore/src/infinicore/pybind11/ops/gated_residual.hpp
+@@ -0,0 +1,11 @@
++#pragma once
++#include <pybind11/pybind11.h>
++#include "infinicore/ops/gated_residual.hpp"
++namespace infinicore::ops {
++inline void bind_gated_residual(pybind11::module& m) {
++    m.def("gated_residual",&op::gated_residual);
++    m.def("gated_residual_",&op::gated_residual_);
++    m.def("gated_residual_hygon_launch_count",&op::gated_residual_hygon_launch_count);
++    m.def("gated_residual_hygon_backend_info",&op::gated_residual_hygon_backend_info);
++}
++}
+--- a/InfiniCore/src/infinicore/pybind11/ops.hpp
++++ b/InfiniCore/src/infinicore/pybind11/ops.hpp
+@@ -7,6 +7,7 @@
+ #include "ops/adaptive_avg_pool3d.hpp"
+ #include "ops/adaptive_max_pool1d.hpp"
+ #include "ops/add.hpp"
++#include "ops/gated_residual.hpp"
+ #include "ops/add_rms_norm.hpp"
+ #include "ops/addbmm.hpp"
+ #include "ops/addcmul.hpp"
+@@ -174,6 +175,7 @@
+ namespace infinicore::ops {
+ 
+ inline void bind(py::module &m) {
++    bind_gated_residual(m);
+ #ifdef ENABLE_VENDOR_OPS
+     bind_concat_and_cache_mla(m);
+     bind_concat_and_cache_mla_int8(m);
+--- /dev/null
++++ b/InfiniCore/python/infinicore/ops/gated_residual.py
+@@ -0,0 +1,11 @@
++from infinicore.lib import _infinicore
++from infinicore.tensor import Tensor
++
++
++def gated_residual(residual, gate, branch, *, out=None):
++    """HYGON: residual + cast_dtype(gate * branch), via the native dispatcher."""
++    inputs = (residual._underlying, gate._underlying, branch._underlying)
++    if out is None:
++        return Tensor(_infinicore.gated_residual(*inputs))
++    _infinicore.gated_residual_(out._underlying, *inputs)
++    return out
+--- a/InfiniCore/python/infinicore/__init__.py
++++ b/InfiniCore/python/infinicore/__init__.py
+@@ -51,6 +51,7 @@
+ )
+ from infinicore.ops.acos import acos
+ from infinicore.ops.add import add
++from infinicore.ops.gated_residual import gated_residual
+ from infinicore.ops.add_rms_norm import add_rms_norm, add_rms_norm_inplace
+ from infinicore.ops.addbmm import addbmm
+ from infinicore.ops.addcmul import addcmul
+--- a/InfiniLM/csrc/models/minimax_h3/minimax_h3_transformer.cpp
++++ b/InfiniLM/csrc/models/minimax_h3/minimax_h3_transformer.cpp
+@@ -4,6 +4,7 @@
+ #include "../models_registry.hpp"
+ 
+ #include <infinicore/ops/add.hpp>
++#include <infinicore/ops/gated_residual.hpp>
+ #include <infinicore/ops/cast.hpp>
+ #include <infinicore/ops/distributed/allgather.hpp>
+ #include <infinicore/ops/embedding.hpp>
+@@ -17,6 +18,7 @@
+ 
+ #include <algorithm>
+ #include <cmath>
++#include <cstdlib>
+ #include <cstddef>
+ #include <stdexcept>
+ #include <string>
+@@ -28,6 +30,20 @@
+ namespace {
+ 
+ constexpr size_t H3_MODALITY_COUNT = 3;
++
++infinicore::Tensor gated_update(const infinicore::Tensor& residual,
++                               const infinicore::Tensor& gate,
++                               const infinicore::Tensor& branch) {
++    const char* setting = std::getenv("INFINILM_H3_NINETOOTHED_GATED");
++    const std::string mode = setting ? setting : "0";
++    if (mode == "1") {
++        return infinicore::op::gated_residual(residual, gate, branch);
++    }
++    if (mode != "0") {
++        throw std::invalid_argument("INFINILM_H3_NINETOOTHED_GATED must be 0 or 1");
++    }
++    return infinicore::op::add(residual, infinicore::op::mul(gate, branch));
++}
+ 
+ infinicore::Tensor cast_to(const infinicore::Tensor &input,
+                            const infinicore::DataType &dtype) {
+@@ -337,13 +353,12 @@
+     auto normalized = norm1_->forward(hidden_states);
+     normalized = apply_adaln(normalized, scale_msa, shift_msa);
+     auto attention_output = attn_->forward(normalized, rope, position_ids, rotary_cos_sin_cache);
+-    auto output = infinicore::op::add(
+-        hidden_states, infinicore::op::mul(gate_msa, attention_output));
++    auto output = gated_update(hidden_states, gate_msa, attention_output);
+ 
+     normalized = norm2_->forward(output);
+     normalized = apply_adaln(normalized, scale_mlp, shift_mlp);
+     auto mlp_output = ff_->forward(normalized);
+-    output = infinicore::op::add(output, infinicore::op::mul(gate_mlp, mlp_output));
++    output = gated_update(output, gate_mlp, mlp_output);
+     return output;
+ }
+ 

@@ -1,0 +1,29 @@
+{
+  "version": "1.2-isolated-gfx936-ninetoothed-cache-rename",
+  "result": "JIT_VERIFIED",
+  "last_stage": "complete",
+  "state_published": true,
+  "integration_status": "NOT_TESTED",
+  "quality_status": "UNASSESSED",
+  "elapsed_seconds": 402.2515076911077,
+  "baseline": {
+    "torch_version": "2.9.0",
+    "torch_file": "/usr/local/lib/python3.11/site-packages/torch/__init__.py",
+    "hip": "6.3.26093",
+    "numpy_version": "1.25.0",
+    "numpy_file": "/usr/local/lib/python3.11/site-packages/numpy/__init__.py"
+  },
+  "cache_patch": {
+    "original_sha256": "8863013c70fb5bdc131f1078c7b1e0ddbfdd68336a625dfb2811c781e345fe3d",
+    "patched_sha256": "17f908e7ee7ddf9e87f2a2cb51d302d6d2b32211da7735998fbced276b8cbf4e",
+    "scope": "isolated-cache-location-only",
+    "source": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/generation.py"
+  },
+  "triton_cache_patch": {
+    "original_sha256": "0355c3e3452fa4500122244b8fff8864f22bc05c417a3d6f5dada9f2e92f8040",
+    "patched_sha256": "f99e24bc0b1a7eea0aeeb7cbe6ba5cee41b778d9a2f96368c6b5b96cd5b5ca0a",
+    "scope": "private-vendor-cache-same-directory-atomic-replace",
+    "source": "/dev/shm/infinifabric-shell/3c0df7542d0f4b518fa6cc91e6c60f39/workspace/run-47ba7afc69bc41e3b4a1df0f76ed68a4/.ninetoothed-install-230014-1947749/vendor-site-packages/triton/runtime/cache.py"
+  },
+  "candidate": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749"
+}

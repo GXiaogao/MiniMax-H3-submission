@@ -1,0 +1,77 @@
+diff --git a/include/infinicore/ops.hpp b/include/infinicore/ops.hpp
+index 1d794ee2..9eb3eb94 100644
+--- a/include/infinicore/ops.hpp
++++ b/include/infinicore/ops.hpp
+@@ -2,6 +2,7 @@
+ 
+ #include "ops/adaptive_max_pool1d.hpp"
+ #include "ops/add.hpp"
++#include "ops/gated_residual.hpp"
+ #include "ops/add_rms_norm.hpp"
+ #include "ops/addcmul.hpp"
+ #include "ops/asin.hpp"
+diff --git a/python/infinicore/__init__.py b/python/infinicore/__init__.py
+index 089f5372..86bb0d18 100644
+--- a/python/infinicore/__init__.py
++++ b/python/infinicore/__init__.py
+@@ -51,6 +51,7 @@ from infinicore.dtype import (
+ )
+ from infinicore.ops.acos import acos
+ from infinicore.ops.add import add
++from infinicore.ops.gated_residual import gated_residual
+ from infinicore.ops.add_rms_norm import add_rms_norm, add_rms_norm_inplace
+ from infinicore.ops.addbmm import addbmm
+ from infinicore.ops.addcmul import addcmul
+diff --git a/src/infinicore/ops/multi_head_attention/mha.cc b/src/infinicore/ops/multi_head_attention/mha.cc
+index 46d6ffff..5cae2385 100644
+--- a/src/infinicore/ops/multi_head_attention/mha.cc
++++ b/src/infinicore/ops/multi_head_attention/mha.cc
+@@ -12,7 +12,18 @@ MultiheadAttention::MultiheadAttention(Tensor out,
+                                        std::optional<Tensor> alibi_slopes,
+                                        float scale,
+                                        bool is_causal) {
++    if (!out || !q || !k || !v) {
++        throw std::invalid_argument("MHA expects non-null output, q, k and v");
++    }
+     INFINICORE_ASSERT_TENSORS_SAME_DEVICE(out, q, k, v);
++    const auto device_type = out->device().getType();
++    if (!plan_dispatcher().lookup(device_type)
++        || !run_dispatcher().lookup(device_type)
++        || !cleanup_dispatcher().lookup(device_type)) {
++        throw std::runtime_error("MHA backend registration is incomplete for device: "
++                                 + out->device().toString());
++    }
++    context::setDevice(out->device());
+     INFINICORE_GRAPH_OP_DISPATCH(out->device().getType(),
+                                  out, q, k, v, alibi_slopes, scale, is_causal);
+ }
+@@ -36,6 +47,9 @@ Tensor mha(
+     std::optional<Tensor> alibi_slopes,
+     float scale,
+     bool is_causal) {
++    if (!q) {
++        throw std::invalid_argument("MHA expects non-null q");
++    }
+     auto out = Tensor::empty(q->shape(), q->dtype(), q->device());
+     mha_(out, q, k, v, alibi_slopes, scale, is_causal);
+     return out;
+diff --git a/src/infinicore/pybind11/ops.hpp b/src/infinicore/pybind11/ops.hpp
+index 198385e0..43aba161 100644
+--- a/src/infinicore/pybind11/ops.hpp
++++ b/src/infinicore/pybind11/ops.hpp
+@@ -7,6 +7,7 @@
+ #include "ops/adaptive_avg_pool3d.hpp"
+ #include "ops/adaptive_max_pool1d.hpp"
+ #include "ops/add.hpp"
++#include "ops/gated_residual.hpp"
+ #include "ops/add_rms_norm.hpp"
+ #include "ops/addbmm.hpp"
+ #include "ops/addcmul.hpp"
+@@ -174,6 +175,7 @@ namespace py = pybind11;
+ namespace infinicore::ops {
+ 
+ inline void bind(py::module &m) {
++    bind_gated_residual(m);
+ #ifdef ENABLE_VENDOR_OPS
+     bind_concat_and_cache_mla(m);
+     bind_concat_and_cache_mla_int8(m);

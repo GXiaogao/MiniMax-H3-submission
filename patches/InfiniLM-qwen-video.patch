@@ -1,0 +1,188 @@
+diff --git a/csrc/models/minimax_h3/minimax_h3_transformer.cpp b/csrc/models/minimax_h3/minimax_h3_transformer.cpp
+index 47512130..88ab80bc 100644
+--- a/csrc/models/minimax_h3/minimax_h3_transformer.cpp
++++ b/csrc/models/minimax_h3/minimax_h3_transformer.cpp
+@@ -4,6 +4,7 @@
+ #include "../models_registry.hpp"
+ 
+ #include <infinicore/ops/add.hpp>
++#include <infinicore/ops/gated_residual.hpp>
+ #include <infinicore/ops/cast.hpp>
+ #include <infinicore/ops/distributed/allgather.hpp>
+ #include <infinicore/ops/embedding.hpp>
+@@ -17,6 +18,7 @@
+ 
+ #include <algorithm>
+ #include <cmath>
++#include <cstdlib>
+ #include <cstddef>
+ #include <stdexcept>
+ #include <string>
+@@ -29,6 +31,20 @@ namespace {
+ 
+ constexpr size_t H3_MODALITY_COUNT = 3;
+ 
++infinicore::Tensor gated_update(const infinicore::Tensor& residual,
++                               const infinicore::Tensor& gate,
++                               const infinicore::Tensor& branch) {
++    const char* setting = std::getenv("INFINILM_H3_NINETOOTHED_GATED");
++    const std::string mode = setting ? setting : "0";
++    if (mode == "1") {
++        return infinicore::op::gated_residual(residual, gate, branch);
++    }
++    if (mode != "0") {
++        throw std::invalid_argument("INFINILM_H3_NINETOOTHED_GATED must be 0 or 1");
++    }
++    return infinicore::op::add(residual, infinicore::op::mul(gate, branch));
++}
++
+ infinicore::Tensor cast_to(const infinicore::Tensor &input,
+                            const infinicore::DataType &dtype) {
+     if (input->dtype() == dtype) {
+@@ -337,13 +353,12 @@ infinicore::Tensor MiniMaxH3TransformerBlock::forward(
+     auto normalized = norm1_->forward(hidden_states);
+     normalized = apply_adaln(normalized, scale_msa, shift_msa);
+     auto attention_output = attn_->forward(normalized, rope, position_ids, rotary_cos_sin_cache);
+-    auto output = infinicore::op::add(
+-        hidden_states, infinicore::op::mul(gate_msa, attention_output));
++    auto output = gated_update(hidden_states, gate_msa, attention_output);
+ 
+     normalized = norm2_->forward(output);
+     normalized = apply_adaln(normalized, scale_mlp, shift_mlp);
+     auto mlp_output = ff_->forward(normalized);
+-    output = infinicore::op::add(output, infinicore::op::mul(gate_mlp, mlp_output));
++    output = gated_update(output, gate_mlp, mlp_output);
+     return output;
+ }
+ 
+diff --git a/csrc/models/qwen3_5/qwen3_5_vision.cpp b/csrc/models/qwen3_5/qwen3_5_vision.cpp
+index fb19cae4..ac19370a 100644
+--- a/csrc/models/qwen3_5/qwen3_5_vision.cpp
++++ b/csrc/models/qwen3_5/qwen3_5_vision.cpp
+@@ -10,6 +10,7 @@
+ #include <cmath>
+ #include <cstdint>
+ #include <iterator>
++#include <limits>
+ #include <optional>
+ #include <stdexcept>
+ #include <string>
+@@ -19,6 +20,25 @@
+ namespace infinilm::models::qwen3_5 {
+ namespace {
+ 
++// Each call handles one image or video. Temporal grid entries are independent
++// spatial-attention sequences, even though their patch rows are concatenated.
++size_t vision_frame_tokens(const std::vector<int64_t> &grid, size_t patch_count) {
++    if (grid.size() != 3 || grid[0] <= 0 || grid[1] <= 0 || grid[2] <= 0) {
++        throw std::runtime_error("Qwen35VisionModel: expected one positive T/H/W grid");
++    }
++    const size_t t = static_cast<size_t>(grid[0]);
++    const size_t h = static_cast<size_t>(grid[1]);
++    const size_t w = static_cast<size_t>(grid[2]);
++    const size_t max_size = std::numeric_limits<size_t>::max();
++    if (h > max_size / w || t > max_size / (h * w)) {
++        throw std::runtime_error("Qwen35VisionModel: grid token count overflow");
++    }
++    if (t * h * w != patch_count) {
++        throw std::runtime_error("Qwen35VisionModel: pixel rows do not match T*H*W");
++    }
++    return h * w;
++}
++
+ size_t get_size_or_first(const nlohmann::json &config, const char *key,
+                          size_t default_value) {
+     if (!config.contains(key) || config.at(key).is_null()) {
+@@ -123,14 +143,19 @@ Qwen35VisionAttention::Qwen35VisionAttention(const nlohmann::json &config,
+ infinicore::Tensor Qwen35VisionAttention::forward(
+     const infinicore::Tensor &hidden_states,
+     const infinicore::Tensor &row_position_ids,
+-    const infinicore::Tensor &col_position_ids) const {
++    const infinicore::Tensor &col_position_ids,
++    size_t tokens_per_frame) const {
+     const size_t seq_len = hidden_states->size(0);
++    if (tokens_per_frame == 0 || seq_len == 0 || seq_len % tokens_per_frame != 0) {
++        throw std::runtime_error("Qwen35VisionAttention: invalid frame token count");
++    }
++    const size_t num_frames = seq_len / tokens_per_frame;
+     const size_t axis_head_dim = head_dim_ / 2;
+     auto hidden_mut = hidden_states;
+     auto qkv = qkv_->forward(hidden_mut)->view({seq_len, 3, num_heads_, head_dim_});
+     auto q = qkv->narrow({{1, 0, 1}})->squeeze(1)->contiguous();
+     auto k = qkv->narrow({{1, 1, 1}})->squeeze(1)->contiguous();
+-    auto v = qkv->narrow({{1, 2, 1}})->squeeze(1)->contiguous()->unsqueeze(0);
++    auto v = qkv->narrow({{1, 2, 1}})->squeeze(1)->contiguous();
+ 
+     const size_t axis_pair_dim = axis_head_dim / 2;
+     auto apply_2d_rope = [&](const infinicore::Tensor &x) {
+@@ -163,7 +188,11 @@ infinicore::Tensor Qwen35VisionAttention::forward(
+     apply_2d_rope(q);
+     apply_2d_rope(k);
+ 
+-    auto out = infinicore::op::mha(q->unsqueeze(0), k->unsqueeze(0), v,
++    // [T, H*W, heads, head_dim] keeps attention within each temporal grid frame.
++    // Q/K/V are already contiguous; these views preserve the flattened order
++    // consumed by residual connections and the main/DeepStack patch mergers.
++    const std::vector<size_t> frame_shape = {num_frames, tokens_per_frame, num_heads_, head_dim_};
++    auto out = infinicore::op::mha(q->view(frame_shape), k->view(frame_shape), v->view(frame_shape),
+                                    std::nullopt, scale_, false)
+                    ->view({seq_len, hidden_size_});
+     return proj_->forward(out);
+@@ -208,9 +237,10 @@ Qwen35VisionBlock::Qwen35VisionBlock(const nlohmann::json &config,
+ infinicore::Tensor
+ Qwen35VisionBlock::forward(const infinicore::Tensor &hidden_states,
+                            const infinicore::Tensor &row_position_ids,
+-                           const infinicore::Tensor &col_position_ids) const {
++                           const infinicore::Tensor &col_position_ids,
++                           size_t tokens_per_frame) const {
+     auto x = norm1_->forward(hidden_states);
+-    x = attn_->forward(x, row_position_ids, col_position_ids);
++    x = attn_->forward(x, row_position_ids, col_position_ids, tokens_per_frame);
+     x = infinicore::op::add(x, hidden_states);
+     auto residual = x;
+     x = norm2_->forward(x);
+@@ -380,6 +410,11 @@ Qwen35VisionModel::forward(const infinicore::Tensor &pixel_values,
+ Qwen35VisionOutput Qwen35VisionModel::forward_with_deepstack(
+     const infinicore::Tensor &pixel_values,
+     const infinicore::Tensor &image_grid_thw) const {
++    if (pixel_values->shape().size() != 2) {
++        throw std::runtime_error("Qwen35VisionModel: expected pixel_values [num_patches, patch_dim]");
++    }
++    const size_t tokens_per_frame = vision_frame_tokens(
++        tensor_to_i64_vector(image_grid_thw), pixel_values->size(0));
+     auto hidden_states = patch_embed_->forward(pixel_values);
+     auto pos_embeds = fast_pos_embed_interpolate(image_grid_thw);
+     hidden_states = infinicore::op::add(hidden_states, pos_embeds);
+@@ -392,7 +427,7 @@ Qwen35VisionOutput Qwen35VisionModel::forward_with_deepstack(
+     deepstack_features.reserve(deepstack_visual_indexes_.size());
+     for (size_t layer_idx = 0; layer_idx < blocks_.size(); ++layer_idx) {
+         hidden_states = blocks_[layer_idx]->forward(hidden_states, row_position_ids,
+-                                                    col_position_ids);
++                                                    col_position_ids, tokens_per_frame);
+         auto it = std::find(deepstack_visual_indexes_.begin(),
+                             deepstack_visual_indexes_.end(), layer_idx);
+         if (it != deepstack_visual_indexes_.end()) {
+diff --git a/csrc/models/qwen3_5/qwen3_5_vision.hpp b/csrc/models/qwen3_5/qwen3_5_vision.hpp
+index f1456778..3a649742 100644
+--- a/csrc/models/qwen3_5/qwen3_5_vision.hpp
++++ b/csrc/models/qwen3_5/qwen3_5_vision.hpp
+@@ -58,7 +58,8 @@ public:
+ 
+     infinicore::Tensor forward(const infinicore::Tensor &hidden_states,
+                                const infinicore::Tensor &row_position_ids,
+-                               const infinicore::Tensor &col_position_ids) const;
++                               const infinicore::Tensor &col_position_ids,
++                               size_t tokens_per_frame) const;
+ 
+ private:
+     size_t hidden_size_;
+@@ -93,7 +94,8 @@ public:
+ 
+     infinicore::Tensor forward(const infinicore::Tensor &hidden_states,
+                                const infinicore::Tensor &row_position_ids,
+-                               const infinicore::Tensor &col_position_ids) const;
++                               const infinicore::Tensor &col_position_ids,
++                               size_t tokens_per_frame) const;
+ 
+ private:
+     INFINICORE_NN_MODULE(infinicore::nn::LayerNorm, norm1);

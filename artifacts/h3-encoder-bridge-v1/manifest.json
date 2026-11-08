@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "created": "2026-10-25",
+  "scope": "synthetic native Encoder to H3 bridge; not full pipeline",
+  "device_tested": false,
+  "host_test_count": 68,
+  "new_contract_test_count": 7,
+  "linux_checksum_manifest_tested": true,
+  "runtime_rebuild_required": false,
+  "files": {
+    "verify_h3_encoder_bridge.py": "697624712e1d9c0bb3b124e5e6b73b8f9846f61b521be76edb4fb7b4df78f0df",
+    "qwen3_vl_reference.py": "92f4ace4da6dc37286f59c991ae8a2f2e63f7d61fc288fb66d0817f79f9f943c",
+    "verify_qwen3_vl_encoder.py": "41a0b45c80c51e8def1403548d95e2ae9e265dc463572004d0d0b4e598d28ff9",
+    "verify_h3_native_integration.py": "6a0f8402343f835633ec3cc9506e622037fc0f63074dae7263f4d44b573b2175",
+    "verify_h3_block_components.py": "c0733dfd22f46afa5eaf8ef5f8d9437cd37c0f39b9af3049e938a893497d6d24",
+    "verify_h3_rotary_mha.py": "71c8430b5a666df9a214191a70920a1074086350b2e23c65b402e0a55f2654ed",
+    "README.md": "d990a73aecca2ebd984e4b1a5eb89c61dfcd5a5b52c81b39f5863c0c1527cca9"
+  },
+  "condition_mutation_comparisons": 48,
+  "independent_review": "passed after fixture sensitivity correction; device result pending"
+}

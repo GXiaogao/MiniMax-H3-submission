@@ -1,0 +1,20 @@
+{
+  "bundle": "h3-mha-singleton-stride-v1",
+  "created": "2026-10-25",
+  "host_tests_passed": 56,
+  "native_compilation_tested_locally": false,
+  "device_tested": false,
+  "independent_review": "not completed: tool usage limit",
+  "expected_server_host_layout_checks": 15,
+  "expected_device_cases_with_graph": 85,
+  "sha256": {
+    "apply_h3_mha_patch.py": "625a5567fb5ff40147dbce01307997dbc45c7f3cf1686876520b5c195e6d4d71",
+    "build_h3_mha.sh": "9061164d570c6605058707df9b815eb82bec66bc612df8ccbe2c2eef11df7c4d",
+    "check_h3_mha_layout.py": "431b0c1f62bf5c185316f0a3877b9739a48e8c523563533e4c628bba43aec739",
+    "h3_mha_infiniop.patch": "1ea805bd830cf495a9de2c9ecac5dba08681cad296737be3a1de7a1c4ff18c5b",
+    "h3_mha_patch_manifest.json": "3869a97f2726bf4a28021e4a065537622f408c799365ea39128143e8ecfcdbda",
+    "inspect_h3_mha_registration.py": "703d117196519a5df427a7d0f8bb8020999f68b3f394e5a0a679f7257b1f9131",
+    "README.md": "473c734cabfda1f4a7e867f48f8bb788bbae6bbf0e57a007e8e7a7607dc98f44",
+    "verify_h3_mha_infiniop.py": "77865abc4d267bbb3bfa249cda0175640955e2c69e837d5b748794cbe7389a79"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "version": "1.0-existing-media-recovery",
+  "result": "EXISTING_MEDIA_VALIDATED",
+  "last_stage": "complete",
+  "new_inference_executed": false,
+  "quality_status": "UNASSESSED",
+  "official_SSIM": "NOT_TESTED",
+  "performance_measurement_valid": false,
+  "inspection_elapsed_seconds": 3.730232527013868,
+  "validated_prior_evaluations": 49,
+  "source_evidence": {
+    "run_dir": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-load-sync-generation-20261107T082020Z-3236632",
+    "receipt_sha256": "99c42e58e683db8df03263bf43f5c34cf6033eb4dbf44239020ebeb5892343f8",
+    "worker_log_sha256": "ac8c1ae26fb8005c74eb46dc4f795b8d1340f0ecea34ba39ec7ca79b482e7431"
+  },
+  "media": {
+    "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-load-sync-generation-20261107T082020Z-3236632/native/fl2va-native-load-sync-50steps.mp4",
+    "bytes": 2679732,
+    "width": 768,
+    "height": 928,
+    "decoded_frame_count": 124,
+    "audio_stream_count": 1,
+    "duration_seconds": 5.175,
+    "average_frame_rate": 24.0,
+    "expected_width": 768,
+    "expected_height": 928,
+    "expected_frame_count": 124,
+    "audio_decoded_samples": 165888,
+    "sha256": "30cfd9ec32dd3e5cdc153b3237de91568bc2171e681681baa027f42b070537ab",
+    "stills": [
+      {
+        "frame": 0,
+        "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/generated-000.png",
+        "sha256": "799a383f9ae818213bd626608ae2dbfbdaaf6100be53e132d38fa679e29ca2ce"
+      },
+      {
+        "frame": 31,
+        "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/generated-031.png",
+        "sha256": "ad3fa43293c00a58ff942a5db61922f053b411fbeefb65ad34fdd3fe3a75a588"
+      },
+      {
+        "frame": 62,
+        "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/generated-062.png",
+        "sha256": "fa82a87946eb59b4ca1e772898437ad60a1537d8ccf7cab570be5c972600334c"
+      },
+      {
+        "frame": 93,
+        "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/generated-093.png",
+        "sha256": "a0338c0ccc5c682c8fdfc344307f79fe2a65199007b55a5222d3dee051689eee"
+      },
+      {
+        "frame": 123,
+        "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/generated-123.png",
+        "sha256": "2f08298c17b9c385eeaed2f9ff66347201d31b30852767f6f0e7c45d1ef62d7c"
+      }
+    ]
+  }
+}

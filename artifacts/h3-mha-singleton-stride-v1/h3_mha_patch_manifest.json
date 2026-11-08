@@ -1,0 +1,17 @@
+{
+  "baseline_commit": "f32e2fbb2a9b2ca912b5711f4f3836c403196a74",
+  "patch_sha256": "1ea805bd830cf495a9de2c9ecac5dba08681cad296737be3a1de7a1c4ff18c5b",
+  "files": {
+    "src/infinicore/ops/multi_head_attention/mha.cc": {
+      "before": "42b7805a154495e73fee1e1bb28943dd3a872f002823e3a8bb04c34e113f3349",
+      "after": "42b7805a154495e73fee1e1bb28943dd3a872f002823e3a8bb04c34e113f3349"
+    },
+    "src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc": {
+      "before": "0b5fceafde97126dd9e24b5c3b096b7c04d3f493bbb2ceaa37fd18e177eb268a",
+      "after": "b69007323389bd6a5c4908a40a96fb2e4b617a2bf008ce7ff3701d53f4d9a976"
+    }
+  },
+  "requires": "Existing h3-mha-infiniop-v1 implementation; not a fresh-baseline patch",
+  "scope": "Allow singleton zero strides; non-singleton broadcast and negative strides remain rejected",
+  "device_tested": false
+}

@@ -1,0 +1,5 @@
+v1.1: replace only run_minimax_h3_load_sync_generation.py in the existing project.
+Keep the existing .sh entry, helpers and template PNG.
+Run run_minimax_h3_load_sync_generation.sh with blank arguments, 8 cards, 28 minutes.
+Preserves forward signature for the real Diffusers layout-parameter routing.
+No rebuild, workload reduction or model/checkpoint change. GPU generation/quality still pending.

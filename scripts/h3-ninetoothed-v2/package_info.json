@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "name": "h3-ninetoothed-v2",
+  "candidate": "ninetoothed026-triton380-gfx906",
+  "scope": "candidate JIT and original gated-residual expression verification",
+  "device_tested": false,
+  "infinicore_integration_complete": false,
+  "expected_add_cases": 9,
+  "expected_gated_cases": 30
+}

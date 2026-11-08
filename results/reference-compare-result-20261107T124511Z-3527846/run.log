@@ -1,0 +1,738 @@
+run_dir=/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-reference-compare-20261107T124511Z-3527846
+mode=original-reference-generation-and-quality-only-compare; Native_regenerated=false
+wheel_checksum=OK sha256=97eacca0b73e45cb867dbf8c5d5d4dc32219544300e0c8992c7334dc2ef33cec file=accelerate-1.15.0-py3-none-any.whl
+wheel_checksum=OK sha256=117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101 file=annotated_doc-0.0.5-py3-none-any.whl
+wheel_checksum=OK sha256=8a032e8d8ebc73dec079364b9b4a6837638a2d106e8472314e685ffbf163e700 file=av-18.1.0-cp311-abi3-manylinux_2_28_x86_64.whl
+wheel_checksum=OK sha256=e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76 file=click-8.4.2-py3-none-any.whl
+wheel_checksum=OK sha256=51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976 file=decord-0.6.0-py3-none-manylinux2010_x86_64.whl
+wheel_checksum=OK sha256=ea8918b7dfd92ce793b6db689a551b8cd25d52c6c0fcd3ade0706a5fd2a25990 file=diffusers-0.41.0-py3-none-any.whl
+wheel_checksum=OK sha256=63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86 file=h11-0.16.0-py3-none-any.whl
+wheel_checksum=OK sha256=db78c39c83d6279daddc98e2238f373ab8980685556d42472b4ec51abcf03e8c file=hf_xet-1.5.2-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+wheel_checksum=OK sha256=2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55 file=httpcore-1.0.9-py3-none-any.whl
+wheel_checksum=OK sha256=d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad file=httpx-0.28.1-py3-none-any.whl
+wheel_checksum=OK sha256=b0c7c80561969d9cdacdd55fce67ba9584cca0b9d4ea80957a3a5c1445fac5c8 file=huggingface_hub-1.32.0-py3-none-any.whl
+wheel_checksum=OK sha256=a0bb27ec9d5bab36a9f4835e51b21d2cb099e1f78451441f94687ff3404b79f8 file=imageio-2.34.2-py3-none-any.whl
+wheel_checksum=OK sha256=7e6449d34eab04cd016befbd7d8c0d8acaaaab67cb59e076a69149f9031745f9 file=janus-2.0.0-py3-none-any.whl
+wheel_checksum=OK sha256=342aa8e14d543a154047afb4ba8ef17f5563baad3fc610d7b15b213b0f119efc file=lazy_loader-0.4-py3-none-any.whl
+wheel_checksum=OK sha256=9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a file=markdown_it_py-4.2.0-py3-none-any.whl
+wheel_checksum=OK sha256=84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8 file=mdurl-0.1.2-py3-none-any.whl
+wheel_checksum=OK sha256=a6db3806b3b76ca78064255eac6fa101a8a64fe6f698d80fbaf81fdfa21217d4 file=msgspec-0.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+wheel_checksum=OK sha256=377d08a7e48a1405b5e84afcbe4798464ce7ee17081c1c23619c8b398ff18295 file=opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_checksum=OK sha256=2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9 file=pygments-2.21.0-py3-none-any.whl
+wheel_checksum=OK sha256=612b709381c0355b70d89cdb51b7f670591ed5cbbc0e3b5337488019dc667b65 file=regex-2026.9.29-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+wheel_checksum=OK sha256=33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb file=rich-15.0.0-py3-none-any.whl
+wheel_checksum=OK sha256=fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774 file=safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_checksum=OK sha256=74aa5518ccea28121f57a95374581d3b979839adc25bb03f289b1bc9b99c58af file=scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
+wheel_checksum=OK sha256=530f9ad26440e85766509dbf78edcfe13ffd0ab7fec2560ee5c36ff74d6269ff file=scipy-1.11.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_checksum=OK sha256=7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686 file=shellingham-1.5.4-py2.py3-none-any.whl
+wheel_checksum=OK sha256=8bc59a8f02a2665cd50a910ec64961c5373bee0b8850ec89d3b7b485bf7be7ad file=tifffile-2024.8.30-py3-none-any.whl
+wheel_checksum=OK sha256=376851d22bcf9d650a5c3090bb83e6cf9e895fbf0595369fa4cd43c1f69b5f87 file=tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_checksum=OK sha256=7ae75dbc1fb3922aff1b6c97b9e5479d6cf26fd86a8866bfb71324190479f807 file=transformers-5.20.2-py3-none-any.whl
+wheel_checksum=OK sha256=e50022f28b82a86313e54501317a1db64bf8f8d036ff8cfe5ca7e47675454aff file=typer-0.27.3-py3-none-any.whl
+wheel_checksum=OK sha256=f8e86a0b5e28418162dfa68d6dc4bee873ea2efbd6ee67789903a0ee37a81c14 file=xxhash-4.0.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=90 file=accelerate-1.15.0-py3-none-any.whl
+wheel_unpack=OK files=8 file=annotated_doc-0.0.5-py3-none-any.whl
+wheel_unpack=OK files=260 file=av-18.1.0-cp311-abi3-manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=22 file=click-8.4.2-py3-none-any.whl
+wheel_unpack=OK files=58 file=decord-0.6.0-py3-none-manylinux2010_x86_64.whl
+wheel_unpack=OK files=1055 file=diffusers-0.41.0-py3-none-any.whl
+wheel_unpack=OK files=17 file=h11-0.16.0-py3-none-any.whl
+wheel_unpack=OK files=7 file=hf_xet-1.5.2-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+wheel_unpack=OK files=36 file=httpcore-1.0.9-py3-none-any.whl
+wheel_unpack=OK files=29 file=httpx-0.28.1-py3-none-any.whl
+wheel_unpack=OK files=194 file=huggingface_hub-1.32.0-py3-none-any.whl
+wheel_unpack=OK files=63 file=imageio-2.34.2-py3-none-any.whl
+wheel_unpack=OK files=8 file=janus-2.0.0-py3-none-any.whl
+wheel_unpack=OK files=12 file=lazy_loader-0.4-py3-none-any.whl
+wheel_unpack=OK files=74 file=markdown_it_py-4.2.0-py3-none-any.whl
+wheel_unpack=OK files=11 file=mdurl-0.1.2-py3-none-any.whl
+wheel_unpack=OK files=23 file=msgspec-0.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=97 file=opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_unpack=OK files=349 file=pygments-2.21.0-py3-none-any.whl
+wheel_unpack=OK files=10 file=regex-2026.9.29-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=105 file=rich-15.0.0-py3-none-any.whl
+wheel_unpack=OK files=15 file=safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_unpack=OK files=309 file=scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=1268 file=scipy-1.11.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_unpack=OK files=13 file=shellingham-1.5.4-py2.py3-none-any.whl
+wheel_unpack=OK files=16 file=tifffile-2024.8.30-py3-none-any.whl
+wheel_unpack=OK files=31 file=tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+wheel_unpack=OK files=2771 file=transformers-5.20.2-py3-none-any.whl
+wheel_unpack=OK files=41 file=typer-0.27.3-py3-none-any.whl
+wheel_unpack=OK files=10 file=xxhash-4.0.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+input_checksum=OK sha256=54058201ac7087911181bfec4af6091bb59380360f069276601256a76af08193 file=einops-0.8.2-py3-none-any.whl
+input_checksum=OK sha256=e397b16365da22508353ce44a45f5be82f8ee58e49853a3df06aa8f6f83d5581 file=triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+input_checksum=OK sha256=2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9 file=pytest-9.0.3-py3-none-any.whl
+input_checksum=OK sha256=b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374 file=iniconfig-2.0.0-py3-none-any.whl
+input_checksum=OK sha256=09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759 file=packaging-24.2-py3-none-any.whl
+input_checksum=OK sha256=44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669 file=pluggy-1.5.0-py3-none-any.whl
+input_checksum=OK sha256=2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9 file=pygments-2.21.0-py3-none-any.whl
+input_checksum=OK sha256=bfaa757e842676886c87e896e5829302a7ed9410dd3e10de12280614e89ec488 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-000
+input_checksum=OK sha256=33113a801a3a34511f6db536a848221f68eddcb5a4db30a05d8d122df11970e6 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-001
+input_checksum=OK sha256=1e287480287f0a187257e7fcfd50572e62dac5a9323cddce06e7cf8d5d0149a2 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-002
+input_checksum=OK sha256=5c25cd0275d8da39cbc72d7b0dde24a32ea305c51b3073edb7a9599e4c76781c file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-003
+input_checksum=OK sha256=dcd9aed482d4b9d5e8d911de05c6449a825110f7de3aa49b9f06acd735534a24 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-004
+input_checksum=OK sha256=98e8e63ea06dfd32424b935a1afc1119711d0f0f11e4c0ab7c8fe9295a3a3c50 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-005
+input_checksum=OK sha256=7c4e4b3d0eb30d6a90864e780755b5496a2a35ce22ec72d877642f0b020fd3d1 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl.part-006
+flash_reconstruction=OK sha256=8546e46bcbfcd346757c67a0ff180ace2a49716d9724d52ee870d04b4c3b41d1 file=/dev/shm/infinifabric-shell/bcdb130d16d349f8b254ed7900e215a9/workspace/run-e80ae32716a34836ad6febdca0084b49/.h3-reference-compare-230014-3527846/hygon-reconstructed/flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+input_checksum=OK sha256=f39b6fce3e8fa3d84b48036cc5f7e209351fc2e373ff5be1497607a97ac12e6c file=torchvision-0.24.0-cp311-cp311-linux_x86_64.whl
+wheel_unpack=OK files=31 file=einops-0.8.2-py3-none-any.whl
+wheel_unpack=OK files=391 file=triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=82 file=pytest-9.0.3-py3-none-any.whl
+wheel_unpack=OK files=9 file=iniconfig-2.0.0-py3-none-any.whl
+wheel_unpack=OK files=23 file=packaging-24.2-py3-none-any.whl
+wheel_unpack=OK files=14 file=pluggy-1.5.0-py3-none-any.whl
+wheel_unpack=OK files=349 file=pygments-2.21.0-py3-none-any.whl
+wheel_unpack=OK files=66 file=flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+wheel_unpack=OK files=194 file=torchvision-0.24.0-cp311-cp311-linux_x86_64.whl
+native_trace stage=input.files_and_references status=START synchronize=false
+native_trace stage=input.files_and_references status=DONE elapsed_seconds=1.838
+native_trace stage=input.arguments status=START synchronize=false
+native_trace stage=input.arguments status=DONE elapsed_seconds=0.000
+[model] Loading modular components from: /public/home/aclsylqidf/shared/MiniMax-H3/diffusers
+[model] Loading fl2va weights from:       /public/home/aclsylqidf/shared/MiniMax-H3/diffusers
+[model] Backend: legacy PyTorch
+[model] Qwen3-VL devices: [0, 1, 2, 3]
+[model] H3 transformer devices: [4, 5, 6, 7]
+native_trace stage=model.pipeline_create status=START synchronize=true
+native_trace stage=model.pipeline_create status=DONE elapsed_seconds=2.898
+native_trace stage=model.condition_encoder_create_and_load status=START synchronize=true
+
+Loading weights:   0%|          | 0/1058 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/1058 [00:00<05:30,  3.20it/s]
+Loading weights:   0%|          | 2/1058 [00:00<04:46,  3.69it/s]
+Loading weights:   0%|          | 4/1058 [00:00<03:20,  5.25it/s]
+Loading weights:   0%|          | 5/1058 [00:01<03:33,  4.93it/s]
+Loading weights:   1%|          | 9/1058 [00:01<03:37,  4.81it/s]
+Loading weights:   2%|▏         | 26/1058 [00:02<01:04, 15.94it/s]
+Loading weights:   3%|▎         | 37/1058 [00:02<00:46, 22.17it/s]
+Loading weights:   4%|▍         | 46/1058 [00:02<00:37, 27.07it/s]
+Loading weights:   5%|▍         | 52/1058 [00:03<00:46, 21.76it/s]
+Loading weights:   6%|▋         | 68/1058 [00:03<00:36, 26.89it/s]
+Loading weights:   8%|▊         | 81/1058 [00:03<00:26, 36.89it/s]
+Loading weights:   8%|▊         | 87/1058 [00:04<00:44, 21.99it/s]
+Loading weights:  10%|▉         | 103/1058 [00:05<00:39, 23.98it/s]
+Loading weights:  11%|█         | 112/1058 [00:05<00:41, 22.95it/s]
+Loading weights:  11%|█         | 116/1058 [00:05<00:38, 24.23it/s]
+Loading weights:  12%|█▏        | 125/1058 [00:05<00:33, 27.98it/s]
+Loading weights:  12%|█▏        | 129/1058 [00:06<01:02, 14.78it/s]
+Loading weights:  15%|█▌        | 159/1058 [00:06<00:25, 35.56it/s]
+Loading weights:  16%|█▌        | 167/1058 [00:07<00:32, 27.79it/s]
+Loading weights:  17%|█▋        | 177/1058 [00:08<00:39, 22.20it/s]
+Loading weights:  18%|█▊        | 191/1058 [00:11<01:30,  9.56it/s]
+Loading weights:  22%|██▏       | 235/1058 [00:11<00:37, 22.12it/s]
+Loading weights:  23%|██▎       | 242/1058 [00:11<00:35, 22.85it/s]
+Loading weights:  23%|██▎       | 248/1058 [00:12<00:50, 16.02it/s]
+Loading weights:  25%|██▌       | 265/1058 [00:13<00:38, 20.41it/s]
+Loading weights:  26%|██▌       | 277/1058 [00:13<00:39, 19.67it/s]
+Loading weights:  27%|██▋       | 287/1058 [00:14<00:41, 18.64it/s]
+Loading weights:  28%|██▊       | 298/1058 [00:15<00:53, 14.25it/s]
+Loading weights:  30%|███       | 320/1058 [00:16<00:34, 21.41it/s]
+Loading weights:  31%|███▏      | 332/1058 [00:16<00:33, 21.50it/s]
+Loading weights:  32%|███▏      | 343/1058 [00:17<00:31, 22.82it/s]
+Loading weights:  33%|███▎      | 352/1058 [00:17<00:35, 20.05it/s]
+Loading weights:  35%|███▍      | 367/1058 [00:18<00:32, 21.46it/s]
+Loading weights:  36%|███▌      | 378/1058 [00:18<00:32, 20.88it/s]
+Loading weights:  37%|███▋      | 387/1058 [00:19<00:28, 23.24it/s]
+Loading weights:  38%|███▊      | 397/1058 [00:19<00:26, 24.91it/s]
+Loading weights:  39%|███▊      | 408/1058 [00:19<00:23, 27.74it/s]
+Loading weights:  40%|███▉      | 422/1058 [00:20<00:24, 25.62it/s]
+Loading weights:  42%|████▏     | 442/1058 [00:21<00:21, 28.02it/s]
+Loading weights:  44%|████▍     | 466/1058 [00:21<00:15, 39.06it/s]
+Loading weights:  45%|████▍     | 474/1058 [00:21<00:19, 30.06it/s]heartbeat stage=original-reference-FL2VA elapsed_seconds=30.0
+
+Loading weights:  45%|████▌     | 481/1058 [00:22<00:28, 20.45it/s]
+Loading weights:  47%|████▋     | 498/1058 [00:23<00:26, 21.54it/s]
+Loading weights:  48%|████▊     | 510/1058 [00:24<00:30, 18.21it/s]
+Loading weights:  49%|████▉     | 518/1058 [00:25<00:37, 14.22it/s]
+Loading weights:  51%|█████     | 541/1058 [00:25<00:23, 22.18it/s]
+Loading weights:  52%|█████▏    | 549/1058 [00:26<00:25, 20.26it/s]
+Loading weights:  54%|█████▍    | 576/1058 [00:26<00:14, 33.87it/s]
+Loading weights:  55%|█████▌    | 585/1058 [00:27<00:16, 28.00it/s]
+Loading weights:  59%|█████▊    | 621/1058 [00:27<00:08, 50.51it/s]
+Loading weights:  60%|█████▉    | 631/1058 [00:27<00:08, 51.87it/s]
+Loading weights:  60%|██████    | 640/1058 [00:27<00:09, 41.85it/s]
+Loading weights:  62%|██████▏   | 653/1058 [00:28<00:08, 48.01it/s]
+Loading weights:  62%|██████▏   | 661/1058 [00:29<00:17, 22.25it/s]
+Loading weights:  64%|██████▎   | 673/1058 [00:30<00:20, 19.03it/s]
+Loading weights:  65%|██████▍   | 683/1058 [00:30<00:22, 16.59it/s]
+Loading weights:  66%|██████▌   | 694/1058 [00:31<00:16, 21.83it/s]
+Loading weights:  66%|██████▌   | 700/1058 [00:31<00:19, 18.70it/s]
+Loading weights:  70%|██████▉   | 737/1058 [00:31<00:07, 44.63it/s]
+Loading weights:  72%|███████▏  | 761/1058 [00:31<00:04, 62.95it/s]
+Loading weights:  73%|███████▎  | 777/1058 [00:31<00:03, 73.83it/s]
+Loading weights:  75%|███████▌  | 794/1058 [00:31<00:03, 87.76it/s]
+Loading weights:  77%|███████▋  | 810/1058 [00:32<00:02, 92.63it/s]
+Loading weights:  81%|████████  | 854/1058 [00:32<00:01, 155.43it/s]
+Loading weights:  84%|████████▍ | 889/1058 [00:32<00:00, 193.49it/s]
+Loading weights:  86%|████████▋ | 915/1058 [00:32<00:00, 167.59it/s]
+Loading weights:  89%|████████▉ | 939/1058 [00:32<00:00, 169.67it/s]
+Loading weights:  91%|█████████ | 960/1058 [00:32<00:00, 172.89it/s]
+Loading weights:  93%|█████████▎| 980/1058 [00:32<00:00, 167.01it/s]
+Loading weights:  95%|█████████▌| 1010/1058 [00:33<00:00, 167.06it/s]
+Loading weights:  98%|█████████▊| 1033/1058 [00:33<00:00, 171.71it/s]
+Loading weights:  99%|█████████▉| 1052/1058 [00:33<00:00, 134.22it/s]
+Loading weights: 100%|██████████| 1058/1058 [00:33<00:00, 31.50it/s] 
+native_trace stage=model.condition_encoder_create_and_load status=DONE elapsed_seconds=40.981
+native_trace stage=model.transformer_create_and_load status=START synchronize=true
+
+Loading checkpoint shards:   0%|          | 0/14 [00:00<?, ?it/s]
+Loading checkpoint shards:   7%|▋         | 1/14 [00:01<00:21,  1.65s/it]
+Loading checkpoint shards:  14%|█▍        | 2/14 [00:03<00:17,  1.49s/it]
+Loading checkpoint shards:  21%|██▏       | 3/14 [00:04<00:15,  1.39s/it]
+Loading checkpoint shards:  29%|██▊       | 4/14 [00:05<00:15,  1.50s/it]
+Loading checkpoint shards:  36%|███▌      | 5/14 [00:07<00:13,  1.47s/it]
+Loading checkpoint shards:  43%|████▎     | 6/14 [00:09<00:12,  1.61s/it]
+Loading checkpoint shards:  50%|█████     | 7/14 [00:10<00:10,  1.52s/it]
+Loading checkpoint shards:  57%|█████▋    | 8/14 [00:12<00:09,  1.51s/it]heartbeat stage=original-reference-FL2VA elapsed_seconds=60.0
+
+Loading checkpoint shards:  64%|██████▍   | 9/14 [00:14<00:08,  1.67s/it]
+Loading checkpoint shards:  71%|███████▏  | 10/14 [00:15<00:06,  1.68s/it]
+Loading checkpoint shards:  79%|███████▊  | 11/14 [00:17<00:04,  1.61s/it]
+Loading checkpoint shards:  86%|████████▌ | 12/14 [00:19<00:03,  1.74s/it]
+Loading checkpoint shards:  93%|█████████▎| 13/14 [00:21<00:01,  1.77s/it]
+Loading checkpoint shards: 100%|██████████| 14/14 [00:22<00:00,  1.70s/it]
+Loading checkpoint shards: 100%|██████████| 14/14 [00:22<00:00,  1.62s/it]
+native_trace stage=model.transformer_create_and_load status=DONE elapsed_seconds=24.018
+[model] Routing legacy proj_out output to cuda:4
+[model] Routing legacy audio_proj_out output to cuda:4
+native_trace stage=model.remaining_components_create_and_load status=START synchronize=true
+
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]
+Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.54it/s]
+Loading checkpoint shards:  67%|██████▋   | 2/3 [00:00<00:00,  2.13it/s]
+Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  3.00it/s]
+/usr/local/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+[model] Diffusers execution device: cuda:1
+There are modules in AutoencoderKLMiniMaxH3 that should be kept in float32: ['encoder', 'quant_conv', 'norm1', 'norm2', 'norm_out', 'scale1', 'scale2']. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKLMiniMaxH3Audio that should be kept in float32: ['encoder', 'decoder', 'pre_block', 'dec_in_proj', 'mean_proj', 'logs_proj']. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+native_trace stage=model.remaining_components_create_and_load status=DONE elapsed_seconds=10.003
+[generate] Running MiniMax-H3 FL2VA
+  text:            A dog falls asleep
+  first frame:     True
+  last frame:      False
+  frames:          124
+  steps:           50
+  backend:         legacy PyTorch
+native_trace stage=generation.pipeline_total status=START synchronize=true
+native_trace stage=compute.condition_encoder status=START synchronize=true
+call=condition_encoder_calls index=1 status=START
+/dev/shm/infinifabric-shell/bcdb130d16d349f8b254ed7900e215a9/workspace/run-e80ae32716a34836ad6febdca0084b49/.h3-reference-compare-230014-3527846/site-packages/transformers/integrations/sdpa_attention.py:170: UserWarning: sdpa adopt the new interface of flash-attn (Triggered internally at /home/pytorch/aten/src/ATen/native/transformers/hip/cutlassfa_adapter.h:145.)
+  attn_output = torch.nn.functional.scaled_dot_product_attention(
+call=condition_encoder_calls index=1 status=DONE
+native_trace stage=compute.condition_encoder status=DONE elapsed_seconds=6.934
+native_trace stage=input.video_vae_encode status=START synchronize=true
+native_trace stage=input.video_vae_encode status=DONE elapsed_seconds=0.445
+actual_schedule={"video": {"requested_steps": 50, "evaluations": 49, "sigma_points": 50, "terminal_sigma": 0.0, "implementation_sha256": "307d5bf755337ef00c47237f9ac8be116e627d26e1df3b5f0bd504a80f9de8dd"}}
+actual_schedule={"audio": {"requested_steps": 50, "evaluations": 49, "sigma_points": 50, "terminal_sigma": 0.0, "implementation_sha256": "307d5bf755337ef00c47237f9ac8be116e627d26e1df3b5f0bd504a80f9de8dd"}}
+
+  0%|          | 0/49 [00:00<?, ?it/s]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=1 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=90.0
+call=transformer_calls index=1 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=15.788
+call=video_scheduler_steps index=1 status=START
+call=video_scheduler_steps index=1 status=DONE
+call=audio_scheduler_steps index=1 status=START
+call=audio_scheduler_steps index=1 status=DONE
+
+  2%|▏         | 1/49 [00:15<12:38, 15.80s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=2 status=START
+call=transformer_calls index=2 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.706
+call=video_scheduler_steps index=2 status=START
+call=video_scheduler_steps index=2 status=DONE
+call=audio_scheduler_steps index=2 status=START
+call=audio_scheduler_steps index=2 status=DONE
+
+  4%|▍         | 2/49 [00:26<10:15, 13.09s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=3 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=120.0
+call=transformer_calls index=3 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.704
+call=video_scheduler_steps index=3 status=START
+call=video_scheduler_steps index=3 status=DONE
+call=audio_scheduler_steps index=3 status=START
+call=audio_scheduler_steps index=3 status=DONE
+
+  6%|▌         | 3/49 [00:37<09:12, 12.01s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=4 status=START
+call=transformer_calls index=4 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.691
+call=video_scheduler_steps index=4 status=START
+call=video_scheduler_steps index=4 status=DONE
+call=audio_scheduler_steps index=4 status=START
+call=audio_scheduler_steps index=4 status=DONE
+
+  8%|▊         | 4/49 [00:48<08:37, 11.49s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=5 status=START
+call=transformer_calls index=5 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.714
+call=video_scheduler_steps index=5 status=START
+call=video_scheduler_steps index=5 status=DONE
+call=audio_scheduler_steps index=5 status=START
+call=audio_scheduler_steps index=5 status=DONE
+
+ 10%|█         | 5/49 [00:59<08:13, 11.22s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=6 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=150.0
+call=transformer_calls index=6 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.697
+call=video_scheduler_steps index=6 status=START
+call=video_scheduler_steps index=6 status=DONE
+call=audio_scheduler_steps index=6 status=START
+call=audio_scheduler_steps index=6 status=DONE
+
+ 12%|█▏        | 6/49 [01:09<07:54, 11.05s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=7 status=START
+call=transformer_calls index=7 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.700
+call=video_scheduler_steps index=7 status=START
+call=video_scheduler_steps index=7 status=DONE
+call=audio_scheduler_steps index=7 status=START
+call=audio_scheduler_steps index=7 status=DONE
+
+ 14%|█▍        | 7/49 [01:20<07:39, 10.94s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=8 status=START
+call=transformer_calls index=8 status=DONE
+heartbeat stage=original-reference-FL2VA elapsed_seconds=180.0
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.711
+call=video_scheduler_steps index=8 status=START
+call=video_scheduler_steps index=8 status=DONE
+call=audio_scheduler_steps index=8 status=START
+call=audio_scheduler_steps index=8 status=DONE
+
+ 16%|█▋        | 8/49 [01:31<07:25, 10.87s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=9 status=START
+call=transformer_calls index=9 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.696
+call=video_scheduler_steps index=9 status=START
+call=video_scheduler_steps index=9 status=DONE
+call=audio_scheduler_steps index=9 status=START
+call=audio_scheduler_steps index=9 status=DONE
+
+ 18%|█▊        | 9/49 [01:42<07:12, 10.82s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=10 status=START
+call=transformer_calls index=10 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.707
+call=video_scheduler_steps index=10 status=START
+call=video_scheduler_steps index=10 status=DONE
+call=audio_scheduler_steps index=10 status=START
+call=audio_scheduler_steps index=10 status=DONE
+
+ 20%|██        | 10/49 [01:52<07:00, 10.79s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=11 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=210.0
+call=transformer_calls index=11 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.706
+call=video_scheduler_steps index=11 status=START
+call=video_scheduler_steps index=11 status=DONE
+call=audio_scheduler_steps index=11 status=START
+call=audio_scheduler_steps index=11 status=DONE
+
+ 22%|██▏       | 11/49 [02:03<06:49, 10.77s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=12 status=START
+call=transformer_calls index=12 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.695
+call=video_scheduler_steps index=12 status=START
+call=video_scheduler_steps index=12 status=DONE
+call=audio_scheduler_steps index=12 status=START
+call=audio_scheduler_steps index=12 status=DONE
+
+ 24%|██▍       | 12/49 [02:14<06:37, 10.75s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=13 status=START
+call=transformer_calls index=13 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.712
+call=video_scheduler_steps index=13 status=START
+call=video_scheduler_steps index=13 status=DONE
+call=audio_scheduler_steps index=13 status=START
+call=audio_scheduler_steps index=13 status=DONE
+
+ 27%|██▋       | 13/49 [02:24<06:26, 10.75s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=14 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=240.0
+call=transformer_calls index=14 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.718
+call=video_scheduler_steps index=14 status=START
+call=video_scheduler_steps index=14 status=DONE
+call=audio_scheduler_steps index=14 status=START
+call=audio_scheduler_steps index=14 status=DONE
+
+ 29%|██▊       | 14/49 [02:35<06:15, 10.74s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=15 status=START
+call=transformer_calls index=15 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.695
+call=video_scheduler_steps index=15 status=START
+call=video_scheduler_steps index=15 status=DONE
+call=audio_scheduler_steps index=15 status=START
+call=audio_scheduler_steps index=15 status=DONE
+
+ 31%|███       | 15/49 [02:46<06:04, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=16 status=START
+call=transformer_calls index=16 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.696
+call=video_scheduler_steps index=16 status=START
+call=video_scheduler_steps index=16 status=DONE
+call=audio_scheduler_steps index=16 status=START
+call=audio_scheduler_steps index=16 status=DONE
+
+ 33%|███▎      | 16/49 [02:57<05:54, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=17 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=270.0
+call=transformer_calls index=17 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.704
+call=video_scheduler_steps index=17 status=START
+call=video_scheduler_steps index=17 status=DONE
+call=audio_scheduler_steps index=17 status=START
+call=audio_scheduler_steps index=17 status=DONE
+
+ 35%|███▍      | 17/49 [03:07<05:43, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=18 status=START
+call=transformer_calls index=18 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.714
+call=video_scheduler_steps index=18 status=START
+call=video_scheduler_steps index=18 status=DONE
+call=audio_scheduler_steps index=18 status=START
+call=audio_scheduler_steps index=18 status=DONE
+
+ 37%|███▋      | 18/49 [03:18<05:32, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=19 status=START
+call=transformer_calls index=19 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.690
+call=video_scheduler_steps index=19 status=START
+call=video_scheduler_steps index=19 status=DONE
+call=audio_scheduler_steps index=19 status=START
+call=audio_scheduler_steps index=19 status=DONE
+
+ 39%|███▉      | 19/49 [03:29<05:21, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=20 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=300.0
+call=transformer_calls index=20 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.721
+call=video_scheduler_steps index=20 status=START
+call=video_scheduler_steps index=20 status=DONE
+call=audio_scheduler_steps index=20 status=START
+call=audio_scheduler_steps index=20 status=DONE
+
+ 41%|████      | 20/49 [03:39<05:11, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=21 status=START
+call=transformer_calls index=21 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.698
+call=video_scheduler_steps index=21 status=START
+call=video_scheduler_steps index=21 status=DONE
+call=audio_scheduler_steps index=21 status=START
+call=audio_scheduler_steps index=21 status=DONE
+
+ 43%|████▎     | 21/49 [03:50<05:00, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=22 status=START
+call=transformer_calls index=22 status=DONE
+heartbeat stage=original-reference-FL2VA elapsed_seconds=330.0
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.702
+call=video_scheduler_steps index=22 status=START
+call=video_scheduler_steps index=22 status=DONE
+call=audio_scheduler_steps index=22 status=START
+call=audio_scheduler_steps index=22 status=DONE
+
+ 45%|████▍     | 22/49 [04:01<04:49, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=23 status=START
+call=transformer_calls index=23 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.701
+call=video_scheduler_steps index=23 status=START
+call=video_scheduler_steps index=23 status=DONE
+call=audio_scheduler_steps index=23 status=START
+call=audio_scheduler_steps index=23 status=DONE
+
+ 47%|████▋     | 23/49 [04:12<04:38, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=24 status=START
+call=transformer_calls index=24 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.706
+call=video_scheduler_steps index=24 status=START
+call=video_scheduler_steps index=24 status=DONE
+call=audio_scheduler_steps index=24 status=START
+call=audio_scheduler_steps index=24 status=DONE
+
+ 49%|████▉     | 24/49 [04:22<04:28, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=25 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=360.0
+call=transformer_calls index=25 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.691
+call=video_scheduler_steps index=25 status=START
+call=video_scheduler_steps index=25 status=DONE
+call=audio_scheduler_steps index=25 status=START
+call=audio_scheduler_steps index=25 status=DONE
+
+ 51%|█████     | 25/49 [04:33<04:17, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=26 status=START
+call=transformer_calls index=26 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.697
+call=video_scheduler_steps index=26 status=START
+call=video_scheduler_steps index=26 status=DONE
+call=audio_scheduler_steps index=26 status=START
+call=audio_scheduler_steps index=26 status=DONE
+
+ 53%|█████▎    | 26/49 [04:44<04:06, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=27 status=START
+call=transformer_calls index=27 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.711
+call=video_scheduler_steps index=27 status=START
+call=video_scheduler_steps index=27 status=DONE
+call=audio_scheduler_steps index=27 status=START
+call=audio_scheduler_steps index=27 status=DONE
+
+ 55%|█████▌    | 27/49 [04:54<03:55, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=28 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=390.0
+call=transformer_calls index=28 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.702
+call=video_scheduler_steps index=28 status=START
+call=video_scheduler_steps index=28 status=DONE
+call=audio_scheduler_steps index=28 status=START
+call=audio_scheduler_steps index=28 status=DONE
+
+ 57%|█████▋    | 28/49 [05:05<03:45, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=29 status=START
+call=transformer_calls index=29 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.696
+call=video_scheduler_steps index=29 status=START
+call=video_scheduler_steps index=29 status=DONE
+call=audio_scheduler_steps index=29 status=START
+call=audio_scheduler_steps index=29 status=DONE
+
+ 59%|█████▉    | 29/49 [05:16<03:34, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=30 status=START
+call=transformer_calls index=30 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.699
+call=video_scheduler_steps index=30 status=START
+call=video_scheduler_steps index=30 status=DONE
+call=audio_scheduler_steps index=30 status=START
+call=audio_scheduler_steps index=30 status=DONE
+
+ 61%|██████    | 30/49 [05:27<03:23, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=31 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=420.0
+call=transformer_calls index=31 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.704
+call=video_scheduler_steps index=31 status=START
+call=video_scheduler_steps index=31 status=DONE
+call=audio_scheduler_steps index=31 status=START
+call=audio_scheduler_steps index=31 status=DONE
+
+ 63%|██████▎   | 31/49 [05:37<03:12, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=32 status=START
+call=transformer_calls index=32 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.721
+call=video_scheduler_steps index=32 status=START
+call=video_scheduler_steps index=32 status=DONE
+call=audio_scheduler_steps index=32 status=START
+call=audio_scheduler_steps index=32 status=DONE
+
+ 65%|██████▌   | 32/49 [05:48<03:03, 10.79s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=33 status=START
+call=transformer_calls index=33 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.703
+call=video_scheduler_steps index=33 status=START
+call=video_scheduler_steps index=33 status=DONE
+call=audio_scheduler_steps index=33 status=START
+call=audio_scheduler_steps index=33 status=DONE
+
+ 67%|██████▋   | 33/49 [05:59<02:52, 10.77s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=34 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=450.0
+call=transformer_calls index=34 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.693
+call=video_scheduler_steps index=34 status=START
+call=video_scheduler_steps index=34 status=DONE
+call=audio_scheduler_steps index=34 status=START
+call=audio_scheduler_steps index=34 status=DONE
+
+ 69%|██████▉   | 34/49 [06:10<02:41, 10.75s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=35 status=START
+call=transformer_calls index=35 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.714
+call=video_scheduler_steps index=35 status=START
+call=video_scheduler_steps index=35 status=DONE
+call=audio_scheduler_steps index=35 status=START
+call=audio_scheduler_steps index=35 status=DONE
+
+ 71%|███████▏  | 35/49 [06:20<02:30, 10.74s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=36 status=START
+call=transformer_calls index=36 status=DONE
+heartbeat stage=original-reference-FL2VA elapsed_seconds=480.0
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.702
+call=video_scheduler_steps index=36 status=START
+call=video_scheduler_steps index=36 status=DONE
+call=audio_scheduler_steps index=36 status=START
+call=audio_scheduler_steps index=36 status=DONE
+
+ 73%|███████▎  | 36/49 [06:31<02:19, 10.74s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=37 status=START
+call=transformer_calls index=37 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.713
+call=video_scheduler_steps index=37 status=START
+call=video_scheduler_steps index=37 status=DONE
+call=audio_scheduler_steps index=37 status=START
+call=audio_scheduler_steps index=37 status=DONE
+
+ 76%|███████▌  | 37/49 [06:42<02:08, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=38 status=START
+call=transformer_calls index=38 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.714
+call=video_scheduler_steps index=38 status=START
+call=video_scheduler_steps index=38 status=DONE
+call=audio_scheduler_steps index=38 status=START
+call=audio_scheduler_steps index=38 status=DONE
+
+ 78%|███████▊  | 38/49 [06:53<01:58, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=39 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=510.0
+call=transformer_calls index=39 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.689
+call=video_scheduler_steps index=39 status=START
+call=video_scheduler_steps index=39 status=DONE
+call=audio_scheduler_steps index=39 status=START
+call=audio_scheduler_steps index=39 status=DONE
+
+ 80%|███████▉  | 39/49 [07:03<01:47, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=40 status=START
+call=transformer_calls index=40 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.718
+call=video_scheduler_steps index=40 status=START
+call=video_scheduler_steps index=40 status=DONE
+call=audio_scheduler_steps index=40 status=START
+call=audio_scheduler_steps index=40 status=DONE
+
+ 82%|████████▏ | 40/49 [07:14<01:36, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=41 status=START
+call=transformer_calls index=41 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.735
+call=video_scheduler_steps index=41 status=START
+call=video_scheduler_steps index=41 status=DONE
+call=audio_scheduler_steps index=41 status=START
+call=audio_scheduler_steps index=41 status=DONE
+
+ 84%|████████▎ | 41/49 [07:25<01:25, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=42 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=540.0
+call=transformer_calls index=42 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.685
+call=video_scheduler_steps index=42 status=START
+call=video_scheduler_steps index=42 status=DONE
+call=audio_scheduler_steps index=42 status=START
+call=audio_scheduler_steps index=42 status=DONE
+
+ 86%|████████▌ | 42/49 [07:36<01:15, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=43 status=START
+call=transformer_calls index=43 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.718
+call=video_scheduler_steps index=43 status=START
+call=video_scheduler_steps index=43 status=DONE
+call=audio_scheduler_steps index=43 status=START
+call=audio_scheduler_steps index=43 status=DONE
+
+ 88%|████████▊ | 43/49 [07:46<01:04, 10.73s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=44 status=START
+call=transformer_calls index=44 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.688
+call=video_scheduler_steps index=44 status=START
+call=video_scheduler_steps index=44 status=DONE
+call=audio_scheduler_steps index=44 status=START
+call=audio_scheduler_steps index=44 status=DONE
+
+ 90%|████████▉ | 44/49 [07:57<00:53, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=45 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=570.0
+call=transformer_calls index=45 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.702
+call=video_scheduler_steps index=45 status=START
+call=video_scheduler_steps index=45 status=DONE
+call=audio_scheduler_steps index=45 status=START
+call=audio_scheduler_steps index=45 status=DONE
+
+ 92%|█████████▏| 45/49 [08:08<00:42, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=46 status=START
+call=transformer_calls index=46 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.694
+call=video_scheduler_steps index=46 status=START
+call=video_scheduler_steps index=46 status=DONE
+call=audio_scheduler_steps index=46 status=START
+call=audio_scheduler_steps index=46 status=DONE
+
+ 94%|█████████▍| 46/49 [08:18<00:32, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=47 status=START
+call=transformer_calls index=47 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.709
+call=video_scheduler_steps index=47 status=START
+call=video_scheduler_steps index=47 status=DONE
+call=audio_scheduler_steps index=47 status=START
+call=audio_scheduler_steps index=47 status=DONE
+
+ 96%|█████████▌| 47/49 [08:29<00:21, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=48 status=START
+heartbeat stage=original-reference-FL2VA elapsed_seconds=600.0
+call=transformer_calls index=48 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.695
+call=video_scheduler_steps index=48 status=START
+call=video_scheduler_steps index=48 status=DONE
+call=audio_scheduler_steps index=48 status=START
+call=audio_scheduler_steps index=48 status=DONE
+
+ 98%|█████████▊| 48/49 [08:40<00:10, 10.72s/it]native_trace stage=compute.h3_transformer status=START synchronize=true
+call=transformer_calls index=49 status=START
+call=transformer_calls index=49 status=DONE
+native_trace stage=compute.h3_transformer status=DONE elapsed_seconds=10.713
+call=video_scheduler_steps index=49 status=START
+call=video_scheduler_steps index=49 status=DONE
+call=audio_scheduler_steps index=49 status=START
+call=audio_scheduler_steps index=49 status=DONE
+
+100%|██████████| 49/49 [08:51<00:00, 10.72s/it]
+100%|██████████| 49/49 [08:51<00:00, 10.84s/it]
+native_trace stage=output.video_vae_decode status=START synchronize=true
+/usr/local/lib/python3.11/site-packages/torch/nn/functional.py:3095: UserWarning: Mismatch dtype between input and weight: input dtype = float, weight dtype = c10::BFloat16, Cannot dispatch to fused implementation. (Triggered internally at /home/pytorch/aten/src/ATen/native/layer_norm.cpp:344.)
+  return torch.rms_norm(input, normalized_shape, weight, eps)
+heartbeat stage=original-reference-FL2VA elapsed_seconds=630.0
+native_trace stage=output.video_vae_decode status=DONE elapsed_seconds=17.346
+native_trace stage=output.audio_vae_decode status=START synchronize=true
+native_trace stage=output.audio_vae_decode status=DONE elapsed_seconds=1.247
+native_trace stage=generation.pipeline_total status=DONE elapsed_seconds=562.636
+native_trace stage=output.media_encode status=START synchronize=false
+
+Encoding video chunks:   0%|          | 0/1 [00:00<?, ?it/s]
+Encoding video chunks: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
+Encoding video chunks: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
+native_trace stage=output.media_encode status=DONE elapsed_seconds=2.770
+
+[timing] MiniMax-H3 profile
+  model.pipeline_create                      2.897 s
+  model.condition_encoder_create_and_load    40.981 s
+  model.transformer_create_and_load         24.018 s
+  model.remaining_components_create_and_load    10.003 s
+  input.files_and_references                 1.838 s
+  input.arguments                            0.000 s
+  compute.condition_encoder                  6.934 s
+  input.video_vae_encode                     0.445 s
+  input.audio_vae_encode                     0.000 s (0 calls)
+  compute.h3_transformer                   529.569 s (49 calls, 10.808 s/call)
+  output.video_vae_decode                   17.346 s
+  output.audio_vae_decode                    1.247 s
+  generation.pipeline_total                562.636 s
+  output.media_encode                        2.770 s
+  total.end_to_end                         645.842 s
+  pipeline.other_preprocess_scheduler        7.095 s
+[done] Saved to: /public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-reference-compare-20261107T124511Z-3527846/reference/fl2va-reference-original-50steps.mp4
+
+[task] reference_fl2va: using existing result: /public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-reference-compare-20261107T124511Z-3527846/reference/fl2va-reference-original-50steps.mp4
+
+[task] infinilm_fl2va: using existing result: /public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-load-sync-generation-20261107T082020Z-3236632/native/fl2va-native-load-sync-50steps.mp4
+
+[compare] FL2VA: decoding outputs
+
+[result] MiniMax-H3 video comparison
+
+  FL2VA
+    Size:         PASS (PyTorch 768x928, InfiniLM 768x928)
+    Length:       PASS (PyTorch 124 frames, InfiniLM 124 frames)
+    Average SSIM: 44.643%
+QUALITY_COMPARISON_COMPLETE; Native_regenerated=false; performance_valid=false; official_acceptance=UNASSESSED
+SUMMARY: /public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-reference-compare-20261107T124511Z-3527846/summary.txt

@@ -1,0 +1,5 @@
+run_dir=/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211
+mode=inspect-existing-video; new_inference=false
+wheel_unpack=OK files=260 file=av-18.1.0-cp311-abi3-manylinux_2_28_x86_64.whl
+EXISTING_MEDIA_VALIDATED; new_inference=false; quality=UNASSESSED; original_video=/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-load-sync-generation-20261107T082020Z-3236632/native/fl2va-native-load-sync-50steps.mp4
+SUMMARY: /public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-existing-media-20261107T090136Z-3046211/summary.txt

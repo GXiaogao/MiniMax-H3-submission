@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+ulimit -c 0 2>/dev/null || true
+if [[ "$#" -ne 0 ]]; then
+    printf 'ERROR: Shard copy probe accepts no program arguments.\n' >&2
+    exit 2
+fi
+if [[ -z "${IFAB_AFS_HOME:-}" ]]; then
+    printf 'ERROR: IFAB_AFS_HOME is not set.\n' >&2
+    exit 1
+fi
+ROOT_WORK="${WORK_HOME:-${IFAB_AFS_HOME}/minimax-h3}"
+source "${ROOT_WORK}/setup_infinifabric_env.sh"
+ROOT_WORK="${WORK_HOME:-${ROOT_WORK}}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$$"
+RUN_DIR="${LOG_DIR:-${ROOT_WORK}/logs}/infinifabric-h3-shard-copy-${RUN_ID}"
+PYTHON="${PYTHON:-$(command -v python3)}"
+mkdir -p "${RUN_DIR}"
+RUN_LOG="${RUN_DIR}/run.log"
+: > "${RUN_LOG}"
+LAST_STAGE="preflight"
+finish() {
+    local rc="$?"
+    trap - EXIT
+    printf 'exit_code=%s\nlast_stage=%s\nrun_dir=%s\nquality_status=UNASSESSED\nvalidation_scope=synthetic-full-array-copy-not-generation\n' \
+        "${rc}" "${LAST_STAGE}" "${RUN_DIR}" > "${RUN_DIR}/summary.txt"
+    printf 'SUMMARY: %s/summary.txt\n' "${RUN_DIR}" | tee -a "${RUN_LOG}"
+    exit "${rc}"
+}
+trap finish EXIT
+if [[ ! -f "${SCRIPT_DIR}/probe_minimax_h3_shard_copy.py" ]]; then
+    printf 'ERROR: required helper missing: probe_minimax_h3_shard_copy.py\n' | tee -a "${RUN_LOG}"
+    exit 1
+fi
+export PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PYTHONFAULTHANDLER=1
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false
+if TORCH_LIB="$(timeout 60s "${PYTHON}" -c 'import pathlib, torch; print(pathlib.Path(torch.__file__).resolve().parent / "lib")' 2> "${RUN_DIR}/torch-preflight.log")"; then
+    cat "${RUN_DIR}/torch-preflight.log" | tee -a "${RUN_LOG}"
+else
+    rc="$?"
+    cat "${RUN_DIR}/torch-preflight.log" | tee -a "${RUN_LOG}"
+    exit "${rc}"
+fi
+export LD_LIBRARY_PATH="${ROOT_WORK}/.infini/lib:${TORCH_LIB}:/opt/dtk/lib:/opt/dtk/cuda/cuda/lib64:/opt/hyhal/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="${ROOT_WORK}/Projects/InfiniCore/python:${ROOT_WORK}/Projects/InfiniLM/python:${PYTHONPATH:-}"
+printf 'probe_version=1.1-isolated-native-shard-copy-controls\nrun_dir=%s\nvalidation_scope=synthetic-full-array-copy-not-generation\n' "${RUN_DIR}" | tee -a "${RUN_LOG}"
+LAST_STAGE="shard-copy"
+if timeout --signal=TERM --kill-after=30s 25m "${PYTHON}" -u "${SCRIPT_DIR}/probe_minimax_h3_shard_copy.py" \
+    --run-dir "${RUN_DIR}" \
+    --work-home "${ROOT_WORK}" 2>&1 | tee -a "${RUN_LOG}"; then
+    LAST_STAGE="complete"
+else
+    statuses=("${PIPESTATUS[@]}")
+    rc="${statuses[0]}"
+    if [[ "${rc}" -eq 0 ]]; then rc="${statuses[1]}"; fi
+    exit "${rc}"
+fi

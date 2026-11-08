@@ -1,0 +1,610 @@
+{
+  "version": "1.0-current-template-upstream-boundaries",
+  "result": "INPUT_BOUNDARY_COMPARISON_COMPLETE",
+  "last_stage": "complete",
+  "generation_status": "NOT_EXECUTED",
+  "H3_forward_executed": false,
+  "quality_status": "UNASSESSED",
+  "performance_measurement_valid": false,
+  "schedules": {},
+  "scope": "actual-Qwen-VAE-noise-and-first-H3-inputs-only",
+  "profile": null,
+  "elapsed_seconds_including_setup_and_loading": 380.09568420797586,
+  "prior_comparison": {
+    "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-reference-compare-20261107T124511Z-3527846/reference-comparison.json",
+    "sha256": "10c91f6e3efc0c1e13f1115d03604ad33c6562ab7a5ea998c5aed96289859847",
+    "prior_SSIM_percent": 44.643
+  },
+  "diagnostic_build": {
+    "extension_sha256": "ee448772f8e03947f6f33fdaa670fd4079bdd88df31f4e2655ce405aa0b34047",
+    "marker_sha256": "5ec4a86170633e749d2e333cabff99df2ae3df31a72d7dcab2a4f2280585d90b",
+    "hash_validation": "extension-pinned-to-returned-log-and-checked-against-server-manifest",
+    "manifest_sha256": "26f2b401839131fe25cbe096ff2c9d1c1059f11135edd581a62f93c51c077946",
+    "trace_source_sha256": "ef595364d9bd8b7193b216722fcd26e89e4fe0fb19a5f089f503ed3ed4767bc8",
+    "quant_trace_sha256": "7e16146fb8021899230e87083767bcc831b72ec1f6e3b83f724627cd6a9184a4",
+    "rank_trace_sha256": "ba4fdb1f885ff00cd70343e5f49624a29bad30f016e6c3f1c8f224bce12b1ebc",
+    "load_helper_sha256": "29690536d60c24c7fde65000194f70a40686af95e683429f10cb121876d86b68",
+    "core_library_file_hashes": {
+      "libinfinicore_cpp_api.so": "3cd092516130f74057fe11c20dbab324e14e203911243e7fec7cdadf56084dc9",
+      "libinfiniop.so": "364bc0e4dca1601ae7f7366b6c8cc2c5f4ecd97078f850b611cb0d74acb86a0b",
+      "libinfiniccl.so": "81183241721bbacca06afa8a269ec3c2bbe80a09f74527a6690d53d4a35d2bf3",
+      "libinfinirt.so": "51a5510243ec5c951c4ffe0771e6f82c722208ff9dbed1183ad3032c5d261c7b"
+    },
+    "python_files_checked": 61,
+    "python_hashes": {
+      "infinilm/auto_config.py": "11990a5bbc0a6c118ac83191a59555005b3db4115f99694220b7c2d6859ef321",
+      "infinilm/base_config.py": "e3edd2c1a4cd1f2e57172a701ab0ab8f3c5670438a9a7f05af392643d248c2f3",
+      "infinilm/configuration_utils.py": "15a0f749e7edbf4d1886ab1294c3ec1577efebc61bebe02525786ed1f9c8a492",
+      "infinilm/exception_utils.py": "02ec8285a6c9ad9d3ae875c6bdbbf46e38ac3fc640fa54cb84f1044aa60a0a01",
+      "infinilm/infer_engine.py": "0f7ff9abf5aedf709a0fb62d72ee8814a374c5aa3dca36cf77dfaf6d6916e402",
+      "infinilm/modeling_utils.py": "a5a706154bc367d50891643deca384a970a4581999095b94789395f23ca0c214",
+      "infinilm/moe_config.py": "6e293377560fab04e2c240fabf6e381a810ef28e85c5e5df8a76f3522f6b2b64",
+      "infinilm/cache_utils.py": "f9b594d24fa1c7995dc9eb257a47720bf7b99b3a7aa9c12fbd6e178cb9e0718e",
+      "infinilm/__init__.py": "eba79c8e37f8b6abcb547f2fb2dbae334066c296878b50ce0b3db7aad731caca",
+      "infinilm/kv_connector/factory.py": "44ede47f53ad4f29dd90a62fac4e0580bb1c5aec94612baa78915c4edc197aa4",
+      "infinilm/kv_connector/__init__.py": "b2780c645895cd868e800ba666046fefe5dd1c13382acc1cbb8e4c32727f6aea",
+      "infinilm/kv_connector/base.py": "a6d1d22956c4bb588a7eaf4142f05990f086eb8e5007cf07c27fc2891e0fe302",
+      "infinilm/kv_connector/mooncake/mooncake_connector.py": "ea196b5cdaf9b3489b78351409a90609bd0a83bb946f7307bf292ee382532a9a",
+      "infinilm/kv_connector/mooncake/mooncake_connector_scheduler.py": "6ed0e8e5ae62e06d2c80173e002070e0c063f1417d93a2ac5b35daaf43bfa75e",
+      "infinilm/kv_connector/mooncake/mooncake_connector_worker.py": "3db6a85c2eaf7c9083808076ae5af8c34152f6f6d3121b40ca66caf50e29ac92",
+      "infinilm/kv_connector/mooncake/mooncake_utils.py": "831e25e0de9f687d718c43cf42568ef57ea76f4f1c71267c0b2af18fefe4ee47",
+      "infinilm/models/__init__.py": "95321b2f815cf5cb7d7b1bc9f6c0dd7b5525539b97cfe7dc482e4e060c1b7a44",
+      "infinilm/models/llama/__init__.py": "57fa86651dce1eadc1b2cf07afbf9e51fda23612666664e439dbc5f5262210c9",
+      "infinilm/models/llama/configuration_llama.py": "a8b7596e80f8b16927adc861dc9d8c7e3eaa58bea56b95d01a832508f95abc55",
+      "infinilm/models/llama/modeling_llama.py": "29fc54be96e0c875f4b8333c870804ce4735b6e5a8b59ae69c9037b211f8ef06",
+      "infinilm/config/engine_config.py": "186480edfe0f42dc6828595be5a48dbece27ca0b9a50f279a757c656aeae07d2",
+      "infinilm/config/kv_transfer.py": "14dd14c915d38eff3685b524f4b6d6c212367a5b8707f6d03e6045f62ffba352",
+      "infinilm/config/__init__.py": "06db9ba4b10eebb3e368ff6333968748852bd54586de168a203c23b43c39d589",
+      "infinilm/generation/utils.py": "c7cc4624bb10a75c61077b26eb960d7cfab0fc49905746068fcbff79736ef8ea",
+      "infinilm/multimodal/minimax_h3.py": "5e5fc07bf0c02925c553603285fd163c44c973eb6c3de71349cf6c7677e3e4e5",
+      "infinilm/multimodal/multimodal.py": "6858c39004e75010d01f1e8a6a136331ec3543ebd85ff742ba3bfec84ee8a19e",
+      "infinilm/cache/__init__.py": "212e7402b4cc50e2fd416df55d246223bb733f2eae5172f37f8f72cfad96d1f4",
+      "infinilm/cache/cache.py": "587db5a80ca3a7c8c5b8354bf1466387a4d9761252ae50ad790bcf6f77e666d4",
+      "infinilm/lib/__init__.py": "1ee3bf08720528cb2ace77a6fb9e770a74ae8c0914820265e137040337e11490",
+      "infinilm/llm/__init__.py": "12c264480db9609421e15257af202d7d6c70132cb065b16c0fca59002b165bac",
+      "infinilm/llm/prefix_cache.py": "584367fd1d5a46932a5a9a96247091664071ec4e1d1fa21749a49fc23f248fa1",
+      "infinilm/llm/request.py": "bd51870a1730b61f8923b060566273d0d66e4a20619d7bb5001921ded7c211fd",
+      "infinilm/llm/cache_manager.py": "d7792e9118683a9c5476158d14849dee8390c9b2dbfdf095cfcaca4051356987",
+      "infinilm/llm/static_scheduler.py": "822b50bd11d02105bb796f8c2f8479f49428ea3cbec307db28ee6b75f114b391",
+      "infinilm/llm/llm.py": "3eec42f25909d43ab67416c1d080f3bcf94187af719849abcc71c1782243964d",
+      "infinilm/llm/sampling_params.py": "5ad64613d0e1407e24f0552a808d6b4a86369a646688df6dcb6f3ac5c134a0dd",
+      "infinilm/llm/scheduler.py": "e7208aa5ce3b5865ebf5ffdefee2306cdbeb48351fa2835dbb9a4f665b92e21e",
+      "infinilm/llm/model_runner/model_runner.py": "5f758705c5d81015b11354b6ed0f05d92ea4e99e8c5c880dad4882de4b8b566a",
+      "infinilm/llm/model_runner/speculative_runner.py": "b2c7e5bbf50c44df96acfa82e7fb02659d43e8184fb1cdb594816837e25f3412",
+      "infinilm/processors/baichuan_processor.py": "f67d471216d4dcbfa3aef9a1f836f8fe378ba7144f6189cea6320fdfa7eb3046",
+      "infinilm/processors/gpt2_processor.py": "7a5cf2f98c4d29fe56ce75ff070f04e5677e3b7c2b67df4792aa48fb56d6201a",
+      "infinilm/processors/llama_processor.py": "701ac1f3df0d950eb7d5bceacb843e114859ac2feaee284ae8c4efa528cfad3f",
+      "infinilm/processors/basic_llm_processor.py": "16a3a4e3d1e85255a054216f6c83f593e8df254bf145ba936343e6ce5cec8283",
+      "infinilm/processors/chatglm_processor.py": "0b5a67488d3577a26742a9f9ab33c11d80e3157e52889ef27d937c1628013f7f",
+      "infinilm/processors/kimi_k3_processor.py": "c5d0faa56b8246f5ddc7b75bd294b3001a80da6a4de558bcab1caf7ad169d1ac",
+      "infinilm/processors/qwen3_5_processor.py": "aa7d4432bc9fb2c2cca537d4aa20ce4493bbed316b0a0a31bf50d5af2405208b",
+      "infinilm/processors/deepseek_processor.py": "19a71899f46134e473766460b3fc4f513cbd9d0970069c1191e495e213339682",
+      "infinilm/processors/mamba_processor.py": "860705a1677fd7a812135785c78a72f2057ec6ca023cf7ba8bd2c5d8420e592b",
+      "infinilm/processors/minicpmv_processor.py": "b99a75c1b5679411852c04637dc8b11a1d48c842d18aeb6419ac05ade956db0d",
+      "infinilm/processors/ernie4_5_vl_processor.py": "f3d0600dbbf5c5431f9e457ed369c5ae94cbdde0ef1acebf0b6db9d8f4b2e25d",
+      "infinilm/processors/processor.py": "205d43f3041c41f0fe43058a0cfdabffc229945059869bcdc90e6e48b7f7e6ad",
+      "infinilm/processors/qwen3_next_processor.py": "3ae021a62924a79bd7e7985d4755fcdcad2e670186e9c221db3cb6670f512a48",
+      "infinilm/processors/sentencepiece_processor.py": "f4711a1651f431236fa648bab1d872d58884c326961544a065c6027575fd2ab3",
+      "infinilm/processors/videonsa_processor.py": "23726f5f337501f9e0c0e3951f17c290b8bef712dc296f58d3ff5f6b8ccd4094",
+      "infinilm/processors/__init__.py": "685f5f875837c4c5a93d69b19c70afbf2ff30b4202ad1c1d779b74256ce30a93",
+      "infinilm/server/pipeline_worker.py": "962b1b47772fa2e74fe282485cea852342d38bef8e5120abe831516b8328aa4a",
+      "infinilm/server/mooncake_proxy_server.py": "71dc9d24942f66c5ebc0947a6cff7e871d447d24d5e52c064687f28949144096",
+      "infinilm/server/inference_server.py": "f688722a9a7b9e47eded6ac3709b79ccbac055676e5217b287a76ba17e9103a0",
+      "infinilm/distributed/dist_config.py": "55838d02746a165e01289143fb3e2f45013f2b5cecd141703d99088973295c12",
+      "infinilm/distributed/pipeline_transport.py": "7ef93dd7dd795b37b1f9b68d22594d91568cc7953103f55a6819d9fda36e8e0f",
+      "infinilm/distributed/__init__.py": "dd2dade27cd52cfd3ac956c0c8c689ae8c9476d7aac6d1d477a2adaa840d5961"
+    },
+    "build_marker": {
+      "build_version": "1.0-isolated-h3-load-sync-projection-trace",
+      "completed_at": "2026-11-07T03:20:46+00:00",
+      "cxx11_abi": "1",
+      "extension": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/diagnostics/h3-load-sync/20261107T030125Z-2935713/InfiniLM/python/infinilm/lib/_infinilm.cpython-311-x86_64-linux-gnu.so",
+      "run_dir": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-build-h3-load-sync-20261107T030127Z-2935732",
+      "artifacts_sha256": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-build-h3-load-sync-20261107T030127Z-2935732/artifacts.sha256"
+    }
+  },
+  "Native_example_patch": {
+    "source_path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/Projects/InfiniLM/examples/minimax_h3.py",
+    "destination_path": "/dev/shm/infinifabric-shell/51e5676a957c44f99134bc0ca8853a2a/workspace/run-fa1e1424c75d4d1aae75419674190ff8/.h3-input-boundaries-230014-3329662/native-example/minimax_h3.py",
+    "source_sha256": "ca54a18a73a7d760d644ca4eb2c3b20678f88dfdbcfa26a62dcd3de617b31af4",
+    "destination_sha256": "c101e97e6c0575e61694cbe4c4be5b16914ee0c612f96d26fc880d1f8aac3dcd",
+    "patch_profile": "preserve-vae-fp32-modules-v1"
+  },
+  "hygon_runtime": {
+    "distributions": {
+      "torchvision": "0.24.0",
+      "flash_attn": "2.6.1+das.opt1.dtk2604.torch290",
+      "Pygments": "2.21.0",
+      "pluggy": "1.5.0",
+      "packaging": "24.2",
+      "iniconfig": "2.0.0",
+      "pytest": "9.0.3",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290",
+      "einops": "0.8.2"
+    },
+    "fa_so_path": "/dev/shm/infinifabric-shell/51e5676a957c44f99134bc0ca8853a2a/workspace/run-fa1e1424c75d4d1aae75419674190ff8/.h3-input-boundaries-230014-3329662/hygon-site-packages/flash_attn_2_cuda.cpython-311-x86_64-linux-gnu.so",
+    "wheels": [
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/einops-0.8.2-py3-none-any.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/pytest-9.0.3-py3-none-any.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/iniconfig-2.0.0-py3-none-any.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/packaging-24.2-py3-none-any.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/pluggy-1.5.0-py3-none-any.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-inputs/pygments-2.21.0-py3-none-any.whl",
+      "/dev/shm/infinifabric-shell/51e5676a957c44f99134bc0ca8853a2a/workspace/run-fa1e1424c75d4d1aae75419674190ff8/.h3-input-boundaries-230014-3329662/hygon-reconstructed/flash_attn-2.6.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/packages/minimax-h3-hygon-runtime-ready/torchvision-0.24.0-cp311-cp311-linux_x86_64.whl"
+    ]
+  },
+  "completed_workers": [
+    "native",
+    "reference"
+  ],
+  "comparisons": {
+    "first-inputs": {
+      "audio_hidden_states": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          414,
+          32
+        ],
+        "elements": 13248,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0000000000000002,
+        "reference_std": 0.9990210275432428,
+        "native_std": 0.9990210275432428,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      },
+      "audio_indices": {
+        "status": "COMPARED",
+        "shape": [
+          414
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "encoder_hidden_states": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          708,
+          5120
+        ],
+        "elements": 3624960,
+        "scope": "all-elements",
+        "mae": 0.219118961807614,
+        "max_abs": 21967.0,
+        "rmse": 12.034078366024739,
+        "relative_l2": 0.7169845115537381,
+        "cosine": 0.7758305402791983,
+        "reference_std": 16.78428307703325,
+        "native_std": 18.7377800368188,
+        "exact_equal": false,
+        "original_torch_dtype_match": true
+      },
+      "hidden_states": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          26448,
+          96
+        ],
+        "elements": 2539008,
+        "scope": "all-elements",
+        "mae": 0.0005996941220083575,
+        "max_abs": 0.8102321922779083,
+        "rmse": 0.005875987311502421,
+        "relative_l2": 0.005877188395908812,
+        "cosine": 0.9999827294044384,
+        "reference_std": 0.999792663323115,
+        "native_std": 0.9997966985000462,
+        "exact_equal": false,
+        "original_torch_dtype_match": true
+      },
+      "position_ids": {
+        "status": "COMPARED",
+        "shape": [
+          27570,
+          3
+        ],
+        "elements": 82710,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 0.9999999999999998,
+        "reference_std": 371.75902678131195,
+        "native_std": 371.75902678131195,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      },
+      "text_indices": {
+        "status": "COMPARED",
+        "shape": [
+          708
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "timestep": {
+        "status": "COMPARED",
+        "shape": [
+          2
+        ],
+        "elements": 2,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0,
+        "reference_std": 0.49950000643730164,
+        "native_std": 0.49950000643730164,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      },
+      "timestep_indices": {
+        "status": "COMPARED",
+        "shape": [
+          27570
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "token_tags": {
+        "status": "COMPARED",
+        "shape": [
+          27570
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "video_indices": {
+        "status": "COMPARED",
+        "shape": [
+          26448
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      }
+    },
+    "noise-000": {
+      "rng_after": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "rng_before": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "values": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          24,
+          1,
+          58,
+          48
+        ],
+        "elements": 66816,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0,
+        "reference_std": 1.0063256310107602,
+        "native_std": 1.0063256310107602,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      }
+    },
+    "noise-001": {
+      "rng_after": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "rng_before": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "values": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          24,
+          37,
+          58,
+          48
+        ],
+        "elements": 2472192,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0,
+        "reference_std": 0.9996042492660291,
+        "native_std": 0.9996042492660291,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      }
+    },
+    "noise-002": {
+      "rng_after": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "rng_before": {
+        "status": "COMPARED",
+        "shape": [
+          5056
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      },
+      "values": {
+        "status": "COMPARED",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0000000000000002,
+        "reference_std": 0.9990210275432428,
+        "native_std": 0.9990210275432428,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      }
+    },
+    "qwen-inputs": {
+      "attention_mask": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          708
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "image_grid_thw": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          3
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "input_ids": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          708
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "mm_token_type_ids": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          708
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "int64",
+        "reference_dtype": "int64",
+        "original_torch_dtype_match": true
+      },
+      "pixel_values": {
+        "status": "COMPARED",
+        "shape": [
+          2784,
+          1536
+        ],
+        "elements": 4276224,
+        "scope": "all-elements",
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "relative_l2": 0.0,
+        "cosine": 1.0000000000000002,
+        "reference_std": 0.6907323075730591,
+        "native_std": 0.6907323075730591,
+        "exact_equal": true,
+        "original_torch_dtype_match": true
+      }
+    },
+    "qwen-layer50": {
+      "hidden": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          708,
+          5120
+        ],
+        "elements": 3624960,
+        "scope": "all-elements",
+        "mae": 0.219118961807614,
+        "max_abs": 21967.0,
+        "rmse": 12.034078366024739,
+        "relative_l2": 0.7169845115537381,
+        "cosine": 0.7758305402791983,
+        "reference_std": 16.78428307703325,
+        "native_std": 18.7377800368188,
+        "exact_equal": false,
+        "original_torch_dtype_match": true
+      }
+    },
+    "vae-condition": {
+      "latents": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          24,
+          1,
+          58,
+          48
+        ],
+        "elements": 66816,
+        "scope": "all-elements",
+        "mae": 0.022811187706611443,
+        "max_abs": 0.8110432326793671,
+        "rmse": 0.036258276565226885,
+        "relative_l2": 0.03597584954278625,
+        "cosine": 0.9993529616941227,
+        "reference_std": 1.00494002903581,
+        "native_std": 1.0051656580725057,
+        "exact_equal": false,
+        "original_torch_dtype_match": true
+      }
+    },
+    "vae-pixels": {
+      "pixels": {
+        "status": "COMPARED",
+        "shape": [
+          1,
+          3,
+          1,
+          928,
+          768
+        ],
+        "exact_equal": true,
+        "different_elements": 0,
+        "native_dtype": "uint8",
+        "reference_dtype": "uint8",
+        "original_torch_dtype_match": true
+      }
+    }
+  },
+  "metadata_comparison": {
+    "qwen_options_equal": true,
+    "vae_recipe_equal": true,
+    "noise_draw_count_native": 3,
+    "noise_draw_count_reference": 3,
+    "noise_shapes_native": [
+      [
+        1,
+        24,
+        1,
+        58,
+        48
+      ],
+      [
+        1,
+        24,
+        37,
+        58,
+        48
+      ],
+      [
+        414,
+        32
+      ]
+    ],
+    "noise_shapes_reference": [
+      [
+        1,
+        24,
+        1,
+        58,
+        48
+      ],
+      [
+        1,
+        24,
+        37,
+        58,
+        48
+      ],
+      [
+        414,
+        32
+      ]
+    ]
+  },
+  "worker_receipts": {
+    "native": {
+      "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-input-boundaries-20261107T133314Z-3329662/native/capture.json",
+      "sha256": "ddafde966ee877abfccb1cffe3e2d09625ed094086e740284791c884c831ba9b"
+    },
+    "reference": {
+      "path": "/public/home/aclsylqidf/infinifabric-users/users/623362ce0cda4a25aab3b3cc1358790e/minimax-h3/logs/infinifabric-h3-input-boundaries-20261107T133314Z-3329662/reference/capture.json",
+      "sha256": "d571cd82d0d4f2dd75220ce296bf847113bc459d9fe04d6283ac80018d7f09c7"
+    }
+  }
+}

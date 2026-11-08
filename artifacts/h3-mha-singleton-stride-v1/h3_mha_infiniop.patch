@@ -1,0 +1,44 @@
+diff --git a/src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc b/src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc
+--- a/src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc
++++ b/src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc
+@@ -33,7 +33,11 @@
+     std::array<size_t, 4> dims{0, 1, 2, 3};
+     for (auto dim : dims) {
+         require(tensor->size(dim) > 0, "empty dimensions are unsupported");
+-        require(tensor->stride(dim) > 0, "strides must be positive");
++        // InfiniCore unsqueeze inserts a size-1 dimension with stride 0.
++        // It never advances the address; broadcast/negative strides remain unsupported.
++        require(tensor->stride(dim) >= 0
++                    && (tensor->size(dim) == 1 || tensor->stride(dim) > 0),
++                "strides must be nonnegative and zero only for singleton dimensions");
+     }
+     std::sort(dims.begin(), dims.end(), [&](size_t a, size_t b) {
+         return tensor->stride(a) < tensor->stride(b);
+@@ -52,6 +56,12 @@
+     }
+     require(span <= limit / tensor->element_size(), "tensor byte span overflows");
+     return span * tensor->element_size();
++}
++
++Stride sequence_stride(const Tensor &tensor) {
++    // A single sequence row may have stride 0, but BLAS still requires a valid
++    // leading dimension. validate_layout has already ruled out broadcasting.
++    return tensor->stride(1) == 0 ? static_cast<Stride>(tensor->size(3)) : tensor->stride(1);
+ }
+ 
+ void reject_output_alias(const Tensor &out, size_t out_span,
+@@ -135,10 +145,10 @@
+         auto chunk = std::make_unique<Chunk>();
+         chunk->query_start = start;
+         TensorMetaData score_desc({rows, keys}, {static_cast<Stride>(nk), 1}, dtype);
+-        TensorMetaData query_desc({rows, d}, {q->stride(1), 1}, dtype);
+-        TensorMetaData key_transposed_desc({d, keys}, {1, k->stride(1)}, dtype);
+-        TensorMetaData value_desc({keys, d}, {v->stride(1), 1}, dtype);
+-        TensorMetaData output_desc({rows, d}, {out->stride(1), 1}, dtype);
++        TensorMetaData query_desc({rows, d}, {sequence_stride(q), 1}, dtype);
++        TensorMetaData key_transposed_desc({d, keys}, {1, sequence_stride(k)}, dtype);
++        TensorMetaData value_desc({keys, d}, {sequence_stride(v), 1}, dtype);
++        TensorMetaData output_desc({rows, d}, {sequence_stride(out), 1}, dtype);
+         INFINICORE_CHECK_ERROR(infiniopCreateGemmDescriptor(
+             handle, &chunk->qk, score_desc.desc, query_desc.desc, key_transposed_desc.desc));
+         INFINICORE_CHECK_ERROR(infiniopCreateGemmDescriptor(

@@ -1,0 +1,20 @@
+[
+  {
+    "repository": "InfiniCore-h3-mha",
+    "local_head": "f32e2fbb2a9b2ca912b5711f4f3836c403196a74",
+    "scope": [
+      "include",
+      "src",
+      "python"
+    ],
+    "warning": "Local snapshot; not the final server eight-card commit."
+  },
+  {
+    "repository": "InfiniLM-qwen-video",
+    "local_head": "65deb91f840ebaef752d028fad2f3217ce0950f4",
+    "scope": [
+      "csrc"
+    ],
+    "warning": "Local snapshot; not the final server eight-card commit."
+  }
+]
