@@ -1,0 +1,95 @@
+{
+  "input_npz_sha256": {
+    "native": "e08509f37b1fcf267d00af913c937ccc02d672c98262e4571ab55d39d2c14c93",
+    "reference": "e08509f37b1fcf267d00af913c937ccc02d672c98262e4571ab55d39d2c14c93"
+  },
+  "metadata_equal": true,
+  "array_equal": {
+    "input_ids": true,
+    "attention_mask": true,
+    "mm_token_type_ids": true,
+    "pixel_values": true,
+    "image_grid_thw": true
+  },
+  "shapes": {
+    "input_ids": [
+      1,
+      708
+    ],
+    "attention_mask": [
+      1,
+      708
+    ],
+    "mm_token_type_ids": [
+      1,
+      708
+    ],
+    "pixel_values": [
+      2784,
+      1536
+    ],
+    "image_grid_thw": [
+      1,
+      3
+    ]
+  },
+  "image_grid_thw": [
+    [
+      1,
+      58,
+      48
+    ]
+  ],
+  "sequence_segments": [
+    {
+      "start_zero_based": 0,
+      "end_zero_based": 6,
+      "mm_type": 0
+    },
+    {
+      "start_zero_based": 7,
+      "end_zero_based": 702,
+      "mm_type": 1
+    },
+    {
+      "start_zero_based": 703,
+      "end_zero_based": 707,
+      "mm_type": 0
+    }
+  ],
+  "observed_image_id_151655_count": 696,
+  "mask_values_and_counts": {
+    "1": 708
+  },
+  "error_tokens": [
+    {
+      "token_index_zero_based": 43,
+      "input_id": 151655,
+      "attention_mask": 1,
+      "mm_token_type_id": 1,
+      "image_sequence_offset_zero_based": 36
+    },
+    {
+      "token_index_zero_based": 105,
+      "input_id": 151655,
+      "attention_mask": 1,
+      "mm_token_type_id": 1,
+      "image_sequence_offset_zero_based": 98
+    },
+    {
+      "token_index_zero_based": 203,
+      "input_id": 151655,
+      "attention_mask": 1,
+      "mm_token_type_id": 1,
+      "image_sequence_offset_zero_based": 196
+    }
+  ],
+  "conclusion": "error concentration is on active image-token positions; not evidence of root cause",
+  "next_boundaries": [
+    "vision pooler output",
+    "DeepStack outputs and injection",
+    "language input embeddings",
+    "language layer checkpoints through layer 50"
+  ],
+  "model_changes_made": false
+}
