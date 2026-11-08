@@ -1,0 +1,48 @@
+{
+  "run_id": "infinifabric-source-environment-20261108T092842Z-783655",
+  "zip_sha256": "41f49e0784a96e4ba4330e68049f309dcbc7bed21c224966da17d4e814125574",
+  "internal_manifest_verified": true,
+  "result": "COLLECTED_WITH_GAPS",
+  "skipped": [
+    "InfiniCore: source time budget reached"
+  ],
+  "source_errors": [],
+  "git_metadata": "absent in all three collected trees",
+  "baseline_comparison": {
+    "InfiniCore": {
+      "collected_files": 2329,
+      "identical_to_v3": 2329,
+      "different_to_v3": [],
+      "not_in_v3": []
+    },
+    "InfiniLM": {
+      "collected_files": 1392,
+      "identical_to_v3": 1392,
+      "different_to_v3": [],
+      "not_in_v3": []
+    },
+    "InfiniLM-load-sync": {
+      "collected_files": 61,
+      "identical_to_v3": 61,
+      "different_to_v3": [],
+      "not_in_v3": []
+    }
+  },
+  "torch_probe": {
+    "torch": "2.9.0",
+    "hip": "6.3.26093",
+    "devices": 8
+  },
+  "missing_probe_commands": [
+    "hipcc",
+    "rocm-smi"
+  ],
+  "candidate_cpp_source_present": false,
+  "limitations": [
+    "InfiniCore traversal incomplete due time budget",
+    "candidate tree only contains 61 Python files; no C++ source captured",
+    "matching collected files does not prove uncollected files unchanged",
+    "base interpreter environment is not all private staged dependencies",
+    "no clean rebuild verified"
+  ]
+}
