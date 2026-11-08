@@ -16,5 +16,10 @@
   "native_extension_sha256_prefix": "ee448772",
   "source": "original verified outputs, not regenerated or transcoded",
   "average_ssim_percent": 44.643,
-  "new_rebuild_video_generated": false
+  "new_rebuild_video_generated": false,
+  "labels": {
+    "native-fl2va-50steps.mp4": "Native适配实现生成结果",
+    "reference-fl2va-50steps.mp4": "PyTorch参考实现生成结果"
+  },
+  "reference_video_role": "independent server-generated baseline output, not Native input or an externally downloaded target"
 }
