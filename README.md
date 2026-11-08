@@ -61,6 +61,10 @@ Native视频来自2026年11月7日旧候选ee448772…的完整生成；不是20
 - requirements/：依赖位置与下载边界说明。
 - server-downloads/：只在本地收取服务器材料，已被Git忽略。
 
+## 从 GitHub 源码运行
+
+请先阅读[从GitHub源码到服务器验证的完整步骤](docs/FROM-GITHUB-TO-SERVER.md)：固定版本下载 → AFS前提核对 → 从源码组装14文件上传包 → 隔离重建 → 候选身份核验 → 首次前向验证。说明明确区分已验证候选重放、新候选接入与仍待验证的空环境部署。
+
 ## 当前入口
 
 在 artifacts/infinifabric-build-v1 查看 LOAD-SYNC-BUILD-UPLOAD.md、FULL-FORWARD-LOAD-SYNC-UPLOAD.md、LOAD-SYNC-GENERATION-UPLOAD.md、REFERENCE-COMPARE-UPLOAD.md。
