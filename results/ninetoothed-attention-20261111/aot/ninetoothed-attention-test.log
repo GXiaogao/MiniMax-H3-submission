@@ -1,0 +1,100 @@
+version=1.1-nine-attention-aot-dynamic-lds
+run_dir=${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-aot-20261111T015938Z-364509
+scope=standalone-aot-not-model
+WARNING: /opt/hyhal/lib/cmake/rocm_smi doesn't exist, please install the latest driver(version >= 6.3.15)
+The rocm_smi_lib will be used in default
+staged_scripts=${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509
+stage=package-validation
+stage=existing-candidate-state
+stage=base-runtime-identity
+stage=job-local-vendor
+wheel_unpack=OK files=391 file=triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+stage=aot_export
+stage=aot_export status=START
+stage=aot_export status=RUNNING elapsed_seconds=20
+stage=aot_export status=RUNNING elapsed_seconds=40
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1111 02:00:57.156845 364907 Context.cpp:368] torch.backends.cuda.matmul.allow_tf32 is not supported on ROCm by default. Please set environment variable HIPBLASLT_ALLOW_TF32=1 to enable it.
+stage=aot_export status=RUNNING elapsed_seconds=60
+HOST BUILD: /usr/bin/g++ -std=c++17 -O2 -fPIC -shared -Wall -Wextra -I${JOB_ROOT}/workspace/run-2e59f61d2f8a4970ba0efa6f1ffd3201/.nine-attention-aot-20261111T015938Z-364509/vendor-site-packages/triton/backends/amd/include ${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_launcher.cpp -ldl -o ${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-aot-20261111T015938Z-364509/exports/libnine_attention_host.so
+${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_launcher.cpp: In destructor ‘Kernel::~Kernel()’:
+${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_launcher.cpp:34:39: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   34 |     ~Kernel(){if(module&&unload)unload(module);if(lib)dlclose(lib);}
+      |                                 ~~~~~~^~~~~~~~
+In file included from ${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_launcher.cpp:3:
+${JOB_ROOT}/workspace/run-2e59f61d2f8a4970ba0efa6f1ffd3201/.nine-attention-aot-20261111T015938Z-364509/vendor-site-packages/triton/backends/amd/include/hip/hip_runtime_api.h:399:3: note: ‘hipError_t’ declared here
+  399 | } hipError_t;
+      |   ^~~~~~~~~~
+export=nine_attention_float16_d64_c0 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 64, "nusw": 0}, "ir_sha256": "8905a2a29d2bddf8ae36d1733725741dcd2e2112b5b2fd08bd8b6b2ca04be211"}
+export=nine_attention_float16_d64_c0 status=EXPORTED args=46 shared=4096
+export=nine_attention_float16_d64_c1 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 64, "nusw": 0}, "ir_sha256": "9cb67dfeddafe482b6a5956e57e9371fd87d3524d5792c4eb2a3625102e781d0"}
+export=nine_attention_float16_d64_c1 status=EXPORTED args=46 shared=4096
+export=nine_attention_float16_d128_c0 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 154, "nusw": 0}, "ir_sha256": "d577d9c40c772ac9fa9a9c8ef87ce73519cdde816b11568983fab4484c76464e"}
+export=nine_attention_float16_d128_c0 status=EXPORTED args=46 shared=8192
+export=nine_attention_bfloat16_d64_c0 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 64, "nusw": 0}, "ir_sha256": "437bd53d7b9e8b6aae110af962263e27441ce91d462597cc44471944dc9cc0ae"}
+stage=aot_export status=RUNNING elapsed_seconds=80
+export=nine_attention_bfloat16_d64_c0 status=EXPORTED args=46 shared=4096
+export=nine_attention_bfloat16_d64_c1 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 64, "nusw": 0}, "ir_sha256": "0fc4ff3e86e3cc2cee012d753eb341a9abb131c100a5f2a7d08d86204be64273"}
+export=nine_attention_bfloat16_d64_c1 status=EXPORTED args=46 shared=4096
+export=nine_attention_bfloat16_d128_c0 status=COMPILE
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 100, "nusw": 0}, "ir_sha256": "8015369b1664c17a9e5a4c7c061502377367d776b9bb21b09104528c39d12a08"}
+export=nine_attention_bfloat16_d128_c0 status=EXPORTED args=46 shared=8192
+AOT EXPORT COMPLETE; device launches are tested in a separate process
+stage=aot_worker
+stage=aot_worker status=START
+stage=aot_worker status=RUNNING elapsed_seconds=20
+stage=aot_worker status=RUNNING elapsed_seconds=40
+stage=aot_worker status=RUNNING elapsed_seconds=60
+stage=aot_worker status=RUNNING elapsed_seconds=80
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1111 02:02:57.458526 366188 Context.cpp:368] torch.backends.cuda.matmul.allow_tf32 is not supported on ROCm by default. Please set environment variable HIPBLASLT_ALLOW_TF32=1 to enable it.
+case=float16-single round=1 status=JIT_OR_RUN
+case=float16-single round=1 status=PASS max_abs=0
+case=float16-single round=2 status=JIT_OR_RUN
+case=float16-single round=2 status=PASS max_abs=0
+case=float16-tail round=1 status=JIT_OR_RUN
+case=float16-tail round=1 status=PASS max_abs=0.00046378081
+case=float16-tail round=2 status=JIT_OR_RUN
+case=float16-tail round=2 status=PASS max_abs=0.00036197261
+case=float16-gqa round=1 status=JIT_OR_RUN
+case=float16-gqa round=1 status=PASS max_abs=0.00035386447
+case=float16-gqa round=2 status=JIT_OR_RUN
+case=float16-gqa round=2 status=PASS max_abs=0.00034598377
+case=float16-causal-right round=1 status=JIT_OR_RUN
+case=float16-causal-right round=1 status=PASS max_abs=0.00066507316
+case=float16-causal-right round=2 status=JIT_OR_RUN
+case=float16-causal-right round=2 status=PASS max_abs=0.00045585234
+case=float16-padded round=1 status=JIT_OR_RUN
+case=float16-padded round=1 status=PASS max_abs=0.0004639192
+case=float16-padded round=2 status=JIT_OR_RUN
+case=float16-padded round=2 status=PASS max_abs=0.00034794927
+case=float16-head128 round=1 status=JIT_OR_RUN
+case=float16-head128 round=1 status=PASS max_abs=0.00061026656
+case=float16-head128 round=2 status=JIT_OR_RUN
+case=float16-head128 round=2 status=PASS max_abs=0.0007062888
+case=bfloat16-single round=1 status=JIT_OR_RUN
+case=bfloat16-single round=1 status=PASS max_abs=0
+case=bfloat16-single round=2 status=JIT_OR_RUN
+case=bfloat16-single round=2 status=PASS max_abs=0
+stage=aot_worker status=RUNNING elapsed_seconds=100
+case=bfloat16-tail round=1 status=JIT_OR_RUN
+Traceback (most recent call last):
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_worker.py", line 78, in main
+    result=verify_case(kernel,case,args.run_dir)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/attention_worker.py", line 137, in verify_case
+    raise AssertionError(f'{case["name"]}: finite={finite}, numerical={good}, inputs={inputs_unchanged}, guards={guards_unchanged}')
+AssertionError: bfloat16-tail: finite=True, numerical=False, inputs=True, guards=True
+Traceback (most recent call last):
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/run_attention_aot.py", line 89, in main
+    run_child([sys.executable,'-u',str(HERE/(name+'.py')),'--candidate',str(candidate),
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/run_attention_probe.py", line 46, in run_child
+    if rc:raise subprocess.CalledProcessError(rc,command)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-u', '${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-aot-20261111T015938Z-364509/aot_worker.py', '--candidate', '${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749', '--vendor', '${JOB_ROOT}/workspace/run-2e59f61d2f8a4970ba0efa6f1ffd3201/.nine-attention-aot-20261111T015938Z-364509/vendor-site-packages', '--baseline', '${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-aot-20261111T015938Z-364509/base-runtime.json', '--run-dir', '${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-aot-20261111T015938Z-364509']' returned non-zero exit status 1.
+SUMMARY: ${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-aot-20261111T015938Z-364509/summary.txt

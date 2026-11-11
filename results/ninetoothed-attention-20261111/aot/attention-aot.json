@@ -1,0 +1,527 @@
+{
+  "result": "FAILED",
+  "validation_scope": "standalone-nine-attention-aot-host-launch-not-framework-model-or-performance",
+  "last_stage": "bfloat16-tail",
+  "cases": [
+    {
+      "name": "float16-single",
+      "dtype": "float16",
+      "batch": 1,
+      "sq": 1,
+      "sk": 1,
+      "hq": 1,
+      "hkv": 1,
+      "dim": 64,
+      "causal": false,
+      "layout": "bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0,
+          "relative_l2": 0.0,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0021322080865502357
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0,
+          "relative_l2": 0.0,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0010361885651946068
+        }
+      ],
+      "strides": {
+        "q": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "k": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "v": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "out": [
+          64,
+          64,
+          64,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "float16-tail",
+      "dtype": "float16",
+      "batch": 1,
+      "sq": 17,
+      "sk": 33,
+      "hq": 2,
+      "hkv": 2,
+      "dim": 64,
+      "causal": false,
+      "layout": "bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0004637808123058029,
+          "relative_l2": 0.0002876918800587356,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0017866017296910286
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0003619726123718081,
+          "relative_l2": 0.00032603445272750154,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0012862933799624443
+        }
+      ],
+      "strides": {
+        "q": [
+          2176,
+          64,
+          128,
+          1
+        ],
+        "k": [
+          4224,
+          64,
+          128,
+          1
+        ],
+        "v": [
+          4224,
+          64,
+          128,
+          1
+        ],
+        "out": [
+          2176,
+          64,
+          128,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "float16-gqa",
+      "dtype": "float16",
+      "batch": 1,
+      "sq": 33,
+      "sk": 65,
+      "hq": 4,
+      "hkv": 2,
+      "dim": 64,
+      "causal": false,
+      "layout": "bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0003538644694808246,
+          "relative_l2": 0.0003232724464314306,
+          "elapsed_seconds_with_validation_not_benchmark": 0.001882864162325859
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0003459837697452617,
+          "relative_l2": 0.00033969473896698534,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0015283171087503433
+        }
+      ],
+      "strides": {
+        "q": [
+          8448,
+          64,
+          256,
+          1
+        ],
+        "k": [
+          8320,
+          64,
+          128,
+          1
+        ],
+        "v": [
+          8320,
+          64,
+          128,
+          1
+        ],
+        "out": [
+          8448,
+          64,
+          256,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "float16-causal-right",
+      "dtype": "float16",
+      "batch": 1,
+      "sq": 17,
+      "sk": 33,
+      "hq": 2,
+      "hkv": 1,
+      "dim": 64,
+      "causal": true,
+      "layout": "bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0006650731567539037,
+          "relative_l2": 0.00033372559546302665,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0014885654672980309
+        },
+        {
+          "round": 2,
+          "max_abs": 0.00045585234476597236,
+          "relative_l2": 0.0003134334856677056,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0011867005378007889
+        }
+      ],
+      "strides": {
+        "q": [
+          2176,
+          64,
+          128,
+          1
+        ],
+        "k": [
+          2112,
+          64,
+          64,
+          1
+        ],
+        "v": [
+          2112,
+          64,
+          64,
+          1
+        ],
+        "out": [
+          2176,
+          64,
+          128,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "float16-padded",
+      "dtype": "float16",
+      "batch": 2,
+      "sq": 33,
+      "sk": 65,
+      "hq": 4,
+      "hkv": 2,
+      "dim": 64,
+      "causal": false,
+      "layout": "padded-bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0004639192040900575,
+          "relative_l2": 0.00031777973515753177,
+          "elapsed_seconds_with_validation_not_benchmark": 0.002683808095753193
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0003479492719669075,
+          "relative_l2": 0.0003267231290367573,
+          "elapsed_seconds_with_validation_not_benchmark": 0.002656877040863037
+        }
+      ],
+      "strides": {
+        "q": [
+          9504,
+          72,
+          288,
+          1
+        ],
+        "k": [
+          9360,
+          72,
+          144,
+          1
+        ],
+        "v": [
+          9360,
+          72,
+          144,
+          1
+        ],
+        "out": [
+          9504,
+          72,
+          288,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "float16-head128",
+      "dtype": "float16",
+      "batch": 1,
+      "sq": 16,
+      "sk": 16,
+      "hq": 2,
+      "hkv": 2,
+      "dim": 128,
+      "causal": false,
+      "layout": "bsnd",
+      "scale": 0.08838834764831845,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0006102665560582254,
+          "relative_l2": 0.00031614564006654186,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0016441084444522858
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0007062888025344272,
+          "relative_l2": 0.0003088589599537609,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0013877442106604576
+        }
+      ],
+      "strides": {
+        "q": [
+          4096,
+          128,
+          256,
+          1
+        ],
+        "k": [
+          4096,
+          128,
+          256,
+          1
+        ],
+        "v": [
+          4096,
+          128,
+          256,
+          1
+        ],
+        "out": [
+          4096,
+          128,
+          256,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    },
+    {
+      "name": "bfloat16-single",
+      "dtype": "bfloat16",
+      "batch": 1,
+      "sq": 1,
+      "sk": 1,
+      "hq": 1,
+      "hkv": 1,
+      "dim": 64,
+      "causal": false,
+      "layout": "bsnd",
+      "scale": 0.125,
+      "passed": true,
+      "rounds": 2,
+      "finite": true,
+      "inputs_unchanged": true,
+      "guards_unchanged": true,
+      "atol": 0.025,
+      "rtol": 0.025,
+      "tolerance_scope": "development-only-not-official-threshold",
+      "metrics": [
+        {
+          "round": 1,
+          "max_abs": 0.0,
+          "relative_l2": 0.0,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0013240333646535873
+        },
+        {
+          "round": 2,
+          "max_abs": 0.0,
+          "relative_l2": 0.0,
+          "elapsed_seconds_with_validation_not_benchmark": 0.0009869076311588287
+        }
+      ],
+      "strides": {
+        "q": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "k": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "v": [
+          64,
+          64,
+          64,
+          1
+        ],
+        "out": [
+          64,
+          64,
+          64,
+          1
+        ]
+      },
+      "host_calls": 2,
+      "explicit_stream_verified": true,
+      "launch_path": "HIP Module API; exported HSACO"
+    }
+  ],
+  "integration_status": "NOT_TESTED",
+  "performance_measurement_valid": false,
+  "fresh_process_launch": true,
+  "host_launch_count": 14,
+  "export_count": 6,
+  "pid": 366188,
+  "base_torch": {
+    "torch_version": "2.9.0",
+    "torch_file": "/usr/local/lib/python3.11/site-packages/torch/__init__.py",
+    "hip": "6.3.26093"
+  },
+  "packages": {
+    "ninetoothed": {
+      "version": "0.26.0",
+      "file": "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/__init__.py"
+    },
+    "numpy": {
+      "version": "1.26.4",
+      "file": "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/numpy/__init__.py"
+    },
+    "triton": {
+      "version": "3.5.1+das.opt1.dtk2604.torch290",
+      "file": "${JOB_ROOT}/workspace/run-2e59f61d2f8a4970ba0efa6f1ffd3201/.nine-attention-aot-20261111T015938Z-364509/vendor-site-packages/triton/__init__.py"
+    }
+  },
+  "device": "_CudaDeviceProperties(name='BW', major=9, minor=3, gcnArchName='gfx936:sramecc+:xnack-', total_memory=65520MB, multi_processor_count=80, uuid=30303135-3338-6337-3762-316533313231, pci_bus_id=9, pci_device_id=0, pci_domain_id=0, L2_cache_size=8MB)",
+  "candidate_integrity": {
+    "wheel": "ninetoothed-0.26.0-py3-none-any.whl",
+    "record_sha256": "e5e2f2ef55bac36dc81cfcffe5141054fa556feceb7351fee95ed8432c4939f1",
+    "files": {
+      "ninetoothed/__init__.py": "3c1de7cf4efee36a76043a2a0087111fadde36a14cdb5fc2d2db6eb0c8c50671",
+      "ninetoothed/aot.py": "ba6fca1cd9f38867555c152a44877477650bd9c740c009e79d0856e2d7e18536",
+      "ninetoothed/auto_tuner.py": "5dc6ba46f5b2225c4f30cc2cf02956d7cf3af4d3d8c0e8a1dfa6c513e0602bf3",
+      "ninetoothed/build.py": "0c44bc7e810d765373fa6a445cc7ab9cf4c9ac105857d9db72a24a130bc57448",
+      "ninetoothed/cudaifier.py": "223aade73e7cf5e2c1be53b597f6c10bc5a73ad2ba5c8dc316d45c6bc1d215d3",
+      "ninetoothed/debugging.py": "c943f7b477f0a6079001fc26ff2f345bcd87196fa362c48224e484c57859f93d",
+      "ninetoothed/dtype.py": "727c8d92bedaf0f0c112456c170d47144e135cc864c1d9bdde6b31b4b0c519ec",
+      "ninetoothed/eval.py": "8b04411f86580fb4ca9ff76be9b31dd990c40f655892ad6c04241340cc01bd69",
+      "ninetoothed/generation.py": "17f908e7ee7ddf9e87f2a2cb51d302d6d2b32211da7735998fbced276b8cbf4e",
+      "ninetoothed/jit.py": "13c979edf5ba35329fcda4608a370fdbd39ee2cd6fcdec502e86818cecbc3caa",
+      "ninetoothed/language.py": "111880e1da708a8c36013db115e156620d4aaa59c1a3ac713c6a7c559acfd0b9",
+      "ninetoothed/make.py": "910bcd7effcee3a40a4fe4dbfd206a7b0e273bc84da63a61d16fef9576f6f015",
+      "ninetoothed/naming.py": "165d31e1e0d14ad4e99178c983ad7bf44ac49d8edb479422d004fa457f42ddf5",
+      "ninetoothed/symbol.py": "9e19094312cfbcc4b863c1d013248e76f1fde7f53a7fec3029eab26e4e95fdee",
+      "ninetoothed/tensor.py": "eed5ff59241e3d2ad58adb3123a823892790807405d4bcdb29e171c192942583",
+      "ninetoothed/torchifier.py": "e1c37afa36c9590b1cbaeaa69023987b4184b25f051c3ceb493beba027f2d9cd",
+      "ninetoothed/utils.py": "9ad4570010553e79607769f544487da01decff96d4b0a85dde2c2ede82790d24",
+      "ninetoothed/visualization.py": "264e6580de0effdc8d33cd5fc43d6e5229102e70c50868640f92a9ad146176c8",
+      "ninetoothed/templates/auto_tuning_cache.h": "a4196dc30e0fa6b27a2e718294912fa890bf6834ddead31897ca950428a177cf",
+      "ninetoothed/templates/thread_safe_unordered_map.h": "e1b618a39f9e06a00f2dd59e010916d7a13dd57c84da269f66b791ef7e64d17a",
+      "ninetoothed-0.26.0.dist-info/METADATA": "12ae20814f920f09316a39961d64d8f1b879b4b5b9bfe19336a2f87070e9cbbd",
+      "ninetoothed-0.26.0.dist-info/WHEEL": "99f7cfcbcc019d9427d959c9514e6313df4ab316927e2c8c1d5f58b7468b571b",
+      "ninetoothed-0.26.0.dist-info/licenses/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "cache_patch_scope": "isolated-job-cache-only"
+  },
+  "target": {
+    "backend": "hip",
+    "arch": "gfx936",
+    "warp_size": 64
+  },
+  "export_report_sha256": "7425c0b7c5a21f856ccb8c90effec11b84be5757b42b989033e660fd8e4bfabf",
+  "dsl_patch": {
+    "profile": "positive-dynamic-kv-ceiling-div-v1",
+    "modified": true,
+    "original_sha256": "b0039b78b9693b32fec36701424a9773b72aeb0688fe5d52c58faa99f428f1ca",
+    "candidate_sha256": "5378d0f8dfa5c34aac83413e34094863864b273cbfb2bad4e43729c5748738c4",
+    "original_expression": "for j in range(-(-actual_kv_len // key.dtype.shape[0])):",
+    "candidate_expression": "for j in range((actual_kv_len + key.dtype.shape[0] - 1) // key.dtype.shape[0]):",
+    "compilation": "NineToothed expression and generation chain"
+  },
+  "error": "AssertionError: bfloat16-tail: finite=True, numerical=False, inputs=True, guards=True"
+}

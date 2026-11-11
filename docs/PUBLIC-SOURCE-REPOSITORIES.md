@@ -1,13 +1,13 @@
 # 公开组件仓库与固定版本
 
-本页对应初赛v0.2已验证成果的源码出口修正。四个仓库均为public，分支统一为minimax-h3-preliminary。实际修改版commit与原上游commit分开记录；不得用安装版本号或历史基线代替修改版commit。
+本页列出模型适配及独立九齿Attention实验的固定源码入口。四个仓库均为public，分支统一为minimax-h3-preliminary。实际修改版commit与原上游commit分开记录；不得用安装版本号或历史基线代替修改版commit。
 
 | 组件 | 公开修改仓库 | 分支 | 完整修改commit |
 |---|---|---|---|
-| InfiniCore | [InfiniCore-MiniMax-H3](https://github.com/GXiaogao/InfiniCore-MiniMax-H3) | minimax-h3-preliminary | [`82655886113f7216edd9d6ea13e8554e724e8bf0`](https://github.com/GXiaogao/InfiniCore-MiniMax-H3/commit/82655886113f7216edd9d6ea13e8554e724e8bf0) |
+| InfiniCore | [InfiniCore-MiniMax-H3](https://github.com/GXiaogao/InfiniCore-MiniMax-H3) | minimax-h3-preliminary | [`74ca95443a709b8c5ee1403a02965d25df91d025`](https://github.com/GXiaogao/InfiniCore-MiniMax-H3/commit/74ca95443a709b8c5ee1403a02965d25df91d025) |
 | InfiniLM | [InfiniLM-MiniMax-H3](https://github.com/GXiaogao/InfiniLM-MiniMax-H3) | minimax-h3-preliminary | [`1a066cdb1085ff604aeb00bae35d547cc8414e84`](https://github.com/GXiaogao/InfiniLM-MiniMax-H3/commit/1a066cdb1085ff604aeb00bae35d547cc8414e84) |
 | ninetoothed | [ninetoothed-MiniMax-H3](https://github.com/GXiaogao/ninetoothed-MiniMax-H3) | minimax-h3-preliminary | [`43507458767b537974b36f40313c3615b8ebc2ac`](https://github.com/GXiaogao/ninetoothed-MiniMax-H3/commit/43507458767b537974b36f40313c3615b8ebc2ac) |
-| triton | [triton-MiniMax-H3](https://github.com/GXiaogao/triton-MiniMax-H3) | minimax-h3-preliminary | [`988fec250246a79ee4854c27823d96353125e18d`](https://github.com/GXiaogao/triton-MiniMax-H3/commit/988fec250246a79ee4854c27823d96353125e18d) |
+| triton | [triton-MiniMax-H3](https://github.com/GXiaogao/triton-MiniMax-H3) | minimax-h3-preliminary | [`f5c20bf89d439edab2ce9841d2c5275967171806`](https://github.com/GXiaogao/triton-MiniMax-H3/commit/f5c20bf89d439edab2ce9841d2c5275967171806) |
 
 ## 固定代码与源身份检查
 
@@ -16,13 +16,13 @@ git clone https://github.com/GXiaogao/MiniMax-H3-submission.git
 cd MiniMax-H3-submission
 mkdir -p component-checkouts
 git clone --branch minimax-h3-preliminary https://github.com/GXiaogao/InfiniCore-MiniMax-H3.git component-checkouts/InfiniCore
-git -C component-checkouts/InfiniCore checkout 82655886113f7216edd9d6ea13e8554e724e8bf0
+git -C component-checkouts/InfiniCore checkout 74ca95443a709b8c5ee1403a02965d25df91d025
 git clone --branch minimax-h3-preliminary https://github.com/GXiaogao/InfiniLM-MiniMax-H3.git component-checkouts/InfiniLM
 git -C component-checkouts/InfiniLM checkout 1a066cdb1085ff604aeb00bae35d547cc8414e84
 git clone --branch minimax-h3-preliminary https://github.com/GXiaogao/ninetoothed-MiniMax-H3.git component-checkouts/ninetoothed
 git -C component-checkouts/ninetoothed checkout 43507458767b537974b36f40313c3615b8ebc2ac
 git clone --branch minimax-h3-preliminary https://github.com/GXiaogao/triton-MiniMax-H3.git component-checkouts/triton
-git -C component-checkouts/triton checkout 988fec250246a79ee4854c27823d96353125e18d
+git -C component-checkouts/triton checkout f5c20bf89d439edab2ce9841d2c5275967171806
 python3 scripts/verify_public_sources.py --checkouts component-checkouts
 ```
 
@@ -46,6 +46,6 @@ python3 /absolute/component-checkouts/InfiniLM/competition/build_from_git.py ext
 
 ## 保留的运行证据与限制
 
-历史运行/比较入口仍在artifacts/infinifabric-build-v1；它们绑定旧回执、输入和候选，不能直接当作新公开Git构建的验收。原报告视频/SSIM44.643%和选定源码重建/首次前向证据均保持原始来源。九齿gfx906设备流性能48组均退化，正式八卡九齿调用、Qwen一致性、完整质量及新公开Git出口端到端运行仍待验证。11月10–11日独立Attention/AOT/BF16实验不属于此历史报告快照，不在此提交中声称通过。
+历史运行/比较入口仍在artifacts/infinifabric-build-v1；它们绑定旧回执、输入和候选，不能直接当作新公开Git构建的验收。原报告视频/SSIM44.643%和选定源码重建/首次前向证据均保持原始来源。九齿gfx906设备流性能48组均退化，正式八卡九齿调用、Qwen一致性、完整质量及新公开Git出口端到端运行仍待验证。独立Attention源码与测试位于Core的competition/attention-experiments，LLVM兼容配方位于Triton的competition/hygon-llvm-compat-v1。独立JIT 24次比较通过，AOT六种导出完成但BF16-tail失败，转换诊断在启动函数绑定阶段停止；正式模型调用和性能未获证。详见[Nine Attention实验与证据](NINETOOTHED-ATTENTION-EXPERIMENTS.md)。
 
 原档案ZIP/服务器路径仅作历史来源佐证。提交形式为一份含全部仓库链接、分支、commit和复现说明的报告；不另提交源码ZIP或仓库表附件。报告含队伍联系信息，仅本地保留并交指定接收方，未上传公开GitHub。

@@ -1,0 +1,89 @@
+{
+  "job": "20261111T015938Z-364509",
+  "version": "1.1-nine-attention-aot-dynamic-lds",
+  "result": "FAILED_NUMERICAL_BFLOAT16_TAIL",
+  "exported": 6,
+  "completed_comparisons": 14,
+  "passed_comparisons": [
+    [
+      "float16-single",
+      "1",
+      "0"
+    ],
+    [
+      "float16-single",
+      "2",
+      "0"
+    ],
+    [
+      "float16-tail",
+      "1",
+      "0.00046378081"
+    ],
+    [
+      "float16-tail",
+      "2",
+      "0.00036197261"
+    ],
+    [
+      "float16-gqa",
+      "1",
+      "0.00035386447"
+    ],
+    [
+      "float16-gqa",
+      "2",
+      "0.00034598377"
+    ],
+    [
+      "float16-causal-right",
+      "1",
+      "0.00066507316"
+    ],
+    [
+      "float16-causal-right",
+      "2",
+      "0.00045585234"
+    ],
+    [
+      "float16-padded",
+      "1",
+      "0.0004639192"
+    ],
+    [
+      "float16-padded",
+      "2",
+      "0.00034794927"
+    ],
+    [
+      "float16-head128",
+      "1",
+      "0.00061026656"
+    ],
+    [
+      "float16-head128",
+      "2",
+      "0.0007062888"
+    ],
+    [
+      "bfloat16-single",
+      "1",
+      "0"
+    ],
+    [
+      "bfloat16-single",
+      "2",
+      "0"
+    ]
+  ],
+  "failed_case": "bfloat16-tail",
+  "failed_round": 1,
+  "finite": true,
+  "numerical": false,
+  "inputs_unchanged": true,
+  "guards_unchanged": true,
+  "root_cause": "NOT_YET_DETERMINED",
+  "next_evidence": "attention-aot-evidence.zip including bfloat16-tail-failed.pt and BF16 exported files",
+  "log_sha256": "2f32b152631ac0664c72214a8c566fe9b5a4a0c57e751272e3892c5e65a07bfa",
+  "tolerance_changed": false
+}

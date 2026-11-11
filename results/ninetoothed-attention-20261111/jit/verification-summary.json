@@ -1,0 +1,48 @@
+{
+  "run_id": "20261110T063310Z-2643063",
+  "result": "STANDALONE_JIT_CASES_VERIFIED",
+  "case_count": 12,
+  "comparisons": 24,
+  "target": {
+    "backend": "hip",
+    "arch": "gfx936",
+    "warp_size": 64
+  },
+  "errors": {
+    "float16": {
+      "cases": 6,
+      "comparisons": 12,
+      "max_abs": 0.0007062888025344272,
+      "max_relative_l2": 0.00033969473896698534,
+      "single_key_max_abs": 0.0
+    },
+    "bfloat16": {
+      "cases": 6,
+      "comparisons": 12,
+      "max_abs": 0.004855282274916606,
+      "max_relative_l2": 0.002694741541729037,
+      "single_key_max_abs": 0.0
+    }
+  },
+  "recorded_hsaco_files": 12,
+  "elapsed_seconds_including_setup": 85.76853734441102,
+  "files": {
+    "attention-controller.json": "0c26cdfe5d6f857cdd541d054be2f8a8233b1bf4318183a2cb677927141f2d41",
+    "attention-probe.json": "1537cbc62a19c5f447bb166e93627120528f7662b2972c2a09dda25048fdd7bc",
+    "summary.txt": "0e859172b15ebb8cd4daa41f6176bb9a341dfc8213f4ac0b034cead8ee96136e",
+    "run.log": "c679d1407f113d6656a3d2adec657403aca2683cd4c2fcb7dd4fb01fa84889a5"
+  },
+  "source_patch": {
+    "profile": "positive-dynamic-kv-ceiling-div-v1",
+    "modified": true,
+    "original_sha256": "b0039b78b9693b32fec36701424a9773b72aeb0688fe5d52c58faa99f428f1ca",
+    "candidate_sha256": "5378d0f8dfa5c34aac83413e34094863864b273cbfb2bad4e43729c5748738c4",
+    "original_expression": "for j in range(-(-actual_kv_len // key.dtype.shape[0])):",
+    "candidate_expression": "for j in range((actual_kv_len + key.dtype.shape[0] - 1) // key.dtype.shape[0]):",
+    "compilation": "NineToothed expression and generation chain"
+  },
+  "source_verification": "receipt hashes match locally pinned DSL; remote generated/hsaco files not independently downloaded",
+  "aot_status": "NOT_TESTED",
+  "integration_status": "NOT_TESTED",
+  "performance_measurement_valid": false
+}

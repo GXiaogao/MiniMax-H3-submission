@@ -1,0 +1,46 @@
+version=1.1-bf16-cast-loaded-value-diagnostic
+run_dir=${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-bf16-diagnostic-20261111T060308Z-612075
+scope=bf16-diagnostic-not-formal-correctness
+WARNING: /opt/hyhal/lib/cmake/rocm_smi doesn't exist, please install the latest driver(version >= 6.3.15)
+The rocm_smi_lib will be used in default
+staged_scripts=${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075
+stage=package-validation
+stage=existing-candidate-state
+stage=base-runtime-identity
+stage=job-local-vendor
+wheel_unpack=OK files=391 file=triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+stage=bf16-diagnostic-worker
+stage=bf16-diagnostic-worker status=START
+stage=bf16-diagnostic-worker status=RUNNING elapsed_seconds=20
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1111 06:03:49.768504 612262 Context.cpp:368] torch.backends.cuda.matmul.allow_tf32 is not supported on ROCm by default. Please set environment variable HIPBLASLT_ALLOW_TF32=1 to enable it.
+Traceback (most recent call last):
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/bf16_diagnostic_worker.py", line 128, in main
+    conversions(report,args)
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/bf16_diagnostic_worker.py", line 40, in conversions
+    handle=make('nine_cast_'+name.replace('-','_'),dtype,via)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/bf16_cast_dsl.py", line 21, in make
+    return nt.make(arrangement,via_float32 if intermediate else direct,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/make.py", line 40, in make
+    return jit(
+           ^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/jit.py", line 58, in jit
+    return wrapper(func)
+           ^^^^^^^^^^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/jit.py", line 45, in wrapper
+    return JIT(
+           ^^^^
+  File "${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749/site-packages/ninetoothed/jit.py", line 105, in __call__
+    module_vars[code_generator.launch_func_name],
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'launch_nine_cast_fp64_direct'
+Traceback (most recent call last):
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/run_bf16_diagnostic.py", line 74, in main
+    run_child([sys.executable,'-u',str(HERE/'bf16_diagnostic_worker.py'),'--candidate',str(candidate),
+  File "${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/run_attention_probe.py", line 46, in run_child
+    if rc:raise subprocess.CalledProcessError(rc,command)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-u', '${IFAB_AFS_HOME}/minimax-h3/scripts/nine-bf16-diagnostic-20261111T060308Z-612075/bf16_diagnostic_worker.py', '--candidate', '${IFAB_AFS_HOME}/minimax-h3/python-envs/ninetoothed-gfx936/20261106T124640Z-1947749', '--vendor', '${JOB_ROOT}/workspace/run-fc73de585f6c42e0880a3a06c7bdb4ed/.nine-bf16-diagnostic-20261111T060308Z-612075/vendor-site-packages', '--baseline', '${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-bf16-diagnostic-20261111T060308Z-612075/base-runtime.json', '--run-dir', '${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-bf16-diagnostic-20261111T060308Z-612075']' returned non-zero exit status 1.
+SUMMARY: ${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-bf16-diagnostic-20261111T060308Z-612075/summary.txt

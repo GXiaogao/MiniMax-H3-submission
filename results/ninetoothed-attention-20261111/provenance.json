@@ -1,0 +1,59 @@
+{
+  "evidence_type": "redacted server reports, not raw byte-identical logs",
+  "files": [
+    {
+      "file": "jit/attention-probe.json",
+      "original_sha256": "1537cbc62a19c5f447bb166e93627120528f7662b2972c2a09dda25048fdd7bc",
+      "published_sha256": "84623b5494e3ef10899286255fad39dc74278d7b43066b2bf8ac1075d4aa3d4e",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "jit/attention-controller.json",
+      "original_sha256": "0c26cdfe5d6f857cdd541d054be2f8a8233b1bf4318183a2cb677927141f2d41",
+      "published_sha256": "b35c4a3e958f8b8369bfa4646169441ffcbfc8d16b42459316275ac07454de6a",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "jit/verification-summary.json",
+      "original_sha256": "5ed902b424bd94527bec3920f4ed2078b44e29eb39d827a15c0a9861d382337d",
+      "published_sha256": "b3ae42560692dec21b4c06ee053425c5a985fb5e084929d8c018932893cf30d9",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "jit/run.log",
+      "original_sha256": "c679d1407f113d6656a3d2adec657403aca2683cd4c2fcb7dd4fb01fa84889a5",
+      "published_sha256": "4cdedaf3f6d82c00514062e796849853dd130eafa97ce9550b70bd5e9587f848",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "aot/attention-aot.json",
+      "original_sha256": "e7198d3f0770d63f5c3294bb1836d556128b8531c134205ddd27b795a45cfe45",
+      "published_sha256": "6b06294e1b63c1d40419b7851d5e9fb320ffa012cb2c5d915fb00cc92a83de49",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "aot/attention-export.json",
+      "original_sha256": "7425c0b7c5a21f856ccb8c90effec11b84be5757b42b989033e660fd8e4bfabf",
+      "published_sha256": "e018124277a8ba35d0a154ad8eb761a873a8a61c53c47af0b87181ad633843ca",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "aot/failure-analysis.json",
+      "original_sha256": "76951ffd505902211b0e1f450ee0cbf92c7c2434c234bcaa5d595d3ec64608e2",
+      "published_sha256": "d4a5efb6d39912dfbc8bfbc1f02091003a4ce9ed83989500aa1008374842b026",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "aot/ninetoothed-attention-test.log",
+      "original_sha256": "2f32b152631ac0664c72214a8c566fe9b5a4a0c57e751272e3892c5e65a07bfa",
+      "published_sha256": "a0da004e0dd27777d37892af928bec73e5e4c1b5412db85a20615614067ce790",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    },
+    {
+      "file": "bf16-diagnostic/run.log",
+      "original_sha256": "f21e02e537143798a8fd8e3a1f6eb5be5862fc6d52e32591f967b6a39ca51bac",
+      "published_sha256": "dc75989afda2a5e664cc4785eead074b62f31676d4a6ff0892460da62788c429",
+      "redaction": "personal AFS prefix and transient job root only; numbers and result fields unchanged"
+    }
+  ]
+}

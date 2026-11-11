@@ -1,0 +1,82 @@
+version=1.2-nine-attention-ceil-div
+run_dir=${IFAB_AFS_HOME}/minimax-h3/logs/infinifabric-nine-attention-probe-20261110T063310Z-2643063
+scope=standalone-jit-not-model
+WARNING: /opt/hyhal/lib/cmake/rocm_smi doesn't exist, please install the latest driver(version >= 6.3.15)
+The rocm_smi_lib will be used in default
+staged_scripts=${IFAB_AFS_HOME}/minimax-h3/scripts/nine-attention-probe-20261110T063310Z-2643063
+stage=package-validation
+stage=existing-candidate-state
+stage=base-runtime-identity
+stage=job-local-vendor
+wheel_unpack=OK files=391 file=triton-3.5.1+das.opt1.dtk2604.torch290-cp311-cp311-manylinux_2_28_x86_64.whl
+stage=attention-worker
+stage=attention-worker status=START
+stage=attention-worker status=RUNNING elapsed_seconds=20
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1110 06:33:55.053990 2643366 Context.cpp:368] torch.backends.cuda.matmul.allow_tf32 is not supported on ROCm by default. Please set environment variable HIPBLASLT_ALLOW_TF32=1 to enable it.
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 7, "nusw": 0}, "ir_sha256": "c42cb25af840416a7e3910ba1fc50c06ba3615af524cfc2b0ede425f8e9126be"}
+primitive=dot status=PASS
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 0, "nusw": 0}, "ir_sha256": "ffb4c581a7e2dae17f00b8bd8766f358dab4d938856ad714fe5fbad86bc229d1"}
+primitive=reduction status=PASS
+case=float16-single round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 76, "nusw": 0}, "ir_sha256": "f6925e5b43034fbfdeea2601eb278bfc87483fd64bdb100cc4b152469d21da73"}
+case=float16-single round=1 status=PASS max_abs=0
+case=float16-single round=2 status=JIT_OR_RUN
+case=float16-single round=2 status=PASS max_abs=0
+case=float16-tail round=1 status=JIT_OR_RUN
+stage=attention-worker status=RUNNING elapsed_seconds=40
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "c02c16bf15236a1a40246290f294dcf8eca127ae240375ff0d31fadb6f680e2d"}
+case=float16-tail round=1 status=PASS max_abs=0.00046378081
+case=float16-tail round=2 status=JIT_OR_RUN
+case=float16-tail round=2 status=PASS max_abs=0.00036197261
+case=float16-gqa round=1 status=JIT_OR_RUN
+case=float16-gqa round=1 status=PASS max_abs=0.00035386447
+case=float16-gqa round=2 status=JIT_OR_RUN
+case=float16-gqa round=2 status=PASS max_abs=0.00034598377
+case=float16-causal-right round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "8de951b0a2faeadc1622e798b4fd4a64f40f217916a689fd66578621be6b47f8"}
+case=float16-causal-right round=1 status=PASS max_abs=0.00066507316
+case=float16-causal-right round=2 status=JIT_OR_RUN
+case=float16-causal-right round=2 status=PASS max_abs=0.00045585234
+case=float16-padded round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "f12a2b11ef4fcf13b115dc744560ac862c1b42250a598f4353fa527fb3528a25"}
+case=float16-padded round=1 status=PASS max_abs=0.0004639192
+case=float16-padded round=2 status=JIT_OR_RUN
+case=float16-padded round=2 status=PASS max_abs=0.00034794927
+case=float16-head128 round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 130, "nusw": 0}, "ir_sha256": "7a6c38369e28383bd387f7916eeef3efd7ef73289e32df7139e15dfb12a238b6"}
+case=float16-head128 round=1 status=PASS max_abs=0.00061026656
+case=float16-head128 round=2 status=JIT_OR_RUN
+case=float16-head128 round=2 status=PASS max_abs=0.0007062888
+case=bfloat16-single round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 76, "nusw": 0}, "ir_sha256": "a134dd4f8db317745929623f7e32abb3249b298e419ae0b286f5377ad82be87b"}
+case=bfloat16-single round=1 status=PASS max_abs=0
+case=bfloat16-single round=2 status=JIT_OR_RUN
+case=bfloat16-single round=2 status=PASS max_abs=0
+case=bfloat16-tail round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "5181f836fc89fde28a555104cadf85bc67b129089c1c542f0c136d5c5f6612a1"}
+case=bfloat16-tail round=1 status=PASS max_abs=0.0040286271
+case=bfloat16-tail round=2 status=JIT_OR_RUN
+case=bfloat16-tail round=2 status=PASS max_abs=0.0040352305
+case=bfloat16-gqa round=1 status=JIT_OR_RUN
+case=bfloat16-gqa round=1 status=PASS max_abs=0.0037799762
+case=bfloat16-gqa round=2 status=JIT_OR_RUN
+case=bfloat16-gqa round=2 status=PASS max_abs=0.0028222073
+case=bfloat16-causal-right round=1 status=JIT_OR_RUN
+stage=attention-worker status=RUNNING elapsed_seconds=60
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "6eb99214f8202e4bb488980f51c487ce418a61d31b12b5ebce3026b160143e40"}
+case=bfloat16-causal-right round=1 status=PASS max_abs=0.0037238528
+case=bfloat16-causal-right round=2 status=JIT_OR_RUN
+case=bfloat16-causal-right round=2 status=PASS max_abs=0.0043742538
+case=bfloat16-padded round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 74, "nusw": 0}, "ir_sha256": "cc305ff6ec1dae15154d20e61eb8c8a934e735d874c088b43a243dba9d8d8e35"}
+case=bfloat16-padded round=1 status=PASS max_abs=0.0036285627
+case=bfloat16-padded round=2 status=JIT_OR_RUN
+case=bfloat16-padded round=2 status=PASS max_abs=0.0032931514
+case=bfloat16-head128 round=1 status=JIT_OR_RUN
+llvm_compat={"profile": "gep-nowrap-legacy-parser-v1", "removed_flags": {"nuw": 130, "nusw": 0}, "ir_sha256": "aa90e38dd454ddbfcd2d6ad4e58496ebde33f15ce64af9bc1a8a227bf9b3acd5"}
+case=bfloat16-head128 round=1 status=PASS max_abs=0.0047115902
+case=bfloat16-head128 round=2 status=JIT_OR_RUN
+case=bfloat16-head128 round=2 status=PASS max_abs=0.0048552823
+stage=base-runtime-postcheck
+NINE ATTENTION JIT PROBE PASSED; AOT/framework/model integration NOT_TESTED
