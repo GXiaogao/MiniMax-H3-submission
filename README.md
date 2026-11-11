@@ -4,6 +4,10 @@
 当前 Native 完整生成768×928、124帧；原版比较 Average SSIM 44.643%。Qwen第50层输出相对L2为71.698%，仍在排查。
 九齿已有gfx906单卡门控残差接入及gfx936独立JIT证据，正式八卡模型中的九齿调用及收益尚未验证；没有整体加速结论。
 
+## 本轮初赛公开源码提交
+
+按2026年11月11日补充要求，所有修改组件的公开仓库、分支及完整commit见[公开源码版本清单](docs/PUBLIC-SOURCE-REPOSITORIES.md)，机器可核验清单为configs/public-repositories.json。InfiniCore、InfiniLM、NineToothed和Triton兼容补丁分别保留上游历史，公开分支为minimax-h3-preliminary；这些Git源码是本轮代码核验入口。旧ZIP和服务器路径仅作历史证据，不能替代公开修改版本。报告为本地单份v0.3，含联系信息，不公开推送。新Git出口构建和完整运行尚需服务器验证，不据源码发布声称模型验收。
+
 ## Native 与 PyTorch 参考实现的关系
 
 本项目适配的生成模型始终是 **MiniMax-H3 FL2VA**。Native与PyTorch表示执行模型计算的两条软件路径，不是两种不同的生成模型；Qwen3-VL是其中的条件编码模块，不是替换MiniMax-H3的视频生成模型。
@@ -57,7 +61,7 @@ Native视频来自2026年11月7日旧候选ee448772…的完整生成；不是20
 - configs/：本地版本来源。服务器无Git元数据，已记录源码包/变换/候选摘要及重建证据。
 - docs/：规则整理和关键结果记录。
 - results/：本地已有的原始JSON、日志和抽帧。只作验证证据，不是推理输入缓存。
-- reports/：阶段Word初稿，队伍、仓库和最终commit待填写。
+- reports/：本地Word报告，已填写队伍信息；v0.3补齐各公开组件Git版本，私人报告不推送。
 - requirements/：依赖位置与下载边界说明。
 - server-downloads/：只在本地收取服务器材料，已被Git忽略。
 

@@ -1,0 +1,71 @@
+[
+  {
+    "component": "InfiniCore",
+    "repository": "https://github.com/GXiaogao/InfiniCore-MiniMax-H3",
+    "branch": "minimax-h3-preliminary",
+    "commit": "82655886113f7216edd9d6ea13e8554e724e8bf0",
+    "upstream_commit": "f32e2fbb2a9b2ca912b5711f4f3836c403196a74",
+    "visibility": "public",
+    "description": "海光MHA、门控残差API与九齿宿主适配、CPU context guard；历史gfx906算子材料",
+    "source_hashes": {
+      "include/infinicore/ops.hpp": "55536647ba402d9e31ac830e651bf12db442547defa17f9a89e115fed28d35b2",
+      "include/infinicore/ops/gated_residual.hpp": "7b8faf622e66b12559d55062024f9c062e46ea23fa6bf571f8b3bade09c1b650",
+      "python/infinicore/__init__.py": "040261e948d090df304eceb060df502d34a6264525a9ef6d5b5fbdfc8d65a7e4",
+      "python/infinicore/ops/gated_residual.py": "aeae7b7e0d171607fc70f0af2dd8046f20e017d23431da4243d577ff58963e98",
+      "src/infinicore/context/context_impl.cc": "425c516c6e6caf60a48ca067a1fe73bf9f2a8764df1a24f72262917e48c08c5c",
+      "src/infinicore/ops/gated_residual/gated_residual.cc": "50f6a83a19eeb0e23361d4412a3740baac4aab0b047407a9f45bd7f1439ae0a6",
+      "src/infinicore/ops/gated_residual/gated_residual_hygon.cc": "45fde8c86d4f5d65f96e4b3a053033b4d90b4f398bf62448bab6f90822dea5dd",
+      "src/infinicore/ops/multi_head_attention/mha.cc": "42b7805a154495e73fee1e1bb28943dd3a872f002823e3a8bb04c34e113f3349",
+      "src/infinicore/ops/multi_head_attention/mha_hygon_infiniop.cc": "b69007323389bd6a5c4908a40a96fb2e4b617a2bf008ce7ff3701d53f4d9a976",
+      "src/infinicore/pybind11/ops.hpp": "b7a5341edbfe0d0bc9a08f73e462c71542b0671d9c02e6828a0bb2843f64f313",
+      "src/infinicore/pybind11/ops/gated_residual.hpp": "20bb1c5e5361a7c1b0b4de57397c0723ac62c02cddd188e0e5d1d2cbb2f17241"
+    }
+  },
+  {
+    "component": "InfiniLM",
+    "repository": "https://github.com/GXiaogao/InfiniLM-MiniMax-H3",
+    "branch": "minimax-h3-preliminary",
+    "commit": "1a066cdb1085ff604aeb00bae35d547cc8414e84",
+    "upstream_commit": "65deb91f840ebaef752d028fad2f3217ce0950f4",
+    "visibility": "public",
+    "description": "视觉布局、设备元数据、权重连续化与同步；带关闭开关的诊断边界",
+    "source_hashes": {
+      "csrc/engine/h3_weight_load_sync.hpp": "29690536d60c24c7fde65000194f70a40686af95e683429f10cb121876d86b68",
+      "csrc/engine/infer_engine.cpp": "dce64f7336f7e41233e2e18ba3e7228ab74c59cb4b98fc487f016fc1ba502f07",
+      "csrc/engine/rank_worker.cpp": "ba4fdb1f885ff00cd70343e5f49624a29bad30f016e6c3f1c8f224bce12b1ebc",
+      "csrc/layers/attention/backends/static_attn.cpp": "982904c7ed2e2583a6c459c86cfb80c8ae235e8319727884bf592e55003a7002",
+      "csrc/layers/quantization/none_quantization.cpp": "7e16146fb8021899230e87083767bcc831b72ec1f6e3b83f724627cd6a9184a4",
+      "csrc/models/minimax_h3/h3_attention_trace.hpp": "7c76908bf8cf89b977627b59842a87d6edb1646dec8ac30254dd9d463577f4bf",
+      "csrc/models/minimax_h3/h3_boundary_trace.hpp": "c92c996d93c7d7990b594e4444d890d1498d09b28443aa00ce9273c9f15b358c",
+      "csrc/models/minimax_h3/h3_projection_trace.hpp": "d52bc4f81f8013bc0be19d5c2033dbeb725183fcb5f5031c64d066b8daa79e01",
+      "csrc/models/minimax_h3/minimax_h3_transformer.cpp": "ef595364d9bd8b7193b216722fcd26e89e4fe0fb19a5f089f503ed3ed4767bc8",
+      "csrc/models/qwen3_5/qwen3_5_vision.cpp": "5be09120449fac523d6b310012fd3107b32e636ee3967f36873050322dea9079",
+      "csrc/models/qwen3_5/qwen3_5_vision.hpp": "3fb755404fcc8a74c2a8df6b20259edd477c91f39dce55ca93fa4173199eefa7",
+      "csrc/models/qwen3_vl/qwen3_vl_for_conditional_generation.cpp": "03100157d201ec7a0cf5c04fba4b8865451ae4499d556c207878c6074602e1a3"
+    }
+  },
+  {
+    "component": "ninetoothed",
+    "repository": "https://github.com/GXiaogao/ninetoothed-MiniMax-H3",
+    "branch": "minimax-h3-preliminary",
+    "commit": "43507458767b537974b36f40313c3615b8ebc2ac",
+    "upstream_commit": "daf55c76c8e8b50904b0b84678d9bca93a1c8948",
+    "visibility": "public",
+    "description": "0.26.0私有缓存位置修正；不改算术或优化pass",
+    "source_hashes": {
+      "src/ninetoothed/generation.py": "17f908e7ee7ddf9e87f2a2cb51d302d6d2b32211da7735998fbced276b8cbf4e"
+    }
+  },
+  {
+    "component": "triton",
+    "repository": "https://github.com/GXiaogao/triton-MiniMax-H3",
+    "branch": "minimax-h3-preliminary",
+    "commit": "988fec250246a79ee4854c27823d96353125e18d",
+    "upstream_commit": "0add68262ab0a2e33b84524346cb27cbb2787356",
+    "visibility": "public",
+    "description": "3.5.1兼容缓存原子替换；不替换海光厂商后端",
+    "source_hashes": {
+      "python/triton/runtime/cache.py": "f99e24bc0b1a7eea0aeeb7cbe6ba5cee41b778d9a2f96368c6b5b96cd5b5ca0a"
+    }
+  }
+]
